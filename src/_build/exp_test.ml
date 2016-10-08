@@ -25,12 +25,12 @@ let rec read_to_empty buf =
 
 let print_param  = function 
 	| None -> printf ""
-	| Param(s) -> printf "int %s" s
+	| Param(s) -> printf "%s" s
 
 let rec print_parameters = function
 	| [] -> printf ""
 	| [p] -> print_param p
-	| p::ps -> print_param p; print_parameters ps
+	| p::ps -> print_param p; printf ", "; print_parameters ps
 
 let print_operator = function
 	| Plus -> printf "Plus"
@@ -63,8 +63,8 @@ let rec print_content = function
 
 let print_fundef (name, parameters, content) = 
 	printf "function name: %s\n" name;
-	printf "["; print_parameters parameters; printf "]\n";
-	printf "{"; print_content content; printf "}\n"
+	printf "parameters: ["; print_parameters parameters; printf "]\n";
+	printf "function content: {"; print_content content; printf "}\n"
 
 let _ =  
 	read_to_empty (Buffer.create 1)

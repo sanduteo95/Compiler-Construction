@@ -37,12 +37,13 @@ open Syntax
 %token EOF 
 
 %right ASSIGN
+%right DEREF
 %left AND OR
 %left EQ NOTEQ
 %left LEQ GEQ
 %left PLUS MINUS      
 %left TIMES DIVIDE      
-%right NOT DEREF
+%right NOT
 %right WHILE IF
 %right READ PRINT TYPE
 %left SEMI_COLLON
@@ -67,7 +68,7 @@ exp:
 	| e = exp; SEMI_COLLON; f = exp; SEMI_COLLON  { Seq(e, f) }
 	| WHILE; LEFT_ROUND_BRACKET; e = exp; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; f = exp; RIGHT_CURLY_BRACKET  { While(e, f) }
 	| IF; LEFT_ROUND_BRACKET; e = exp; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; f = exp; RIGHT_CURLY_BRACKET; ELSE; LEFT_CURLY_BRACKET; g = exp; RIGHT_CURLY_BRACKET  { If(e, f, g) }
-	| e = exp; ASSIGN; f = exp; SEMI_COLLON  { Asg(e, f)}
+	| e = exp; ASSIGN; f = exp  { Asg(e, f)}
 	| DEREF; e = exp  { Deref(e) }
 	| e = exp; PLUS;  f = exp  { Operator(Plus, e, f) }  
 	| e = exp; MINUS; f = exp  { Operator(Minus, e, f) }

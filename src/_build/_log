@@ -14,8 +14,8 @@ ocamlfind ocamlc -c -o syntax.cmo syntax.ml # cached
 # Target: exp_par.mly, tags: { byte, compile, extension:ml, extension:mly, file:exp_par.ml, file:exp_par.mly, infer, menhir, ocaml, parser, quiet, traverse }
 menhir --ocamlc 'ocamlfind ocamlc' --infer exp_par.mly
 + menhir --ocamlc 'ocamlfind ocamlc' --infer exp_par.mly
-Warning: 2 states have shift/reduce conflicts.
-Warning: 4 shift/reduce conflicts were arbitrarily resolved.
+Warning: one state has shift/reduce conflicts.
+Warning: 2 shift/reduce conflicts were arbitrarily resolved.
 # Target: exp_par.mli.depends, tags: { extension:mli, file:exp_par.mli, ocaml, ocamldep, quiet, traverse }
 ocamlfind ocamldep -modules exp_par.mli > exp_par.mli.depends # cached
 # Target: exp_par.cmi, tags: { byte, compile, extension:mli, file:exp_par.mli, interf, ocaml, quiet, traverse }
