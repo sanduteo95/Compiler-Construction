@@ -9,7 +9,7 @@ type expression =
   | While of expression * expression (* while e do e *)
   | If of expression * expression * expression (* if e do e else e *)
   | Asg of expression * expression (* e := e *)
-  (* | Deref of expression (* !e *) *)
+  | Deref of expression (* @e *)
   | Operator of opcode * expression * expression (* e + e *)
   | Application of expression * expression (* e(e) *)
   | Const of int (* 7 *)

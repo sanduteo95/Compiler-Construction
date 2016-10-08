@@ -7,7 +7,7 @@ let print_position lexbuf =
 
 let parse_with_error lexbuf =   
 	try Exp_par.top Exp_lex.read lexbuf with
-  	| SyntaxError_exn msg -> prerr_string (msg ^ ": ");                       
+  	| SyntaxError msg -> prerr_string (msg ^ ": ");                       
   						 print_position lexbuf;                        
   						 exit (-1)   
   	| Exp_par.Error -> prerr_string "Parse error: ";                    

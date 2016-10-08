@@ -3,7 +3,7 @@
 %}
 
 %token <int> INT 
-%token <string> NAME
+%token <string> ID
 
 %token PLUS
 %token MINUS
@@ -24,9 +24,9 @@
 %token IF
 %token ELSE
 
-%token LET
 %token NEW
 %token ASSIGN
+%token DEREF
 
 %token COMMA
 %token SEMI_COLLON
@@ -42,11 +42,12 @@
 %left LEQ GEQ
 %left PLUS MINUS      
 %left TIMES DIVIDE      
-%right NOT
+%right NOT DEREF
 %right WHILE IF
-%right READ PRINT LET NEW
+%right READ PRINT NEW
 %left SEMI_COLLON
-%rightLEFT_ROUND_BRACKET 
+%right LEFT_ROUND_BRACKET 
+%left COMMA
 
 %start <Syntax.fundef> top 
 %%
@@ -54,13 +55,14 @@ top :
 	| e = func; EOF  { e }   
 
 func:
-	| name = NAME; LEFT_ROUND_BRACKET; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; f = exp; RIGHT_CURLY_BRACKET { (name, [], f) }
+	| id = ID; LEFT_ROUND_BRACKET; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; f = exp; RIGHT_CURLY_BRACKET { (id, [], f) }
 
 exp:  
 	| e = exp; SEMI_COLLON; f = exp; SEMI_COLLON  { Seq(e, f) }
 	| WHILE; LEFT_ROUND_BRACKET; e = exp; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; f = exp; RIGHT_CURLY_BRACKET  { While(e, f) }
 	| IF; LEFT_ROUND_BRACKET; e = exp; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; f = exp; RIGHT_CURLY_BRACKET; ELSE; LEFT_CURLY_BRACKET; g = exp; RIGHT_CURLY_BRACKET  { If(e, f, g) }
 	| e = exp; ASSIGN; f = exp; SEMI_COLLON  { Asg(e, f)}
+	| DEREF; e = exp  { Deref(e) }
 	| e = exp; PLUS;  f = exp  { Operator(Plus, e, f) }  
 	| e = exp; MINUS; f = exp  { Operator(Minus, e, f) }
 	| e = exp; TIMES; f = exp  { Operator(Times, e, f) }
@@ -76,5 +78,5 @@ exp:
 	| i = INT  { Const(i) }  
 	| READ; LEFT_ROUND_BRACKET; i = INT; RIGHT_ROUND_BRACKET  { Readint }
 	| PRINT; LEFT_ROUND_BRACKET; e = exp; RIGHT_ROUND_BRACKET  { Printint(e) }
-	| LET; v = NAME; ASSIGN; e = exp; SEMI_COLLON; f = exp  { Let(v, e, f) }
-	| NEW; v = NAME; ASSIGN; e = exp; SEMI_COLLON; f = exp  { New(v, e, f) }
+	| NEW; id = ID; ASSIGN; e = exp; LEFT_CURLY_BRACKET; f = exp; SEMI_COLLON; RIGHT_CURLY_BRACKET  { Let(id, e, f) }
+	| NEW; id = ID; ASSIGN; e = exp; SEMI_COLLON; f = exp  { New(id, e, f) }

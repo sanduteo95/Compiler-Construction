@@ -14,19 +14,19 @@ type token =
   | NOTEQ
   | NOT
   | NEW
-  | NAME of (string)
   | MINUS
-  | LET
   | LEQ
   | LEFT_ROUND_BRACKET
   | LEFT_CURLY_BRACKET
   | INT of (int)
   | IF
+  | ID of (string)
   | GEQ
   | EQ
   | EOF
   | ELSE
   | DIVIDE
+  | DEREF
   | COMMA
   | ASSIGN
   | AND
