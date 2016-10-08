@@ -5,7 +5,67 @@ Write descroption here.
 Provide steps on how to extract code from GIT and how to build it.
 
 ## Syntax
+Seq of expression * expression (* e; e *)
+	
+	expression; expression;
 
+If of expression * expression * expression 
+	
+	IF (expression) {
+		expression
+	}
+	ELSE {
+		expression
+	}
+
+While of expression * expression 
+	
+	WHILE (expression) {
+		expression
+	}
+
+Asg of expression * expression
+	
+	expression = expression;
+
+Deref of expression (* !e *)
+	
+	???
+
+Operator of opcode * expression * expression (* e + e *)
+	
+	expression _ expression
+	(Not ??? )
+
+Application of expression * expression (* e(e) *)
+	
+	expression(expression)
+
+Const of int (* 7 *)
+
+	int
+
+Readint (* read_int () *)
+	
+	iread(...)
+
+Printint of expression (* print_int (e) *)
+
+	iprint(...)
+
+Identifier of string (* x *)
+	
+	var
+
+Let of string * expression * expression (* let x = e in e *)
+	
+	temporary var=expression;
+	expression
+
+New of string * expression * expression (* new x = e in e *)
+
+	int var = expression;
+	expression
 ## Code example
 Give an example of what the program does.
 For example, a program such as: main () {int x=1; x=x+1; return x}
@@ -35,52 +95,3 @@ Points will be awarded as follows:
 4 points for the large test cases
 2 points for software engineering process (clear documentation and scripts)
 2 points for elegance
-
-	Seq of expression * expression (* e; e *)
-expression; expression;
-
-	If of expression * expression * expression 
-IF (expression) {
-	expression
-}
-ELSE {
-	expression
-}
-
-	While of expression * expression 
-WHILE (expression) {
-	expression
-}
-
-	Asg of expression * expression
-expression = expression;
-
-	Deref of expression (* !e *)
-???
-
-	Operator of opcode * expression * expression (* e + e *)
-expression _ expression
-(Not ??? )
-
-	Application of expression * expression (* e(e) *)
-expression(expression)
-
-	Const of int (* 7 *)
-int
-
-	Readint (* read_int () *)
-iread(...)
-
-	Printint of expression (* print_int (e) *)
-iprint(...)
-
-	Identifier of string (* x *)
-var
-
-	Let of string * expression * expression (* let x = e in e *)
-temporary var=expression;
-expression
-
-	New of string * expression * expression (* new x = e in e *)
-int var = expression;
-expression
