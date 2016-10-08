@@ -33,13 +33,14 @@ rule read =
 	| "||"  { OR }
 	| '!'  { NOT }
 	| '='  { ASSIGN }
-	| '@'  { DEREF }
+	| '''  { DEREF }
 	| type  { TYPE }
 	| "if"  { IF }
 	| "else"  {ELSE}
 	| "while"  { WHILE }
+	| "let"  { LET }
+	| "in"  { IN }
 	| "read_int"  { READ }
 	| "print_int"  { PRINT }
-	| "return" { DEREF }
 	| _  { raise (SyntaxError ("Unexpected char: " ^ Lexing.lexeme lexbuf)) }
 	| eof  { EOF }

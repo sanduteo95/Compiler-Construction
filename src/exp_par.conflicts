@@ -1,0 +1,362 @@
+
+** Conflict (shift/reduce) in state 82.
+** Token involved: SEMI_COLLON
+** This state is reached from top after reading:
+
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET TYPE ID ASSIGN exp SEMI_COLLON stmt 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+top 
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET function_content EOF 
+                                                    stmt RIGHT_CURLY_BRACKET 
+                                                    (?)
+
+** In state 82, looking ahead at SEMI_COLLON, shifting is permitted
+** because of the following sub-derivation:
+
+TYPE ID ASSIGN exp SEMI_COLLON stmt 
+                               stmt . SEMI_COLLON stmt 
+
+** In state 82, looking ahead at SEMI_COLLON, reducing production
+** stmt -> TYPE ID ASSIGN exp SEMI_COLLON stmt 
+** is permitted because of the following sub-derivation:
+
+stmt SEMI_COLLON stmt // lookahead token appears
+TYPE ID ASSIGN exp SEMI_COLLON stmt . 
+
+** Conflict (shift/reduce) in state 71.
+** Token involved: SEMI_COLLON
+** This state is reached from top after reading:
+
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET stmt SEMI_COLLON stmt 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+top 
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET function_content EOF 
+                                                    stmt RIGHT_CURLY_BRACKET 
+                                                    (?)
+
+** In state 71, looking ahead at SEMI_COLLON, shifting is permitted
+** because of the following sub-derivation:
+
+stmt SEMI_COLLON stmt 
+                 stmt . SEMI_COLLON stmt 
+
+** In state 71, looking ahead at SEMI_COLLON, reducing production
+** stmt -> stmt SEMI_COLLON stmt 
+** is permitted because of the following sub-derivation:
+
+stmt SEMI_COLLON stmt // lookahead token appears
+stmt SEMI_COLLON stmt . 
+
+** Conflict (shift/reduce) in state 40.
+** Token involved: LEFT_ROUND_BRACKET
+** This state is reached from top after reading:
+
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET exp AND exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+top 
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET function_content EOF 
+                                                    stmt RIGHT_CURLY_BRACKET 
+                                                    exp ASSIGN exp 
+                                                    (?)
+
+** In state 40, looking ahead at LEFT_ROUND_BRACKET, reducing production
+** exp -> exp AND exp 
+** is permitted because of the following sub-derivation:
+
+exp LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET // lookahead token appears
+exp AND exp . 
+
+** In state 40, looking ahead at LEFT_ROUND_BRACKET, shifting is permitted
+** because of the following sub-derivation:
+
+exp AND exp 
+        exp . LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET 
+
+** Conflict (shift/reduce) in state 38.
+** Token involved: LEFT_ROUND_BRACKET
+** This state is reached from top after reading:
+
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET exp EQ exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+top 
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET function_content EOF 
+                                                    stmt RIGHT_CURLY_BRACKET 
+                                                    exp ASSIGN exp 
+                                                    (?)
+
+** In state 38, looking ahead at LEFT_ROUND_BRACKET, reducing production
+** exp -> exp EQ exp 
+** is permitted because of the following sub-derivation:
+
+exp LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET // lookahead token appears
+exp EQ exp . 
+
+** In state 38, looking ahead at LEFT_ROUND_BRACKET, shifting is permitted
+** because of the following sub-derivation:
+
+exp EQ exp 
+       exp . LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET 
+
+** Conflict (shift/reduce) in state 36.
+** Token involved: LEFT_ROUND_BRACKET
+** This state is reached from top after reading:
+
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET exp GEQ exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+top 
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET function_content EOF 
+                                                    stmt RIGHT_CURLY_BRACKET 
+                                                    exp ASSIGN exp 
+                                                    (?)
+
+** In state 36, looking ahead at LEFT_ROUND_BRACKET, reducing production
+** exp -> exp GEQ exp 
+** is permitted because of the following sub-derivation:
+
+exp LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET // lookahead token appears
+exp GEQ exp . 
+
+** In state 36, looking ahead at LEFT_ROUND_BRACKET, shifting is permitted
+** because of the following sub-derivation:
+
+exp GEQ exp 
+        exp . LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET 
+
+** Conflict (shift/reduce) in state 34.
+** Token involved: LEFT_ROUND_BRACKET
+** This state is reached from top after reading:
+
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET exp LEQ exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+top 
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET function_content EOF 
+                                                    stmt RIGHT_CURLY_BRACKET 
+                                                    exp ASSIGN exp 
+                                                    (?)
+
+** In state 34, looking ahead at LEFT_ROUND_BRACKET, reducing production
+** exp -> exp LEQ exp 
+** is permitted because of the following sub-derivation:
+
+exp LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET // lookahead token appears
+exp LEQ exp . 
+
+** In state 34, looking ahead at LEFT_ROUND_BRACKET, shifting is permitted
+** because of the following sub-derivation:
+
+exp LEQ exp 
+        exp . LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET 
+
+** Conflict (shift/reduce) in state 32.
+** Token involved: LEFT_ROUND_BRACKET
+** This state is reached from top after reading:
+
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET exp MINUS exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+top 
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET function_content EOF 
+                                                    stmt RIGHT_CURLY_BRACKET 
+                                                    exp ASSIGN exp 
+                                                    (?)
+
+** In state 32, looking ahead at LEFT_ROUND_BRACKET, reducing production
+** exp -> exp MINUS exp 
+** is permitted because of the following sub-derivation:
+
+exp LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET // lookahead token appears
+exp MINUS exp . 
+
+** In state 32, looking ahead at LEFT_ROUND_BRACKET, shifting is permitted
+** because of the following sub-derivation:
+
+exp MINUS exp 
+          exp . LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET 
+
+** Conflict (shift/reduce) in state 30.
+** Token involved: LEFT_ROUND_BRACKET
+** This state is reached from top after reading:
+
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET exp NOTEQ exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+top 
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET function_content EOF 
+                                                    stmt RIGHT_CURLY_BRACKET 
+                                                    exp ASSIGN exp 
+                                                    (?)
+
+** In state 30, looking ahead at LEFT_ROUND_BRACKET, reducing production
+** exp -> exp NOTEQ exp 
+** is permitted because of the following sub-derivation:
+
+exp LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET // lookahead token appears
+exp NOTEQ exp . 
+
+** In state 30, looking ahead at LEFT_ROUND_BRACKET, shifting is permitted
+** because of the following sub-derivation:
+
+exp NOTEQ exp 
+          exp . LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET 
+
+** Conflict (shift/reduce) in state 28.
+** Token involved: LEFT_ROUND_BRACKET
+** This state is reached from top after reading:
+
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET exp OR exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+top 
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET function_content EOF 
+                                                    stmt RIGHT_CURLY_BRACKET 
+                                                    exp ASSIGN exp 
+                                                    (?)
+
+** In state 28, looking ahead at LEFT_ROUND_BRACKET, reducing production
+** exp -> exp OR exp 
+** is permitted because of the following sub-derivation:
+
+exp LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET // lookahead token appears
+exp OR exp . 
+
+** In state 28, looking ahead at LEFT_ROUND_BRACKET, shifting is permitted
+** because of the following sub-derivation:
+
+exp OR exp 
+       exp . LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET 
+
+** Conflict (shift/reduce) in state 26.
+** Token involved: LEFT_ROUND_BRACKET
+** This state is reached from top after reading:
+
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET exp DIVIDE exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+top 
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET function_content EOF 
+                                                    stmt RIGHT_CURLY_BRACKET 
+                                                    exp ASSIGN exp 
+                                                    (?)
+
+** In state 26, looking ahead at LEFT_ROUND_BRACKET, reducing production
+** exp -> exp DIVIDE exp 
+** is permitted because of the following sub-derivation:
+
+exp LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET // lookahead token appears
+exp DIVIDE exp . 
+
+** In state 26, looking ahead at LEFT_ROUND_BRACKET, shifting is permitted
+** because of the following sub-derivation:
+
+exp DIVIDE exp 
+           exp . LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET 
+
+** Conflict (shift/reduce) in state 24.
+** Token involved: LEFT_ROUND_BRACKET
+** This state is reached from top after reading:
+
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET exp PLUS exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+top 
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET function_content EOF 
+                                                    stmt RIGHT_CURLY_BRACKET 
+                                                    exp ASSIGN exp 
+                                                    (?)
+
+** In state 24, looking ahead at LEFT_ROUND_BRACKET, reducing production
+** exp -> exp PLUS exp 
+** is permitted because of the following sub-derivation:
+
+exp LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET // lookahead token appears
+exp PLUS exp . 
+
+** In state 24, looking ahead at LEFT_ROUND_BRACKET, shifting is permitted
+** because of the following sub-derivation:
+
+exp PLUS exp 
+         exp . LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET 
+
+** Conflict (shift/reduce) in state 19.
+** Token involved: LEFT_ROUND_BRACKET
+** This state is reached from top after reading:
+
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET exp NOT exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+top 
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET function_content EOF 
+                                                    stmt RIGHT_CURLY_BRACKET 
+                                                    exp ASSIGN exp 
+                                                    (?)
+
+** In state 19, looking ahead at LEFT_ROUND_BRACKET, reducing production
+** exp -> exp NOT exp 
+** is permitted because of the following sub-derivation:
+
+exp LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET // lookahead token appears
+exp NOT exp . 
+
+** In state 19, looking ahead at LEFT_ROUND_BRACKET, shifting is permitted
+** because of the following sub-derivation:
+
+exp NOT exp 
+        exp . LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET 
+
+** Conflict (shift/reduce) in state 17.
+** Token involved: LEFT_ROUND_BRACKET
+** This state is reached from top after reading:
+
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET exp TIMES exp 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+top 
+ID LEFT_ROUND_BRACKET param_list LEFT_CURLY_BRACKET function_content EOF 
+                                                    stmt RIGHT_CURLY_BRACKET 
+                                                    exp ASSIGN exp 
+                                                    (?)
+
+** In state 17, looking ahead at LEFT_ROUND_BRACKET, reducing production
+** exp -> exp TIMES exp 
+** is permitted because of the following sub-derivation:
+
+exp LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET // lookahead token appears
+exp TIMES exp . 
+
+** In state 17, looking ahead at LEFT_ROUND_BRACKET, shifting is permitted
+** because of the following sub-derivation:
+
+exp TIMES exp 
+          exp . LEFT_ROUND_BRACKET exp RIGHT_ROUND_BRACKET 

@@ -15,10 +15,12 @@ type token =
   | NOTEQ
   | NOT
   | MINUS
+  | LET
   | LEQ
   | LEFT_ROUND_BRACKET
   | LEFT_CURLY_BRACKET
   | INT of (int)
+  | IN
   | IF
   | ID of (string)
   | GEQ

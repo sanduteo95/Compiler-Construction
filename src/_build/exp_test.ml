@@ -47,19 +47,19 @@ let print_operator = function
 
 let rec print_content = function
 	| Nothing -> printf ""
-  	| Seq(e1, e2) -> printf " Seq( "; print_content e1; printf ", "; print_content e2; printf ")"
-  	| While(e1, e2) -> printf " While( "; print_content e1; printf ", "; print_content e2; printf ")"
-  	| If(e1, e2, e3) -> printf " If( "; print_content e1; printf ", "; print_content e2; printf ", "; print_content e3; printf ")"
-  	| Asg(e1, e2) -> printf " Asg( "; print_content e1; printf ", "; print_content e2; printf ")"
-  	| Deref(e) -> printf " Deref( "; print_content e; printf ")"
-  	| Operator(op, e1, e2) -> printf " Opertor( "; print_operator op; printf ", "; print_content e1; printf ", "; print_content e2; printf ")"
-  	| Application(e1, e2) -> printf " Application( "; print_content e1; printf ", "; print_content e2; printf ")"
-  	| Const(i) -> printf "Const ("; printf "%d)" i
+  	| Seq(e1, e2) -> printf " Seq("; print_content e1; printf ", "; print_content e2; printf ")"
+  	| While(e1, e2) -> printf " While("; print_content e1; printf ", "; print_content e2; printf ")"
+  	| If(e1, e2, e3) -> printf " If("; print_content e1; printf ", "; print_content e2; printf ", "; print_content e3; printf ")"
+  	| Asg(e1, e2) -> printf " Asg("; print_content e1; printf ", "; print_content e2; printf ")"
+  	| Deref(e) -> printf " Deref("; print_content e; printf ")"
+  	| Operator(op, e1, e2) -> printf " Opertor("; print_operator op; printf ", "; print_content e1; printf ", "; print_content e2; printf ")"
+  	| Application(e1, e2) -> printf " Application("; print_content e1; printf ", "; print_content e2; printf ")"
+  	| Const(i) -> printf "Const("; printf "%d)" i
   	| Readint -> printf "read_int()"
-  	| Printint(e) -> printf " Printint( "; print_content e; printf ")"
+  	| Printint(e) -> printf " Printint("; print_content e; printf ")"
   	| Identifier(s) -> printf " Identifiter( %s)" s
-  	| Let(s, e1, e2) -> printf " Let( "; printf "%s, " s; print_content e1; printf ", "; print_content e2; printf ")"
-  	| New(s, e1, e2) -> printf " New( "; printf "%s, " s; print_content e1; printf ", "; print_content e2; printf ")"
+  	| Let(s, e1, e2) -> printf " Let("; printf "%s, " s; print_content e1; printf ", "; print_content e2; printf ")"
+  	| New(s, e1, e2) -> printf " New("; printf "%s, " s; print_content e1; printf ", "; print_content e2; printf ")"
 
 let print_fundef (name, parameters, content) = 
 	printf "function name: %s\n" name;
