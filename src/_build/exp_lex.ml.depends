@@ -1,1 +1,1 @@
-exp_lex.ml: Exp_par Lexing Syntax
+exp_lex.ml: Exp_par Lexing

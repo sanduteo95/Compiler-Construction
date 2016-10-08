@@ -1,3 +1,7 @@
+type parameter = 
+	| None
+	| Param of string
+
 type opcode =
   | Plus | Minus | Times | Divide
   | Leq | Geq | Eq | Noteq
@@ -5,6 +9,7 @@ type opcode =
   | Not
 
 type expression =
+  | Nothing
   | Seq of expression * expression (* e; e *)
   | While of expression * expression (* while e do e *)
   | If of expression * expression * expression (* if e do e else e *)
@@ -19,6 +24,6 @@ type expression =
   | Let of string * expression * expression (* let x = e in e *)
   | New of string * expression * expression (* new x = e in e *)
 
-type fundef = string * string list * expression 
+type fundef = string * parameter list * expression 
 
 type program = fundef list

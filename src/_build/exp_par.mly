@@ -1,5 +1,5 @@
 %{
-      open Syntax
+open Syntax
 %}
 
 %token <int> INT 
@@ -24,7 +24,7 @@
 %token IF
 %token ELSE
 
-%token NEW
+%token TYPE
 %token ASSIGN
 %token DEREF
 
@@ -44,18 +44,24 @@
 %left TIMES DIVIDE      
 %right NOT DEREF
 %right WHILE IF
-%right READ PRINT NEW
+%right READ PRINT TYPE
 %left SEMI_COLLON
 %right LEFT_ROUND_BRACKET 
-%left COMMA
 
 %start <Syntax.fundef> top 
 %%
 top :
-	| e = func; EOF  { e }   
+	| EOF { ("", [], Nothing) }
+	| f = func; EOF  { f }   
 
 func:
-	| id = ID; LEFT_ROUND_BRACKET; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; f = exp; RIGHT_CURLY_BRACKET { (id, [], f) }
+	| id = ID; LEFT_ROUND_BRACKET; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; RIGHT_CURLY_BRACKET { (id, [None], Nothing) }
+	| id = ID; LEFT_ROUND_BRACKET; p = separated_nonempty_list(COMMA, param); RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; RIGHT_CURLY_BRACKET { (id, p, Nothing) }
+	| id = ID; LEFT_ROUND_BRACKET; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; e = exp; RIGHT_CURLY_BRACKET { (id, [None], e) }
+	| id = ID; LEFT_ROUND_BRACKET; p = separated_nonempty_list(COMMA, param); RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; e = exp; RIGHT_CURLY_BRACKET { (id, p, e) }
+
+param: 
+	| TYPE; id = ID  { Param(id) }
 
 exp:  
 	| e = exp; SEMI_COLLON; f = exp; SEMI_COLLON  { Seq(e, f) }
@@ -78,5 +84,6 @@ exp:
 	| i = INT  { Const(i) }  
 	| READ; LEFT_ROUND_BRACKET; i = INT; RIGHT_ROUND_BRACKET  { Readint }
 	| PRINT; LEFT_ROUND_BRACKET; e = exp; RIGHT_ROUND_BRACKET  { Printint(e) }
-	| NEW; id = ID; ASSIGN; e = exp; LEFT_CURLY_BRACKET; f = exp; SEMI_COLLON; RIGHT_CURLY_BRACKET  { Let(id, e, f) }
-	| NEW; id = ID; ASSIGN; e = exp; SEMI_COLLON; f = exp  { New(id, e, f) }
+	| id = ID  { Identifier(id) }
+	| TYPE; id = ID; ASSIGN; e = exp; LEFT_CURLY_BRACKET; f = exp; SEMI_COLLON; RIGHT_CURLY_BRACKET  { Let(id, e, f) }
+	| TYPE; id = ID; ASSIGN; e = exp; SEMI_COLLON; f = exp  { New(id, e, f) }

@@ -3,6 +3,7 @@
 
 type token = 
   | WHILE
+  | TYPE
   | TIMES
   | SEMI_COLLON
   | RIGHT_ROUND_BRACKET
@@ -13,7 +14,6 @@ type token =
   | OR
   | NOTEQ
   | NOT
-  | NEW
   | MINUS
   | LEQ
   | LEFT_ROUND_BRACKET
