@@ -1,0 +1,17 @@
+function bisection_recursive(var f, var a, var b, var TOL, var NMAX) { 
+	if(NMAX < 0) {
+		print("Method failed.");
+	} else {
+		var c=(a+b)/2;
+		if(f(c) == 0 || (b-a)/2 < TOL) {
+			print(c);
+		}
+		n=n+1;
+		if(f(c)*f(a)>=0) {
+			a=c;
+		} else {
+			b=c;
+		}
+	}
+}
+
