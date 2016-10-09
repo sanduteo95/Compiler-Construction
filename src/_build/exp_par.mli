@@ -8,14 +8,17 @@ type token =
   | SEMI_COLLON
   | RIGHT_ROUND_BRACKET
   | RIGHT_CURLY_BRACKET
+  | RETURN
   | READ
   | PRINT
   | PLUS
   | OR
   | NOTEQ
-  | NOT
+  | NEGATE
+  | MODULUS
   | MINUS
   | LET
+  | LESS
   | LEQ
   | LEFT_ROUND_BRACKET
   | LEFT_CURLY_BRACKET
@@ -23,12 +26,13 @@ type token =
   | IN
   | IF
   | ID of (string)
+  | GREATER
   | GEQ
+  | FUNCTION
   | EQ
   | EOF
   | ELSE
   | DIVIDE
-  | DEREF
   | COMMA
   | ASSIGN
   | AND
@@ -39,4 +43,4 @@ exception Error
 
 (* The monolithic API. *)
 
-val top: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Syntax.fundef)
+val top: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Syntax.program)

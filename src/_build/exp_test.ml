@@ -37,39 +37,50 @@ let print_operator = function
 	| Minus -> printf "Minus"
 	| Times -> printf "Times"
 	| Divide -> printf "Divide"
+	| Modulus -> printf "Modulus"
+	| Less -> printf "Less"
   	| Leq -> printf "Leq"
+  	| Greater -> printf "Greater"
   	| Geq -> printf "Geq"
   	| Eq -> printf "Eq"
   	| Noteq -> printf "Noteq"
   	| And -> printf "And"
   	| Or -> printf "Or"
-  	| Not -> printf "Not"
 
-let rec print_content = function
-	| Nothing -> printf ""
-  	| Seq(e1, e2) -> printf " Seq("; print_content e1; printf ", "; print_content e2; printf ")"
-  	| While(e1, e2) -> printf " While("; print_content e1; printf ", "; print_content e2; printf ")"
-  	| If(e1, e2, e3) -> printf " If("; print_content e1; printf ", "; print_content e2; printf ", "; print_content e3; printf ")"
-  	| Asg(e1, e2) -> printf " Asg("; print_content e1; printf ", "; print_content e2; printf ")"
-  	| Deref(e) -> printf " Deref("; print_content e; printf ")"
-  	| Operator(op, e1, e2) -> printf " Opertor("; print_operator op; printf ", "; print_content e1; printf ", "; print_content e2; printf ")"
-  	| Application(e1, e2) -> printf " Application("; print_content e1; printf ", "; print_content e2; printf ")"
+let rec print_content content tab = match content with
+	| Nothing -> printf " Nothing"
+  	| Seq(e1, e2) -> printf "%s" tab; printf "Seq(\n"; print_content e1 (tab^"\t"); printf ",\n "; print_content e2 (tab^"\t"); printf ")"
+  	| While(e1, e2) -> printf "%s" tab; printf "While("; print_content e1 ""; printf ",\n "; print_content e2 (tab^"\t"); printf ")"
+  	| If(e1, e2, e3) -> printf "%s" tab; printf "If("; print_content e1 ""; printf ",\n"; print_content e2 (tab^"\t"); printf ",\n "; print_content e3 (tab^"\t")
+  	| Asg(e1, e2) -> printf "%s" tab; printf "Asg("; print_content e1 (tab^"\t"); printf ", "; print_content e2 ""
+  	| Deref(e) -> printf "%s" tab; printf "Deref("; print_content e (tab^"\t"); printf ")"
+  	| Negate(e1) -> printf "Negate("; print_content e1 (tab^"\t"); printf ")"
+  	| Operator(op, e1, e2) -> printf "%s" tab; printf "Operator("; print_operator op; printf ", "; print_content e1 ""; printf ", "; print_content e2 ""; printf ")"
+  	| Application(e1, e2) -> printf "%s" tab; printf "Application("; print_content e1 (tab^"\t"); printf ", "; print_content e2 (tab^"\t"); printf ")\n"
   	| Const(i) -> printf "Const("; printf "%d)" i
-  	| Readint -> printf "read_int()"
-  	| Printint(e) -> printf " Printint("; print_content e; printf ")"
-  	| Identifier(s) -> printf " Identifiter( %s)" s
-  	| Let(s, e1, e2) -> printf " Let("; printf "%s, " s; print_content e1; printf ", "; print_content e2; printf ")"
-  	| New(s, e1, e2) -> printf " New("; printf "%s, " s; print_content e1; printf ", "; print_content e2; printf ")"
+  	| Readint -> printf "%s" tab; printf "read_int()\n"
+  	| Printint(e) -> printf "%s" tab; printf "Printint("; print_content e (tab^"\t"); printf ")\n"
+  	| Identifier(s) -> printf "Identifier(%s)" s
+  	| Let(s, e1, e2) -> printf "%s" tab; printf "Let(%s, " s; print_content e1 ""; printf ", "; print_content e2 (tab^"\t"); printf ")"
+  	| New(s, e1, e2) -> printf "%s" tab; printf "New(%s, " s; print_content e1 ""; printf ",\n"; print_content e2 (tab^"\t"); printf ")"
 
-let print_fundef (name, parameters, content) = 
-	printf "function name: %s\n" name;
-	printf "parameters: ["; print_parameters parameters; printf "]\n";
-	printf "function content: {"; print_content content; printf "}\n"
+let print_function (name, parameters, content) = 
+	printf "(\"%s\"," name;
+	printf " ["; print_parameters parameters; printf "], ";
+	printf "\n"; print_content content "\t"
+
+let rec print_functions = function 
+	| [] -> printf "]\n"
+	| [f] -> print_function f; printf "\n]\n"
+	| f::fs -> print_function f;  printf ")\n, "; print_functions fs
+
+let print_program p = 
+	printf "["; print_functions p
 
 let _ =  
 	read_to_empty (Buffer.create 1)
  	|> Buffer.contents  
  	|> Lexing.from_string  
  	|> parse_with_error  
- 	|> print_fundef
+ 	|> print_program
  
