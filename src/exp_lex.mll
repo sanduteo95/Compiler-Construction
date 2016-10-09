@@ -42,8 +42,8 @@ rule read =
 	| "while"  { WHILE }
 	| "let"  { LET }
 	| "in"  { IN }
-	| "read_int"  { READ }
-	| "print_int"  { PRINT }
+	| "read"  { READ }
+	| "print"  { PRINT }
 	| "function"  { FUNCTION }
 	| id { ID (Lexing.lexeme lexbuf)}
 	| _  { raise (SyntaxError ("Unexpected char: " ^ Lexing.lexeme lexbuf)) }
