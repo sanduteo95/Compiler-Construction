@@ -5,6 +5,7 @@ type token =
   | WHILE
   | TYPE
   | TIMES
+  | TEXT of (string)
   | SEMI_COLLON
   | RIGHT_ROUND_BRACKET
   | RIGHT_CURLY_BRACKET

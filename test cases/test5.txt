@@ -1,0 +1,8 @@
+function sum(var x, var y) {
+	return x+y;
+}
+function main(var x, var y) {
+	var c=f(x,y)/2;
+	return c;
+}
+

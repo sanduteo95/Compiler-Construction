@@ -5,6 +5,7 @@ exception SyntaxError of string
 
 let int = ['0'-'9'] ['0'-'9']* 
 let id = ['a'-'z' 'A'-'Z' '_'] ['a'-'z' 'A'-'Z' '0'-'9' '_']*
+let text = "\"" ['a'-'z' 'A'-'Z' '.' '!' ',' '.' ' ']+ "\"" 
 let type = "var"
 let white = [' ' '\t']+
 let newline = '\r' | '\n' | "\r\n"
@@ -45,6 +46,7 @@ rule read =
 	| "read"  { READ }
 	| "print"  { PRINT }
 	| "function"  { FUNCTION }
-	| id { ID (Lexing.lexeme lexbuf)}
+	| id { ID (Lexing.lexeme lexbuf) }
+	| text { TEXT (Lexing.lexeme lexbuf) }
 	| _  { raise (SyntaxError ("Unexpected char: " ^ Lexing.lexeme lexbuf)) }
 	| eof  { EOF }

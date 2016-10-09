@@ -47,6 +47,11 @@ let print_operator = function
   	| And -> printf "And"
   	| Or -> printf "Or"
 
+let rec print_arg_list = function
+	| [] -> printf ""
+	| [arg] -> printf "%s" arg
+	| arg::args -> printf "%s, " arg; print_arg_list args
+
 let rec print_content content tab = match content with
 	| Nothing -> printf " Nothing"
   	| Seq(e1, e2) -> printf "%s" tab; printf "Seq(\n"; print_content e1 (tab^"\t"); printf ",\n "; print_content e2 (tab^"\t"); printf ")"
@@ -56,10 +61,11 @@ let rec print_content content tab = match content with
   	| Deref(e) -> printf "%s" tab; printf "Deref("; print_content e (tab^"\t"); printf ")"
   	| Negate(e1) -> printf "Negate("; print_content e1 (tab^"\t"); printf ")"
   	| Operator(op, e1, e2) -> printf "%s" tab; printf "Operator("; print_operator op; printf ", "; print_content e1 ""; printf ", "; print_content e2 ""; printf ")"
-  	| Application(e1, e2) -> printf "%s" tab; printf "Application("; print_content e1 (tab^"\t"); printf ", "; print_content e2 (tab^"\t"); printf ")\n"
-  	| Const(i) -> printf "Const("; printf "%d)" i
-  	| Readint -> printf "%s" tab; printf "read_int()\n"
-  	| Printint(e) -> printf "%s" tab; printf "Printint("; print_content e (tab^"\t"); printf ")\n"
+  	| Application(name, args) -> printf "%s" tab; printf "Application(Function(\"%s\"), " name; printf "("; print_arg_list args; printf ")"; printf ")"
+  	| Text(s) -> printf "Text(%s)" s
+  	| Const(i) -> printf "Const(%d)" i
+  	| Readint -> printf "%s" tab; printf "Readint()"
+  	| Printint(e) -> printf "%s" tab; printf "Printint("; print_content e ""; printf ")"
   	| Identifier(s) -> printf "Identifier(%s)" s
   	| Let(s, e1, e2) -> printf "%s" tab; printf "Let(%s, " s; print_content e1 ""; printf ", "; print_content e2 (tab^"\t"); printf ")"
   	| New(s, e1, e2) -> printf "%s" tab; printf "New(%s, " s; print_content e1 ""; printf ",\n"; print_content e2 (tab^"\t"); printf ")"

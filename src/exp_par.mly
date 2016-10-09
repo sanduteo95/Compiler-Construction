@@ -4,6 +4,7 @@ open Syntax
 
 %token <int> INT 
 %token <string> ID
+%token <string> TEXT
 
 %token PLUS
 %token MINUS
@@ -74,13 +75,13 @@ stmt:
 	| WHILE; LEFT_ROUND_BRACKET; e = exp; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = stmt; RIGHT_CURLY_BRACKET  { While(e, s) }
 	| IF; LEFT_ROUND_BRACKET; e = exp; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s1 = stmt; RIGHT_CURLY_BRACKET; ELSE; LEFT_CURLY_BRACKET; s2 = stmt; RIGHT_CURLY_BRACKET  { If(e, s1, s2) }
 	| id = ID; ASSIGN; e = exp; SEMI_COLLON  { Asg(Identifier(id), e)}
-	| READ; LEFT_ROUND_BRACKET; i = INT; RIGHT_ROUND_BRACKET; SEMI_COLLON  { Readint }
-	| PRINT; LEFT_ROUND_BRACKET; e = exp; RIGHT_ROUND_BRACKET; SEMI_COLLON  { Printint(e) }
+	| PRINT; LEFT_ROUND_BRACKET; p = print_value; RIGHT_ROUND_BRACKET; SEMI_COLLON  { Printint(p) }
 	| LET; id = ID; ASSIGN; e = exp; IN; s = stmt; SEMI_COLLON  { Let(id, e, s) }
 	| TYPE; id = ID; ASSIGN; e = exp; SEMI_COLLON; s = stmt  { New(id, e, s) }
 	| RETURN; e = exp; SEMI_COLLON { e }
 
 exp:  
+	| LEFT_ROUND_BRACKET; e = exp; RIGHT_ROUND_BRACKET  { e }
 	| e1 = exp; PLUS;  e2 = exp  { Operator(Plus, e1, e2) }  
 	| e1 = exp; MINUS; e2 = exp  { Operator(Minus, e1, e2) }
 	| e1 = exp; TIMES; e2 = exp  { Operator(Times, e1, e2) }
@@ -95,6 +96,15 @@ exp:
 	| e1 = exp; AND; e2 = exp  { Operator(And, e1, e2) }
 	| e1 = exp; OR; e2 = exp  { Operator(Or, e1, e2) }
 	| NEGATE; e = exp  { Negate(e) }
-	| e1 = exp; LEFT_ROUND_BRACKET; e2 = exp; RIGHT_ROUND_BRACKET  { Application(e1, e2)} 
+	| id = ID; LEFT_ROUND_BRACKET; a = separated_list(COMMA, argument); RIGHT_ROUND_BRACKET  { Application(id, a)} 
 	| i = INT  { Const(i) }  	
 	| id = ID  { Deref(Identifier(id)) }
+	| READ; LEFT_ROUND_BRACKET; RIGHT_ROUND_BRACKET  { Readint }
+
+argument:
+	| id = ID  { id }
+
+print_value:
+	| i = INT  { Const(i) } 
+	| id = ID  { Deref(Identifier(id)) }
+	| text = TEXT  { Text(text) }

@@ -4,13 +4,14 @@ function bisection_iterative(var f, var a, var b, var TOL, var NMAX) {
 		var c=(a+b)/2;
 		if(f(c) == 0 || (b-a)/2 < TOL) {
 			print(c);
-			stop;
-		}
-		n=n+1;
-		if(f(c)*f(a)>=0) {
-			a=c;
+			N=NMAX+1;
 		} else {
-			b=c;
+			N=N+1;
+			if(f(c)*f(a)>=0) {
+				a=c;
+			} else {
+				b=c;
+			}
 		}
 	}
 	print("Method failed.");
