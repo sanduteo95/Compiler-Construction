@@ -68,51 +68,54 @@ parameter:
 
 content: 
 	| RIGHT_CURLY_BRACKET  { Nothing }
-	| s = statement; RIGHT_CURLY_BRACKET  { s }  
+	| s = statements; RIGHT_CURLY_BRACKET  { s }  
+
+statements:
+	| s1 = statement; SEMI_COLLON; s2 = statements  { Seq(s1, s2) }
+	| s = statement; SEMI_COLLON { s }
+	| TYPE; id = ID; ASSIGN; a = assignment; SEMI_COLLON; s = statements  { New(id, a, s) }
 
 statement:
-	| s1 = statement; s2 = statement  { Seq(s1, s2) }
-	| WHILE; LEFT_ROUND_BRACKET; v = value_expresion; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = statement; RIGHT_CURLY_BRACKET  { While(v, s) }
-	| IF; LEFT_ROUND_BRACKET; v = value_expresion; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s1 = statement; RIGHT_CURLY_BRACKET; ELSE; LEFT_CURLY_BRACKET; s2 = statement; RIGHT_CURLY_BRACKET  { If(v, s1, s2) }
-	| id = ID; ASSIGN; e = expression; SEMI_COLLON  { Asg(Identifier(id), e)}
-	| PRINT; LEFT_ROUND_BRACKET; p = print_value; RIGHT_ROUND_BRACKET; SEMI_COLLON  { Printint(p) }
-	| LET; id = ID; ASSIGN; v = value_expresion; IN; s = expression; SEMI_COLLON  { Let(id, v, s) }
-	| TYPE; id = ID; ASSIGN; e = expression; SEMI_COLLON; s = statement  { New(id, e, s) }
-	| RETURN; v = value_expresion; SEMI_COLLON { v }
+	| WHILE; LEFT_ROUND_BRACKET; o = operator_expression; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { While(o, s) }
+	| IF; LEFT_ROUND_BRACKET; o = operator_expression; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s1 = statements; RIGHT_CURLY_BRACKET; ELSE; LEFT_CURLY_BRACKET; s2 = statements; RIGHT_CURLY_BRACKET  { If(o, s1, s2) }
+	| id = ID; ASSIGN; a = assignment  { Asg(Identifier(id), a)}
+	| PRINT; LEFT_ROUND_BRACKET; p = print_value; RIGHT_ROUND_BRACKET  { Printint(p) }
+	| LET; id = ID; ASSIGN; a = assignment; IN; e = expression  { Let(id, a, e) }
+	| RETURN; v = expression { v }
 
-value_expresion: 
-	| LEFT_ROUND_BRACKET; v = value_expresion; RIGHT_ROUND_BRACKET  { v }
+expression: 
+	| LEFT_ROUND_BRACKET; e = expression; RIGHT_ROUND_BRACKET  { e }
 	| i = INT  { Const(i) } 
 	| id = ID  { Deref(Identifier(id)) }
 	| o = operator_expression  { o }
 	| f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, argument); RIGHT_ROUND_BRACKET  { Application(f, a)}
 
-expression:  
-	| v = value_expresion  { v }
+assignment:  
+	| e = expression  { e }
 	| READ; LEFT_ROUND_BRACKET; RIGHT_ROUND_BRACKET  { Readint }
 
 function_expression: 
 	| id = ID  { Identifier(id) }
 
 print_value:
-	| v = value_expresion  { v }
+	| v = expression  { v }
 	| text = TEXT  { Text(text) }
 
 operator_expression:
-	| v1 = value_expresion; PLUS;  v2 = value_expresion  { Operator(Plus, v1, v2) }  
-	| v1 = value_expresion; MINUS; v2 = value_expresion  { Operator(Minus, v1, v2) }
-	| v1 = value_expresion; TIMES; v2 = value_expresion  { Operator(Times, v1, v2) }
-	| v1 = value_expresion; DIVIDE; v2 = value_expresion  { Operator(Divide, v1, v2) }
-	| v1 = value_expresion; MODULUS; v2 = value_expresion  { Operator(Modulus, v1, v2)}
-	| v1 = value_expresion; LEQ; v2 = value_expresion  { Operator(Leq, v1, v2)}
-	| v1 = value_expresion; LESS; v2 = value_expresion  { Operator(Less, v1, v2)}
-	| v1 = value_expresion; GEQ; v2 = value_expresion  { Operator(Geq, v1, v2) }
-	| v1 = value_expresion; GREATER; v2 = value_expresion  { Operator(Greater, v1, v2)}
-	| v1 = value_expresion; EQ; v2 = value_expresion  { Operator(Eq, v1, v2) }
-	| v1 = value_expresion; NOTEQ; v2 = value_expresion  { Operator(Noteq, v1, v2)}
-	| v1 = value_expresion; AND; v2 = value_expresion  { Operator(And, v1, v2) }
-	| v1 = value_expresion; OR; v2 = value_expresion  { Operator(Or, v1, v2) }
-	| NEGATE; v = value_expresion  { Negate(v) }
+	| e1 = expression; PLUS;  e2 = expression  { Operator(Plus, e1, e2) }  
+	| e1 = expression; MINUS; e2 = expression  { Operator(Minus, e1, e2) }
+	| e1 = expression; TIMES; e2 = expression  { Operator(Times, e1, e2) }
+	| e1 = expression; DIVIDE; e2 = expression  { Operator(Divide, e1, e2) }
+	| e1 = expression; MODULUS; e2 = expression  { Operator(Modulus, e1, e2)}
+	| e1 = expression; LEQ; e2 = expression  { Operator(Leq, e1, e2)}
+	| e1 = expression; LESS; e2 = expression  { Operator(Less, e1, e2)}
+	| e1 = expression; GEQ; e2 = expression  { Operator(Geq, e1, e2) }
+	| e1 = expression; GREATER; e2 = expression  { Operator(Greater, e1, e2)}
+	| e1 = expression; EQ; e2 = expression  { Operator(Eq, e1, e2) }
+	| e1 = expression; NOTEQ; e2 = expression  { Operator(Noteq, e1, e2)}
+	| e1 = expression; AND; e2 = expression  { Operator(And, e1, e2) }
+	| e1 = expression; OR; e2 = expression  { Operator(Or, e1, e2) }
+	| NEGATE; e = expression  { Negate(e) }
 
 argument:
 	| id = ID  { Deref(Identifier(id)) }
