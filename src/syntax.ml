@@ -19,7 +19,7 @@ type expression =
   	| Deref of expression (** Representation of a variable on the right-hand side of an assignment or returned from a function. *)
   	| Negate of expression (** Representation of a negation. *)
   	| Operator of opcode * expression * expression (** Representation of an expression containing an operator. *)
-  	| Application of string * string list (** Representation of a function application. *)
+  	| Application of expression * expression list (** Representation of a function application. *)
   	| Text of string (** Representation of a piece of text. *)
   	| Const of int (** Representation of a constant. *)
   	| Readint (** Representation of the reading functionality. *)

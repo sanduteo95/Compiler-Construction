@@ -50,61 +50,71 @@ open Syntax
 %left TIMES DIVIDE MODULUS      
 %right NEGATE
 
-%start <Syntax.program> top 
+%start <Syntax.program> parse 
 %%
-top :
+parse :
 	| EOF  { [("", [], Nothing)] }
-	| FUNCTION; funcs = separated_nonempty_list(FUNCTION, func); EOF  { funcs }
+	| FUNCTION; f = separated_nonempty_list(FUNCTION, func); EOF  { f }
 
 func: 
-	| id = ID; LEFT_ROUND_BRACKET; params = param_list; LEFT_CURLY_BRACKET; content = function_content  { (id, params, content) }
+	| id = ID; LEFT_ROUND_BRACKET; p = parameter_list; LEFT_CURLY_BRACKET; c = content  { (id, p, c) }
 
-param_list:
+parameter_list:
 	| RIGHT_ROUND_BRACKET { [] }
-	| p = separated_nonempty_list(COMMA, param); RIGHT_ROUND_BRACKET  { p }
+	| p = separated_nonempty_list(COMMA, parameter); RIGHT_ROUND_BRACKET  { p }
 
-param: 
+parameter: 
 	| TYPE; id = ID  { Param(id) }
 
-function_content: 
+content: 
 	| RIGHT_CURLY_BRACKET  { Nothing }
-	| s = stmt; RIGHT_CURLY_BRACKET  { s }  
+	| s = statement; RIGHT_CURLY_BRACKET  { s }  
 
-stmt:
-	| s1 = stmt; s2 = stmt  { Seq(s1, s2) }
-	| WHILE; LEFT_ROUND_BRACKET; e = exp; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = stmt; RIGHT_CURLY_BRACKET  { While(e, s) }
-	| IF; LEFT_ROUND_BRACKET; e = exp; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s1 = stmt; RIGHT_CURLY_BRACKET; ELSE; LEFT_CURLY_BRACKET; s2 = stmt; RIGHT_CURLY_BRACKET  { If(e, s1, s2) }
-	| id = ID; ASSIGN; e = exp; SEMI_COLLON  { Asg(Identifier(id), e)}
+statement:
+	| s1 = statement; s2 = statement  { Seq(s1, s2) }
+	| WHILE; LEFT_ROUND_BRACKET; v = value_expresion; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = statement; RIGHT_CURLY_BRACKET  { While(v, s) }
+	| IF; LEFT_ROUND_BRACKET; v = value_expresion; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s1 = statement; RIGHT_CURLY_BRACKET; ELSE; LEFT_CURLY_BRACKET; s2 = statement; RIGHT_CURLY_BRACKET  { If(v, s1, s2) }
+	| id = ID; ASSIGN; e = expression; SEMI_COLLON  { Asg(Identifier(id), e)}
 	| PRINT; LEFT_ROUND_BRACKET; p = print_value; RIGHT_ROUND_BRACKET; SEMI_COLLON  { Printint(p) }
-	| LET; id = ID; ASSIGN; e = exp; IN; s = stmt; SEMI_COLLON  { Let(id, e, s) }
-	| TYPE; id = ID; ASSIGN; e = exp; SEMI_COLLON; s = stmt  { New(id, e, s) }
-	| RETURN; e = exp; SEMI_COLLON { e }
+	| LET; id = ID; ASSIGN; v = value_expresion; IN; s = expression; SEMI_COLLON  { Let(id, v, s) }
+	| TYPE; id = ID; ASSIGN; e = expression; SEMI_COLLON; s = statement  { New(id, e, s) }
+	| RETURN; v = value_expresion; SEMI_COLLON { Deref(v) }
 
-exp:  
-	| LEFT_ROUND_BRACKET; e = exp; RIGHT_ROUND_BRACKET  { e }
-	| e1 = exp; PLUS;  e2 = exp  { Operator(Plus, e1, e2) }  
-	| e1 = exp; MINUS; e2 = exp  { Operator(Minus, e1, e2) }
-	| e1 = exp; TIMES; e2 = exp  { Operator(Times, e1, e2) }
-	| e1 = exp; DIVIDE; e2 = exp  { Operator(Divide, e1, e2) }
-	| e1 = exp; MODULUS; e2 = exp  { Operator(Modulus, e1, e2)}
-	| e1 = exp; LEQ; e2 = exp  { Operator(Leq, e1, e2)}
-	| e1 = exp; LESS; e2 = exp  { Operator(Less, e1, e2)}
-	| e1 = exp; GEQ; e2 = exp  { Operator(Geq, e1, e2) }
-	| e1 = exp; GREATER; e2 = exp  { Operator(Greater, e1, e2)}
-	| e1 = exp; EQ; e2 = exp  { Operator(Eq, e1, e2) }
-	| e1 = exp; NOTEQ; e2 = exp  { Operator(Noteq, e1, e2)}
-	| e1 = exp; AND; e2 = exp  { Operator(And, e1, e2) }
-	| e1 = exp; OR; e2 = exp  { Operator(Or, e1, e2) }
-	| NEGATE; e = exp  { Negate(e) }
-	| id = ID; LEFT_ROUND_BRACKET; a = separated_list(COMMA, argument); RIGHT_ROUND_BRACKET  { Application(id, a)} 
-	| i = INT  { Const(i) }  	
-	| id = ID  { Deref(Identifier(id)) }
-	| READ; LEFT_ROUND_BRACKET; RIGHT_ROUND_BRACKET  { Readint }
-
-argument:
-	| id = ID  { id }
-
-print_value:
+value_expresion: 
+	| LEFT_ROUND_BRACKET; v = value_expresion; RIGHT_ROUND_BRACKET  { v }
 	| i = INT  { Const(i) } 
 	| id = ID  { Deref(Identifier(id)) }
+	| o = operator_expression  { o }
+	| f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, argument); RIGHT_ROUND_BRACKET  { Application(f, a)}
+
+expression:  
+	| v = value_expresion  { v }
+	| READ; LEFT_ROUND_BRACKET; RIGHT_ROUND_BRACKET  { Readint }
+
+function_expression: 
+	| id = ID  { Identifier(id) }
+
+print_value:
+	| v = value_expresion  { v }
 	| text = TEXT  { Text(text) }
+
+operator_expression:
+	| v1 = value_expresion; PLUS;  v2 = value_expresion  { Operator(Plus, v1, v2) }  
+	| v1 = value_expresion; MINUS; v2 = value_expresion  { Operator(Minus, v1, v2) }
+	| v1 = value_expresion; TIMES; v2 = value_expresion  { Operator(Times, v1, v2) }
+	| v1 = value_expresion; DIVIDE; v2 = value_expresion  { Operator(Divide, v1, v2) }
+	| v1 = value_expresion; MODULUS; v2 = value_expresion  { Operator(Modulus, v1, v2)}
+	| v1 = value_expresion; LEQ; v2 = value_expresion  { Operator(Leq, v1, v2)}
+	| v1 = value_expresion; LESS; v2 = value_expresion  { Operator(Less, v1, v2)}
+	| v1 = value_expresion; GEQ; v2 = value_expresion  { Operator(Geq, v1, v2) }
+	| v1 = value_expresion; GREATER; v2 = value_expresion  { Operator(Greater, v1, v2)}
+	| v1 = value_expresion; EQ; v2 = value_expresion  { Operator(Eq, v1, v2) }
+	| v1 = value_expresion; NOTEQ; v2 = value_expresion  { Operator(Noteq, v1, v2)}
+	| v1 = value_expresion; AND; v2 = value_expresion  { Operator(And, v1, v2) }
+	| v1 = value_expresion; OR; v2 = value_expresion  { Operator(Or, v1, v2) }
+	| NEGATE; v = value_expresion  { Negate(v) }
+
+argument:
+	| id = ID  { Deref(Identifier(id)) }
+	| i = INT  { Const(i) } 
+	| o = operator_expression  { o }

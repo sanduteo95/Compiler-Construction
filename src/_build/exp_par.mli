@@ -44,4 +44,4 @@ exception Error
 
 (* The monolithic API. *)
 
-val top: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Syntax.program)
+val parse: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Syntax.program)

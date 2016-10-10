@@ -8,7 +8,7 @@ let print_position lexbuf =
 	eprintf "Pos %d:%d:%d\n" pos.pos_lnum pos.pos_bol pos.pos_cnum
 
 let parse_with_error lexbuf =   
-	try Exp_par.top Exp_lex.read lexbuf with
+	try Exp_par.parse Exp_lex.read lexbuf with
   	| SyntaxError msg -> prerr_string (msg ^ ": ");                       
   						 print_position lexbuf;                        
   						 exit (-1)   
@@ -47,10 +47,16 @@ let print_operator = function
   	| And -> printf "And"
   	| Or -> printf "Or"
 
+let rec print_arg = function
+	| Const(i) -> printf "Const %d" i
+	| Deref(Identifier(s)) -> printf "Deref (Identifier \"%s\")" s
+	| Operator(op, e1, e2) -> printf "Operator("; print_operator op; printf ", "; print_arg e1; printf ", "; print_arg e2; printf ")"
+	| _ -> eprintf "\nThe function cannot take this type of argument!\n"
+
 let rec print_arg_list = function
 	| [] -> printf ""
-	| [arg] -> printf "%s" arg
-	| arg::args -> printf "%s, " arg; print_arg_list args
+	| [arg] -> print_arg arg
+	| arg::args -> print_arg arg; printf ", "; print_arg_list args
 
 let rec print_content content tab = match content with
 	| Nothing -> printf " Nothing"
@@ -58,16 +64,16 @@ let rec print_content content tab = match content with
   	| While(e1, e2) -> printf "%s" tab; printf "While("; print_content e1 ""; printf ",\n "; print_content e2 (tab^"\t"); printf ")"
   	| If(e1, e2, e3) -> printf "%s" tab; printf "If("; print_content e1 ""; printf ",\n"; print_content e2 (tab^"\t"); printf ",\n "; print_content e3 (tab^"\t")
   	| Asg(e1, e2) -> printf "%s" tab; printf "Asg("; print_content e1 (tab^"\t"); printf ", "; print_content e2 ""
-  	| Deref(e) -> printf "%s" tab; printf "Deref("; print_content e (tab^"\t"); printf ")"
+  	| Deref(e) -> printf "%s" tab; printf "Deref("; print_content e ""; printf ")"
   	| Negate(e1) -> printf "Negate("; print_content e1 (tab^"\t"); printf ")"
   	| Operator(op, e1, e2) -> printf "%s" tab; printf "Operator("; print_operator op; printf ", "; print_content e1 ""; printf ", "; print_content e2 ""; printf ")"
-  	| Application(name, args) -> printf "%s" tab; printf "Application(Function(\"%s\"), " name; printf "("; print_arg_list args; printf ")"; printf ")"
+  	| Application(e, es) -> printf "%s" tab; printf "Application("; print_content e ""; printf ", ["; print_arg_list es; printf "])"; printf ")"
   	| Text(s) -> printf "Text(%s)" s
-  	| Const(i) -> printf "Const(%d)" i
+  	| Const(i) -> printf "Const %d" i
   	| Readint -> printf "%s" tab; printf "Readint()"
   	| Printint(e) -> printf "%s" tab; printf "Printint("; print_content e ""; printf ")"
-  	| Identifier(s) -> printf "Identifier(%s)" s
-  	| Let(s, e1, e2) -> printf "%s" tab; printf "Let(%s, " s; print_content e1 ""; printf ", "; print_content e2 (tab^"\t"); printf ")"
+  	| Identifier(s) -> printf "Identifier \"%s\"" s
+  	| Let(s, e1, e2) -> printf "%s" tab; printf "Let(%s, " s; print_content e1 ""; printf "\n "; print_content e2 (tab^"\t"); printf ")"
   	| New(s, e1, e2) -> printf "%s" tab; printf "New(%s, " s; print_content e1 ""; printf ",\n"; print_content e2 (tab^"\t"); printf ")"
 
 let print_function (name, parameters, content) = 
