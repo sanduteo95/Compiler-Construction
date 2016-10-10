@@ -78,7 +78,7 @@ statement:
 	| PRINT; LEFT_ROUND_BRACKET; p = print_value; RIGHT_ROUND_BRACKET; SEMI_COLLON  { Printint(p) }
 	| LET; id = ID; ASSIGN; v = value_expresion; IN; s = expression; SEMI_COLLON  { Let(id, v, s) }
 	| TYPE; id = ID; ASSIGN; e = expression; SEMI_COLLON; s = statement  { New(id, e, s) }
-	| RETURN; v = value_expresion; SEMI_COLLON { Deref(v) }
+	| RETURN; v = value_expresion; SEMI_COLLON { v }
 
 value_expresion: 
 	| LEFT_ROUND_BRACKET; v = value_expresion; RIGHT_ROUND_BRACKET  { v }

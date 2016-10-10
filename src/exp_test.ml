@@ -73,8 +73,8 @@ let rec print_content content tab = match content with
   	| Readint -> printf "%s" tab; printf "Readint()"
   	| Printint(e) -> printf "%s" tab; printf "Printint("; print_content e ""; printf ")"
   	| Identifier(s) -> printf "Identifier \"%s\"" s
-  	| Let(s, e1, e2) -> printf "%s" tab; printf "Let(%s, " s; print_content e1 ""; printf "\n "; print_content e2 (tab^"\t"); printf ")"
-  	| New(s, e1, e2) -> printf "%s" tab; printf "New(%s, " s; print_content e1 ""; printf ",\n"; print_content e2 (tab^"\t"); printf ")"
+  	| Let(s, e1, e2) -> printf "%s" tab; printf "Let \"%s\", " s; print_content e1 ""; printf "\n "; print_content e2 (tab^"\t"); printf ")"
+  	| New(s, e1, e2) -> printf "%s" tab; printf "New \"%s\", " s; print_content e1 ""; printf ",\n"; print_content e2 (tab^"\t"); printf ")"
 
 let print_function (name, parameters, content) = 
 	printf "(\"%s\"," name;
@@ -83,8 +83,8 @@ let print_function (name, parameters, content) =
 
 let rec print_functions = function 
 	| [] -> printf "]\n"
-	| [f] -> print_function f; printf "\n]\n"
-	| f::fs -> print_function f;  printf ")\n, "; print_functions fs
+	| [f] -> print_function f; printf ")]\n"
+	| f::fs -> print_function f;  printf "),\n "; print_functions fs
 
 let print_program p = 
 	printf "["; print_functions p

@@ -2,8 +2,7 @@ function half(var x, var n) {
 	if(x==0) {
 		return n;
 	} else {
-		n=n+1;
-		let y=x/2 in double(y,n);
+		let y=x/2 in double(y,n+1);
 	}
 }
 

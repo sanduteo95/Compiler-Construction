@@ -1057,7 +1057,7 @@ and _menhir_goto_value_expresion : _menhir_env -> 'ttv_tail -> _menhir_state -> 
             let ((_menhir_stack, _menhir_s), _, (v : (Syntax.expression))) = _menhir_stack in
             let _3 = () in
             let _1 = () in
-            let _v : (Syntax.expression) =                                             ( Deref(v) ) in
+            let _v : (Syntax.expression) =                                             ( v ) in
             _menhir_goto_statement _menhir_env _menhir_stack _menhir_s _v
         | TIMES ->
             _menhir_run18 _menhir_env (Obj.magic _menhir_stack)
