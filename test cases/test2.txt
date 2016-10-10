@@ -5,13 +5,13 @@ function double(var x) {
 	}
 	else {
 		return y;
-	}
+	};
 }
 function main() {
 	var x=2;
 	while(x>=10) {
 		x=x+1;
-	}
+	};
 	return x;
 }
 

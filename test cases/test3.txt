@@ -4,6 +4,6 @@ function main() {
 	while(i<=n) {
 		var j=i*2;
 		print(j);
-	}
+	};
 }
 

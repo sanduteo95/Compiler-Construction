@@ -11,10 +11,10 @@ function bisection_recursive(var f, var a, var b, var TOL, var NMAX) {
 				a=c;
 			} else {
 				b=c;
-			}
+			};
 			var r = bisection_recursive(f, a, b, TOL, NMAX);
 			print(r);
-		}
-	}
+		};
+	};
 }
 
