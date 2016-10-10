@@ -37,13 +37,13 @@ If of expression * expression * expression
 		 }
 		 else {
 			 expression;
-		 }
+		 };
 
 While of expression * expression 
 	
 	e.g. while (expression) {
 			 expression;
-		 }
+		 };
 
 Asg of expression * expression
 	
@@ -122,13 +122,13 @@ Or a program such as:
 		}
 		else {
 			return y;
-		}
+		};
 	}
 	function main() {
 		var x=2;
 		while(x>=10) {
 			x=x+1;
-		}
+		};
 		return x;
 	}
 
