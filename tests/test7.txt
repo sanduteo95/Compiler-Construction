@@ -1,0 +1,10 @@
+function main() {
+	var m = 2;
+	var x = read();
+	var y = read();
+	while(x%y!=m) {
+		x=x*2;
+		y=y/2;
+	};
+}
+
