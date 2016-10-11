@@ -15,7 +15,7 @@ The programming language chosen is JavaScript-like, having found it the easiest 
 
 	The expressions admitted by the type have been tweaked, as now an expression could do "Nothing".
 
-	An output string can now be admitted as an expression too, in the form of Text(...) for the Printint functionality.
+	An output string can now be admitted as an expression too, in the form of Text(...) for Printint.
 	
 	Thee "Application" expression has been modified to be able to be applied to multiple expressions .
 
