@@ -24,8 +24,8 @@ To extract the code from GIT you can either use the command line as explainged b
 
 If command line is preferred, follow these steps:
 
-	1. Open up a terminal and copy the following it: git clone https://github.com/sanduteo95/Compiler-Construction.git.
-	2. Type in your username and password (if you haven't set up the environements to authenticate you by default).
+	1. Open up a terminal and run: git clone https://github.com/sanduteo95/Compiler-Construction.git.
+	2. Type in your username and password if asked for them.
 	3. Then, to open the directory, type in "cd Compiler-Construction/".
 
 After you have downloaded everything, you can run the parser and lexer by doing the following:
