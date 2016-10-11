@@ -15,11 +15,16 @@ If command line is preferred, follow these steps:
 
 	1. Open up a terminal and type in "git clone https://github.com/sanduteo95/Compiler-Construction.git"
 	2. Type in your username and password (if you haven't set up the environements to save your authentication details)
-	3. Then, to open the directory, tupe in "cd Compiler-Construction/"
+	3. Then, to open the directory, type in "cd Compiler-Construction/"
 
 After you have downloaded everything, you can run the parser and lexer by using the following:
 	
-	How to run it.
+	How to run it:
+	1. While in the directory, type in "make build" to build the project.
+	2. Now, if you want to test it on the my test cases, run "make test"
+	3. Otherwise, switch to the src directory: "cd src/"
+	4. Then type in the command line "cat <path to file> | exp_test.native"
+	5. If you want to remove the remains, run "make clean"
 
 
 ## Syntax
