@@ -1,34 +1,43 @@
 ## Description
-The programming language chosen is JavaScript-like, having found it the easiest to accommodate the needs for the syntax I have gone with. The initial OCaml syntax that was given to us was extended:
+The programming language chosen is JavaScript-like, having found it the easiest to accommodate the needs for the syntax I have gone with. The initial OCaml syntax that was given to us HAS BEEN extended:
 	
-	-> function definitions now consist of a function name, a list of parameters (which have been defined as a new type) and an expression
-	-> the operations permitted on expressions have been extended too, having added "modulus", "less" and "greater", but removed "not" as it clashed with my definition of negation
-	-> the expressions admitted by the type have been tweaked, as now an expression could do "Nothing", in the case of an empty function 
-	-> an output string can now be admitted as an expression too, in the form of Text(...) for the Printint functionality
-	-> as pointed out earlier, I have created my own expression "Negate", to replace the "not" operator which I did not understand in the context
-	-> the "Application" expression has been modified to be able to be applied to multiple expressions 
+	Function definitions now consist of:
+		- a function name
+		- a list of parameters (which have been defined as a new type)
+		- an expression
 
-## Installation
-To extract the code from GIT you can either use the command line or by clicking on the "Clone or download" button, choosing "Download Zip" to download a zip of the project. 
+	The operations permitted on expressions have been extended too:
+	 	- "modulus"
+	 	- "less"
+	 	- "greater"
+
+	And the "not" operator has been removed, as it was replaced by the expression: Negate of expression.
+
+	The expressions admitted by the type have been tweaked, as now an expression could do "Nothing".
+
+	An output string can now be admitted as an expression too, in the form of Text(...) for the Printint functionality.
+	
+	Thee "Application" expression has been modified to be able to be applied to multiple expressions .
+
+## Installation and Build
+To extract the code from GIT you can either use the command line as explainged bellow or, by clicking on the "Clone or download" button, choose "Download Zip" to download a zip of the project in your preferred location. 
 
 If command line is preferred, follow these steps:
 
-	1. Open up a terminal and type in "git clone https://github.com/sanduteo95/Compiler-Construction.git"
-	2. Type in your username and password (if you haven't set up the environements to save your authentication details)
-	3. Then, to open the directory, type in "cd Compiler-Construction/"
+	1. Open up a terminal and copy the following it: git clone https://github.com/sanduteo95/Compiler-Construction.git.
+	2. Type in your username and password (if you haven't set up the environements to authenticate you by default).
+	3. Then, to open the directory, type in "cd Compiler-Construction/".
 
-After you have downloaded everything, you can run the parser and lexer by using the following:
+After you have downloaded everything, you can run the parser and lexer by doing the following:
 	
-	How to run it:
-	1. While in the directory, type in "make build" to build the project.
-	2. Now, if you want to test it on the my test cases, run "make test"
-	3. Otherwise, switch to the src directory: "cd src/"
-	4. Then type in the command line "cat <path to file> | exp_test.native"
-	5. If you want to remove the remains, run "make clean"
+	1. While in the directory, type in "make" to build the project..
+	2. Now, if you want to test it on my test cases, run "make all_tests".
+	3. Otherwise, run "make own_test" and you will be prompted for the path to the file you want to test.
+	5. If you want to remove the remains, run "make clean".
 
 
 ## Syntax
-If the syntax is confusing, here are a few examples of the types of sytnax it likes.
+Here are a few examples of the types of syntax it likes.
 
 Seq of expression * expression
 	
@@ -52,7 +61,7 @@ While of expression * expression
 
 Asg of expression * expression
 	
-	e.g. x = expression; (we only allow assignments of the type Asg(Identifier "name", expression))
+	e.g. x = expression;
 
 Deref of expression
 	
@@ -74,6 +83,7 @@ Application of expression * expression (* e(e) *)
 	}
 	...
 	x = f(expression);
+
 	However, there are no check as of now to see if the function exists.
 
 Const of int 
@@ -82,7 +92,7 @@ Const of int
 
 Readint
 	
-	e.g. x = ead() (no type checking as of now)
+	e.g. x = read() (no type checking as of now)
 
 Printint of expression
 
@@ -152,4 +162,4 @@ would have the parse tree:
 	 			Deref(Identifier "x"))))]
 
 ## Tests
-There are 10 simple test cases in the "test cases" folder, which you can run using the script I gave you. Then there are two more test cases, a bit more complicated. 
+There are 10 simple test cases in the "test cases" folder, which you can run using the Makefile I gave you. Then there are two more test cases, a bit more complicated, also included in the Makefile. If you want to run your own tests, go back to the "Installation and Build" section to find out how to do this.
