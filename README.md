@@ -1,5 +1,5 @@
 ## Description
-The programming language chosen is JavaScript-like, having found it the easiest to accommodate the needs for the syntax I have gone with. The initial OCaml syntax that was given to us HAS BEEN extended:
+The programming language chosen is JavaScript-like, having found it the easiest to accommodate the needs of the syntax I have gone with. The initial syntax that was given to us HAS BEEN extended:
 	
 	Function definitions now consist of:
 		- a function name
@@ -15,7 +15,7 @@ The programming language chosen is JavaScript-like, having found it the easiest 
 
 	The expressions admitted by the type have been tweaked, as now an expression could do "Nothing".
 
-	An output string can now be admitted as an expression too, in the form of Text(...) for Printint.
+	An output string can now be admitted as an expression too, in the form of Text(...) for Prin.
 	
 	Thee "Application" expression has been modified to be able to be applied to multiple expressions .
 
@@ -24,17 +24,16 @@ To extract the code from GIT you can either use the command line as explainged b
 
 If command line is preferred, follow these steps:
 
-	1. Open up a terminal and run: git clone https://github.com/sanduteo95/Compiler-Construction.git.
+	1. Open up a terminal and run: "git clone https://github.com/sanduteo95/Compiler-Construction.git".
 	2. Type in your username and password if asked for them.
 	3. Then, to open the directory, type in "cd Compiler-Construction/".
 
 After you have downloaded everything, you can run the parser and lexer by doing the following:
 	
-	1. While in the directory, type in "make" to build the project..
+	1. While in the SAME directory, type in "make" to build the project. 
 	2. Now, if you want to test it on my test cases, run "make all_tests".
 	3. Otherwise, run "make own_test" and you will be prompted for the path to the file you want to test.
-	5. If you want to remove the remains, run "make clean".
-
+	5. If you want to clean up the project, run "make clean".
 
 ## Syntax
 Here are a few examples of the types of syntax it likes.
@@ -162,4 +161,4 @@ would have the parse tree:
 	 			Deref(Identifier "x"))))]
 
 ## Tests
-There are 10 simple test cases in the "test cases" folder, which you can run using the Makefile I gave you. Then there are two more test cases, a bit more complicated, also included in the Makefile. If you want to run your own tests, go back to the "Installation and Build" section to find out how to do this.
+There are 10 simple test cases in the "tests" folder, which you can run using the Makefile I gave you. Then there are two more test cases, a bit more complicated, also included in the Makefile. If you want to run your own tests, go back to the "Installation and Build" section to find out how to do this.
