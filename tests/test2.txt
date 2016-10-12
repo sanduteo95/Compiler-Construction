@@ -1,5 +1,5 @@
 function double(var x) {
-	var y=6;
+	var y=13;
 	if(x>y) {
 		return 2*x;
 	}
@@ -8,8 +8,8 @@ function double(var x) {
 	};
 }
 function main() {
-	var x=2;
-	while(x>=10) {
+	var x=1;
+	while(double(x) == 2*x) {
 		x=x+1;
 	};
 	return x;
