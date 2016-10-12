@@ -6,14 +6,12 @@ function bisection_recursive(var f, var a, var b, var TOL, var NMAX) {
 		if(f(c) == 0 || (b-a)/2 < TOL) {
 			print(c);
 		} else {
-			NMAX = NMAX-1;
 			if(f(c)*f(a)>=0) {
 				a=c;
 			} else {
 				b=c;
 			};
-			var r = bisection_recursive(f, a, b, TOL, NMAX);
-			print(r);
+			print(bisection_recursive(f, a, b, TOL, NMAX-1));
 		};
 	};
 }
