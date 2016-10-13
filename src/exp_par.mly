@@ -96,6 +96,7 @@ assignment:
 
 function_expression: 
 	| id = ID  { Identifier(id) }
+	| LEFT_ROUND_BRACKET; s = statement; RIGHT_ROUND_BRACKET { s }
 
 print_value:
 	| v = expression  { v }
