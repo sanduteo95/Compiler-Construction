@@ -3,6 +3,6 @@ function half(var x, var n) {
 		return n;
 	} else {
 		let y=x/2 in half(y,n+1);
-	};
+	}
 }
 

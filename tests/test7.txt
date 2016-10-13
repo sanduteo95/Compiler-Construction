@@ -5,6 +5,6 @@ function main() {
 	while(x%y!=m) {
 		x=x*2;
 		y=y/2;
-	};
+	}
 }
 

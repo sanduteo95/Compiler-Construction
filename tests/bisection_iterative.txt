@@ -11,9 +11,9 @@ function bisection_iterative(var f, var a, var b, var TOL, var NMAX) {
 				a=c;
 			} else {
 				b=c;
-			};
-		};
-	};
+			}
+		}
+	}
 	print("Method failed.");
 }
 

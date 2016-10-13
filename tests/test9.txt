@@ -5,6 +5,6 @@ function main() {
 		print("Not equal");
 	} else {
 		print("Equal");
-	};
+	}
 }
 
