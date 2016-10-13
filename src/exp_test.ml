@@ -16,17 +16,20 @@ let parse_with_error lexbuf =
   					   print_position lexbuf;                       
   					   exit (-1)
 
-let rec read_to_empty buf =    
-	let s = read_line () in
-    if s = "" then buf     
-	else (Buffer.add_string buf s; 
-          Buffer.add_string buf "\n";                
-      	  read_to_empty buf)
+let rec read_to_empty ic buf =    
+  try
+    let line = input_line ic in
+    if line = "" then buf     
+    else (Buffer.add_string buf line; 
+          Buffer.add_string buf "\n";
+          read_to_empty ic buf);
+  with e -> close_in_noerr ic; raise e  
 
-let _ =  
-	read_to_empty (Buffer.create 1)
+let read_file = 
+  let ic = open_in Sys.argv.(1) in read_to_empty ic (Buffer.create 1)
  	|> Buffer.contents  
  	|> Lexing.from_string  
  	|> parse_with_error  
- 	|> print_program
+ 	|> print_program;
+  close_in ic
  

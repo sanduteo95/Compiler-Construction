@@ -34,7 +34,7 @@ let rec print_arg = function
 	| Const(i) -> printf "Const %d" i
 	| Deref(Identifier(s)) -> printf "Deref (Identifier \"%s\")" s
 	| Operator(op, e1, e2) -> printf "Operator("; print_operator op; printf ", "; print_arg e1; printf ", "; print_arg e2; printf ")"
-	| _ -> eprintf "\nThe function cannot take this type of argument!\n"
+	| _ -> eprintf "\nThe function cannot take this type of argument!\n"; exit(-1)
 
 (** Prints the list of arguments. *)
 let rec print_arg_list = function
@@ -74,5 +74,6 @@ let rec print_functions = function
 	| f::fs -> print_function f;  printf "),\n "; print_functions fs
 
 (** Prints the program as a list of function definitions. *)
-let print_program p = 
-	printf "["; print_functions p
+let print_program p = match p with
+	| [("", [], Nothing)] -> printf "[ Nothing ] \n"
+	| _ -> printf "["; print_functions p

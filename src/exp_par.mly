@@ -73,14 +73,14 @@ content:
 statements:
 	| s1 = statement; s2 = statements  { Seq(s1, s2) }
 	| s = statement { s }
-	| TYPE; id = ID; ASSIGN; a = assignment; SEMI_COLLON; s = statements  { New(id, a, s) }
+	| TYPE; id = ID; ASSIGN; r = right_assignment; SEMI_COLLON; s = statements  { New(id, r, s) }
 
 statement:
 	| WHILE; LEFT_ROUND_BRACKET; o = operator_expression; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { While(o, s) }
 	| IF; LEFT_ROUND_BRACKET; o = operator_expression; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s1 = statements; RIGHT_CURLY_BRACKET; ELSE; LEFT_CURLY_BRACKET; s2 = statements; RIGHT_CURLY_BRACKET  { If(o, s1, s2) }
-	| e = expression; ASSIGN; a = assignment; SEMI_COLLON  { Asg(e, a)}
+	| l = left_assignment; ASSIGN; r = right_assignment; SEMI_COLLON  { Asg(l, r)}
 	| PRINT; LEFT_ROUND_BRACKET; p = print_value; RIGHT_ROUND_BRACKET; SEMI_COLLON  { Print(p) }
-	| LET; id = ID; ASSIGN; a = assignment; IN; e = expression; SEMI_COLLON  { Let(id, a, e) }
+	| LET; id = ID; ASSIGN; r = right_assignment; IN; e = expression; SEMI_COLLON  { Let(id, r, e) }
 	| RETURN; v = expression; SEMI_COLLON { v }
 
 expression: 
@@ -90,7 +90,11 @@ expression:
 	| o = operator_expression  { o }
 	| f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, argument); RIGHT_ROUND_BRACKET  { Application(f, a)}
 
-assignment:  
+left_assignment:  
+	| id = ID  { Identifier(id) }
+	| i = INT  { Const(i) } 
+
+right_assignment:  
 	| e = expression  { e }
 	| READ; LEFT_ROUND_BRACKET; RIGHT_ROUND_BRACKET  { Read }
 
