@@ -78,7 +78,7 @@ statements:
 statement:
 	| WHILE; LEFT_ROUND_BRACKET; o = operator_expression; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { While(o, s) }
 	| IF; LEFT_ROUND_BRACKET; o = operator_expression; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s1 = statements; RIGHT_CURLY_BRACKET; ELSE; LEFT_CURLY_BRACKET; s2 = statements; RIGHT_CURLY_BRACKET  { If(o, s1, s2) }
-	| id = ID; ASSIGN; a = assignment; SEMI_COLLON  { Asg(Identifier(id), a)}
+	| e = expression; ASSIGN; a = assignment; SEMI_COLLON  { Asg(e, a)}
 	| PRINT; LEFT_ROUND_BRACKET; p = print_value; RIGHT_ROUND_BRACKET; SEMI_COLLON  { Print(p) }
 	| LET; id = ID; ASSIGN; a = assignment; IN; e = expression; SEMI_COLLON  { Let(id, a, e) }
 	| RETURN; v = expression; SEMI_COLLON { v }
