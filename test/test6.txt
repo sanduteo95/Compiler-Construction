@@ -1,3 +1,9 @@
+/* Testing the following:
+	- Const
+	- EQ
+	- NOTEQ
+	- Negate
+*/
 function main() {
 	var x = 5;
 	var y = read();

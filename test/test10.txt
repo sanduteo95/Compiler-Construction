@@ -1,3 +1,9 @@
+/* Testing the following:
+	- MODULUS
+	- EQ
+	- Let
+	- Application isnide a Let
+*/
 function f(var n) {
 	if(n%2==0) {
 		let x = 1 in x+f(x/2);

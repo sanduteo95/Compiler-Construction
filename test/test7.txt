@@ -1,3 +1,10 @@
+/* Testing the following:
+	- while statements
+	- Asg 
+	- DIVIDE
+	- TIMES
+	- MODULUS
+*/
 function main() {
 	var m = 2;
 	var x = read();

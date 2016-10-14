@@ -1,3 +1,10 @@
+/* Testing the following:
+	- read
+	- while statements
+	- LEQ
+	- TIMES
+	- print
+*/
 function main() {	
 	var n=read();
 	var i=0;

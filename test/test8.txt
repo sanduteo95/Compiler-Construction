@@ -1,3 +1,10 @@
+/* Testing the following:
+	- LEQ
+	- GEQ
+	- AND
+	- application of function to two parameters
+	- returning a function
+*/
 function f(var x, var y) {
 	return x<=y;
 }

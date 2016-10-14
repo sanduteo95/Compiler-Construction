@@ -1,3 +1,8 @@
+/* Testing the following:
+	- LESS
+	- GREATER
+	- OR 
+*/
 function main() {
 	var a=2;
 	var b=2;

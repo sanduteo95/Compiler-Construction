@@ -1,8 +1,0 @@
-function half(var x, var n) {
-	if(x==0) {
-		return n;
-	} else {
-		let y=x/2 in half(y,n+1);
-	}
-}
-

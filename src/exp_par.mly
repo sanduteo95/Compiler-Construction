@@ -104,7 +104,7 @@ function_expression:
 
 print_value:
 	| v = expression  { v }
-	| text = TEXT  { Text(text) }
+	| t = TEXT  { Text(t) }
 
 operator_expression:
 	| e1 = expression; PLUS;  e2 = expression  { Operator(Plus, e1, e2) }  

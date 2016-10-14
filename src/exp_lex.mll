@@ -12,11 +12,12 @@ let next_line lexbuf =
 }
 
 let int = ['0'-'9'] ['0'-'9']* 
-let id = ['a'-'z' 'A'-'Z' '_'] ['a'-'z' 'A'-'Z' '0'-'9' '_']*
-let text = "\"" ['a'-'z' 'A'-'Z' '.' '!' ',' '.' ' ']+ "\"" 
+let id = ['a'-'z' 'A'-'Z'] ['a'-'z' 'A'-'Z' '0'-'9' '_']*
+let text = "\"" ['a'-'z' 'A'-'Z' '.' '!' '?' ',' '.' '-' ' ']+ "\"" 
 let type = "var"
 let white = [' ' '\t']+
 let newline = '\r' | '\n' | "\r\n"
+let comment = "/*" ['a'-'z' 'A'-'Z' '.' '!' ',' '.' '-' '(' ')' ':' ';' ' ' '\n' '\t' '\r']+ "*/"
 
 rule read =  
 	parse
@@ -56,5 +57,6 @@ rule read =
 	| "function"  { FUNCTION }
 	| id { ID (Lexing.lexeme lexbuf) }
 	| text { TEXT (Lexing.lexeme lexbuf) }
+	| comment  { read lexbuf }
  	| _ { raise (SyntaxError ("Illegal string character: " ^ Lexing.lexeme lexbuf)) }
   	| eof { EOF }

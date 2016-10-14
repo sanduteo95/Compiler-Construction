@@ -1,3 +1,9 @@
+/* Testing the following: 
+	- PRINT of strings
+	- New where the value is a function application
+	- DIVIDE
+	- PRINT of function application
+*/
 function sum(var x, var y) {
 	return x+y;
 }

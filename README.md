@@ -96,10 +96,15 @@ Readint
 Printint of expression
 
 	e.g. print(expression)
+	!!! Expressions can be anything that represents a value (so not another print, or a return, if-else statement or while statement), as well as a string. (e.g. print("Hey."))
 
 Identifier of string 
 	
 	e.g. x
+	!!! Variable names can only consist of:
+		- lower and upper case letters
+		- _ (not accepted at the start of the variable)
+		- digits (not accepted at the start of the variable)
 
 Let of string * expression * expression
 	
@@ -109,6 +114,11 @@ New of string * expression * expression
 
 	e.g. var x = expression;
 		 expression;
+
+It is sensible to point out that the language also contains multiline comments of the form: 
+	
+	\* Comment *\
+	!!! Comments are sentences using sensible punctuation marks, but no characters such as: @, #, %, $, ^ etc. 
 
 ## Code example
 For example, a program such as: 

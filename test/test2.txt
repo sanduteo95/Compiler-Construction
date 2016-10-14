@@ -1,3 +1,11 @@
+/* Testing the following:
+	- multiple functions in one program
+	- function parameters
+	- if statements
+	- while statements
+	- function application
+	- EQ
+*/
 function double(var x) {
 	var y=13;
 	if(x>y) {
