@@ -5,6 +5,6 @@
 */
 function main () {
 	var x=read(); 
-	return (if (y%2==0) { return y; } else { return y+1; })(x) ;
+	return (if (y%2=0) { return y; } else { return y+1; })(x) ;
 }
 
