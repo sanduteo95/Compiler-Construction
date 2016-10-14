@@ -3,6 +3,7 @@ open Exp_par
 open Lexing
 exception SyntaxError of string 
 
+(** Makes sure the number of lines in the lexbuf is correct. *)
 let next_line lexbuf =
   let pos = lexbuf.lex_curr_p in
   lexbuf.lex_curr_p <-
