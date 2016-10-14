@@ -1,5 +1,0 @@
-function error() {
-	var v = read();
-	retur x;
-}
-
