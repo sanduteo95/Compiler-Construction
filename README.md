@@ -61,6 +61,7 @@ While of expression * expression
 Asg of expression * expression
 	
 	e.g. x = expression;
+	!!! Now the left-handside of an assignment can also be a "let" or an "if-else"
 
 Deref of expression
 	
@@ -84,6 +85,7 @@ Application of expression * expression (* e(e) *)
 	x = f(expression);
 
 	However, there are no check as of now to see if the function exists.
+	!!! Also, the function can be a lambda function.
 
 Const of int 
 

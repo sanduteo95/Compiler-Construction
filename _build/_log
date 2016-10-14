@@ -1,0 +1,42 @@
+### Starting build.
+# Target: src/exp_test.ml.depends, tags: { extension:ml, file:src/exp_test.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -modules src/exp_test.ml > src/exp_test.ml.depends # cached
+# Target: src/exp_lex.mll, tags: { extension:mll, file:src/exp_lex.mll, lexer, ocaml, ocamllex, quiet, traverse }
+/home/teo/.opam/4.03.0/bin/ocamllex.opt -q src/exp_lex.mll # cached
+# Target: src/exp_lex.ml.depends, tags: { extension:ml, file:src/exp_lex.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -modules src/exp_lex.ml > src/exp_lex.ml.depends # cached
+# Target: src/exp_par.mly.depends, tags: { extension:mly, file:src/exp_par.mly, infer, menhir_ocamldep, ocaml, ocamldep, quiet, traverse }
+menhir --raw-depend --ocamldep 'ocamlfind ocamldep -modules' src/exp_par.mly > src/exp_par.mly.depends
+# Target: src/syntax.ml.depends, tags: { extension:ml, file:src/syntax.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -modules src/syntax.ml > src/syntax.ml.depends # cached
+# Target: src/syntax.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:src/syntax.cmo, file:src/syntax.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -I src -o src/syntax.cmo src/syntax.ml # cached
+# Target: src/exp_par.mly, tags: { byte, compile, extension:ml, extension:mly, file:src/exp_par.ml, file:src/exp_par.mly, infer, menhir, ocaml, parser, quiet, traverse }
+menhir --ocamlc 'ocamlfind ocamlc -I src' --infer src/exp_par.mly
+# Target: src/exp_par.mli.depends, tags: { extension:mli, file:src/exp_par.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -modules src/exp_par.mli > src/exp_par.mli.depends # cached
+# Target: src/exp_par.cmi, tags: { byte, compile, extension:mli, file:src/exp_par.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -I src -o src/exp_par.cmi src/exp_par.mli # cached
+# Target: src/exp_lex.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:src/exp_lex.cmo, file:src/exp_lex.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -I src -o src/exp_lex.cmo src/exp_lex.ml # cached
+# Target: src/formatter.ml.depends, tags: { extension:ml, file:src/formatter.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -modules src/formatter.ml > src/formatter.ml.depends
+# Target: src/formatter.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:src/formatter.cmo, file:src/formatter.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -I src -o src/formatter.cmo src/formatter.ml
+# Target: src/exp_test.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:src/exp_test.cmo, file:src/exp_test.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -I src -o src/exp_test.cmo src/exp_test.ml
+# Target: src/exp_par.ml.depends, tags: { extension:ml, file:src/exp_par.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -modules src/exp_par.ml > src/exp_par.ml.depends
+# Target: src/syntax.cmx, tags: { compile, extension:cmx, extension:ml, file:src/syntax.cmx, file:src/syntax.ml, implem, native, ocaml, quiet, traverse }
+ocamlfind ocamlopt -c -I src -o src/syntax.cmx src/syntax.ml # cached
+# Target: src/exp_par.cmx, tags: { compile, extension:cmx, extension:ml, file:src/exp_par.cmx, file:src/exp_par.ml, implem, native, ocaml, quiet, traverse }
+ocamlfind ocamlopt -c -I src -o src/exp_par.cmx src/exp_par.ml
+# Target: src/exp_lex.cmx, tags: { compile, extension:cmx, extension:ml, file:src/exp_lex.cmx, file:src/exp_lex.ml, implem, native, ocaml, quiet, traverse }
+ocamlfind ocamlopt -c -I src -o src/exp_lex.cmx src/exp_lex.ml # cached
+# Target: src/formatter.cmx, tags: { compile, extension:cmx, extension:ml, file:src/formatter.cmx, file:src/formatter.ml, implem, native, ocaml, quiet, traverse }
+ocamlfind ocamlopt -c -I src -o src/formatter.cmx src/formatter.ml
+# Target: src/exp_test.cmx, tags: { compile, extension:cmx, extension:ml, file:src/exp_test.cmx, file:src/exp_test.ml, implem, native, ocaml, quiet, traverse }
+ocamlfind ocamlopt -c -I src -o src/exp_test.cmx src/exp_test.ml
+# Target: src/exp_test.native, tags: { dont_link_with, extension:native, file:src/exp_test.native, link, native, ocaml, program, quiet, traverse }
+ocamlfind ocamlopt -linkpkg src/syntax.cmx src/exp_par.cmx src/exp_lex.cmx src/formatter.cmx src/exp_test.cmx -o src/exp_test.native
+# Compilation successful.

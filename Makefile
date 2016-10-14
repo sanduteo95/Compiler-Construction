@@ -1,6 +1,6 @@
 all: 
 	@ocamlbuild -use-menhir -use-ocamlfind -r src/exp_test.native;
-	printf "\n"
+	@printf "\n"
 	@echo "Chose one of these options:"
 	@echo " - own_test: to test your own test file"
 	@echo " - all_tests: to test all the files provided in the test folder"

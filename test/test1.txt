@@ -1,10 +1,11 @@
-/* Testing the following: 
+/* 
+Testing the following: 
 	- New
 	- Read
 	- Application (where the left-most expression is an If)
 */
 function main () {
 	var x=read(); 
-	return (if (y%2=0) { return y; } else { return y+1; })(x) ;
+	return (y -> if (y%2==0) { return y; } else { return y+1; })(x) ;
 }
 
