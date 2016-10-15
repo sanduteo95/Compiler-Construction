@@ -29,24 +29,24 @@ let rec read_to_empty ic buf =
   with e -> close_in_noerr ic; raise e  
 
 (** Function reads the file and prints the resulting parse tree.  *)
-let read_file_and_print_tree =   
+(* let read_file_and_print_tree =   
   let ic = open_in filename in read_to_empty ic (Buffer.create 1)
  	|> Buffer.contents  
  	|> Lexing.from_string  
  	|> parse_with_error  
  	|> print_program;
   close_in ic
-
+*)
 
 (** Function prints that the test was successfuly. *)
 let print_success _ = printf " \t Test passed! \n"
 
 (** Function reads the file and prints whether there was an error or not. (and the error) *)
-(*let read_file_and_print_success =   
+let read_file_and_print_success =   
   let ic = open_in filename in read_to_empty ic (Buffer.create 1)
   |> Buffer.contents  
   |> Lexing.from_string  
   |> parse_with_error
   |> print_success;
-  close_in ic*)
+  close_in ic
 
