@@ -173,4 +173,4 @@ would have the parse tree:
 	 			Deref(Identifier "x"))))]
 
 ## Tests
-There are 10 simple test cases in the "tests" folder, which you can run using the Makefile I gave you. Then there are two more test cases, a bit more complicated, also included in the Makefile. If you want to run your own tests, go back to the "Installation and Build" section to find out how to do this.
+There are 10 simple test cases in the "test" folder, which you can run using the Makefile I gave you. Then there are two more test cases, a bit more complicated, also included in the Makefile. If you want to run your own tests, go back to the "Installation and Build" section to find out how to do this.

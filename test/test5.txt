@@ -12,7 +12,7 @@ function f(var x, var y) {
 	return c;
 }
 function main() {
-	print(Input x);
+	print("Input x");
 	var x = read();
 	print("Input y");
 	var y = read();
