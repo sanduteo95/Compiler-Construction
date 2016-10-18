@@ -41,109 +41,119 @@ let create_bool = function
 let format_string s = String.sub s 1 (String.length s - 2)
 
 (** Evaluates an expression and returns either: Const of int, MyString of string, MyBoolean of string. *)
-let rec eval_exp expression= match expression with
+let rec eval_exp id expression= match expression with
 	| Nothing -> Nothing
   	| Seq(e1, e2) -> 
-  		let _ = eval_exp e1 in 
-  		let v2 = eval_exp e2 in
+  		let _ = eval_exp id e1 in 
+  		let v2 = eval_exp id e2 in
    		v2
  	| While(e1, e2)-> 
-  		let v1 = eval_exp e1 in 
+  		let v1 = eval_exp id e1 in 
   		if(not (is_bool v1)) then raise (TypeError "The condition inside the while loop expects a boolean.")
   		else if(get_value v1 == 1) then 
-  			let _ = eval_exp e2 in eval_exp (While(e1, e2))
+  			let _ = eval_exp id e2 in eval_exp id (While(e1, e2))
   			else Nothing
   	| If(e1, e2, e3) -> 
-  		let v1 = eval_exp e1 in 
+  		let v1 = eval_exp id e1 in 
   		if(not (is_bool v1)) then raise (TypeError  "The condition inside the if statement expects a boolean.")	
-  		else if(get_value v1 == 1) then eval_exp e2 else eval_exp e3
-(*   	| Asg(e1, e2) -> 
-  		let v1 = eval_exp e1 in 
-  		let v2 = eval_exp e2 in 
-  		Hashtbl.replace var_store v1 v2; 
-  		Nothing *)
+  		else if(get_value v1 == 1) then eval_exp id e2 else eval_exp id e3
+  	| Asg(Let(s, e, If(e1, Deref(Identifier(s1)), Deref(Identifier(s2)))), e2) ->
+  		let v = eval_exp id e in
+  		Hashtbl.add var_store s v;
+  		let v1 = eval_exp id e1 in
+  		let v2 = eval_exp id e2 in
+  		if(not (is_bool v1)) then raise (TypeError  "The condition inside the if statement expects a boolean.")	
+  		else if(get_value v1 == 1) then Hashtbl.replace var_store s1 v2 else Hashtbl.replace var_store s2 v2;
+  		Hashtbl.remove var_store s;
+  		Nothing
+  	| Asg(If(e1, Deref(Identifier(s1)), Deref(Identifier(s2))), e2) ->
+  		let v1 = eval_exp id e1 in
+  		let v2 = eval_exp id e2 in
+  		if(not (is_bool v1)) then raise (TypeError  "The condition inside the if statement expects a boolean.")	
+  		else if(get_value v1 == 1) then Hashtbl.replace var_store s1 v2 else Hashtbl.replace var_store s2 v2;
+  		Nothing
   	| Asg(Identifier(s), e2) -> 
-  		let v2 = eval_exp e2 in Hashtbl.replace var_store s v2;
+  		let v2 = eval_exp id e2 in Hashtbl.replace var_store s v2;
   		Nothing
   	| Deref(e) -> 
-  		let v = eval_exp e in v
+  		let v = eval_exp id e in v
   	| Negate(e) -> 
-  		let v = eval_exp e in 
+  		let v = eval_exp id e in 
   		if(not (is_bool v)) then raise (TypeError "The negation statament expects a boolean.")
   		else create_bool (not (get_value v == 1))
   	| Operator(op, e1, e2) -> 
     	(match op with
 		    | Plus ->
-			    let v1 = eval_exp e1 in 
-			    let v2 = eval_exp e2 in 
+			    let v1 = eval_exp id e1 in 
+			    let v2 = eval_exp id e2 in 
 			    if(is_int v1 && is_int v2) then Const(get_value v1 + get_value v2)		
 			    else raise (TypeError "The operator + expected two integers.")
 		    | Minus ->
-		       	let v1 = eval_exp e1 in 
-		       	let v2 = eval_exp e2 in 
+		       	let v1 = eval_exp id e1 in 
+		       	let v2 = eval_exp id e2 in 
 		       	if(is_int v1 && is_int v2) then Const(get_value v1 - get_value v2)		
 			    else raise (TypeError "The operator - expected two integers.")		
 		    | Times -> 
-		       	let v1 = eval_exp e1 in 
-		       	let v2 = eval_exp e2 in 
+		       	let v1 = eval_exp id e1 in 
+		       	let v2 = eval_exp id e2 in 
 		       	if(is_int v1 && is_int v2) then Const(get_value v1 * get_value v2)		
 			    else raise (TypeError "The operator * expected two integers.")	
 		    | Divide -> 
-		       	let v1 = eval_exp e1 in 
-		       	let v2 = eval_exp e2 in 
+		       	let v1 = eval_exp id e1 in 
+		       	let v2 = eval_exp id e2 in 
 		       	if(is_int v1 && is_int v2) then 
 		       		(if(get_value v2 != 0) then Const(get_value v1 / get_value v2)
 		       		else raise (DivisionError "The second expression of the division operation evaluates to 0."))
 			    else raise (TypeError  "The operator \\ expected two integers.")
 		    | Modulus -> 
-		       	let v1 = eval_exp e1 in 
-		       	let v2 = eval_exp e2 in 
+		       	let v1 = eval_exp id e1 in 
+		       	let v2 = eval_exp id e2 in 
 		       	if(is_int v1 && is_int v2) then
 		       		if(get_value v2 != 0) then Const(get_value v1 mod get_value v2)
 		       		else raise (DivisionError "The second expression of the modulus operation evaluates to 0.")
 			    else raise (TypeError "The operator % expected two integers.")				
 		    | Less -> 
-		       	let v1 = eval_exp e1 in 
-		       	let v2 = eval_exp e2 in 
+		       	let v1 = eval_exp id e1 in 
+		       	let v2 = eval_exp id e2 in 
 		       	if(is_int v1 && is_int v2) then create_bool (get_value v1 < get_value v2)		
 			    else raise (TypeError "The operator < expected two integers.")		
 		    | Leq ->
-		      	let v1 = eval_exp e1 in 
-		       	let v2 = eval_exp e2 in 
+		      	let v1 = eval_exp id e1 in 
+		       	let v2 = eval_exp id e2 in 
 		       	if(is_int v1 && is_int v2) then create_bool (get_value v1 <= get_value v2)		
 			    else raise (TypeError "The operator <= expected two integers.")			  	
 		    | Greater -> 
-		       	let v1 = eval_exp e1 in 
-		       	let v2 = eval_exp e2 in 
+		       	let v1 = eval_exp id e1 in 
+		       	let v2 = eval_exp id e2 in 
 		       	if(is_int v1 && is_int v2) then create_bool (get_value v1 > get_value v2)		
 			    else raise (TypeError "The operator > expected two integers.")	  	
 		    | Geq -> 
-		       	let v1 = eval_exp e1 in 
-		       	let v2 = eval_exp e2 in 
+		       	let v1 = eval_exp id e1 in 
+		       	let v2 = eval_exp id e2 in 
 		       	if(is_int v1 && is_int v2) then create_bool (get_value v1 >= get_value v2)		
 			    else raise (TypeError "The operator => expected two integers.")		  	
 		    | Eq ->
-		       	let v1 = eval_exp e1 in 
-		       	let v2 = eval_exp e2 in 
+		       	let v1 = eval_exp id e1 in 
+		       	let v2 = eval_exp id e2 in 
 		       	if((is_int v1 && is_int v2) || (is_bool v1 && is_bool v2)) then create_bool (get_value v1 = get_value v2)	
 				else raise (TypeError "The operator == expected either two integers or two booleans.")
 		    | Noteq ->
-		       	let v1 = eval_exp e1 in 
-		       	let v2 = eval_exp e2 in 
+		       	let v1 = eval_exp id e1 in 
+		       	let v2 = eval_exp id e2 in 
 		       	if((is_int v1 && is_int v2) || (is_bool v1 && is_bool v2)) then create_bool (get_value v1 != get_value v2)	
 				else raise (TypeError "The operator != expected either two integers or two booleans.")
 		  	| And -> 
-		  		let v1 = eval_exp e1 in
+		  		let v1 = eval_exp id e1 in
 		  		if(not (is_bool v1)) then raise (TypeError "The operator && expected two booleans.")	
 		  		else if(get_value v1 == 0) then v1
-					 else let v2 = eval_exp e2 in 
+					 else let v2 = eval_exp id e2 in 
 					 if(not (is_bool v2)) then raise (TypeError "The operator && expected two booleans.")		
 					else v2
 		  	| Or -> 
-		  		let v1 = eval_exp e1 in
+		  		let v1 = eval_exp id e1 in
 		  		if(not (is_bool v1)) then raise (TypeError "The operator || expected two booleans.")
 		  		else if(get_value v1 == 1) then v1
-					 else let v2 = eval_exp e2 in 
+					 else let v2 = eval_exp id e2 in 
 					 if(not (is_bool v2)) then raise (TypeError "The operator || expected two booleans.")	
 					else v2) 	
   	(* | Application(e, es) ->  *)
@@ -154,7 +164,7 @@ let rec eval_exp expression= match expression with
   		else if(line == "true" || line == "false") then MyBoolean(line)
   		else MyString(line)
    	| Print(e) -> 
-  		let v = eval_exp e in 
+  		let v = eval_exp id e in 
   		(match v with 
   			| Const(i) -> printf "%d" i
   			| MyString(s) | MyBoolean(s) -> printf "%s" (format_string s)
@@ -164,15 +174,15 @@ let rec eval_exp expression= match expression with
   		(try Hashtbl.find var_store s with 
   			| Not_found -> raise (VariableNotDeclared "The variable was not declared."))
   	| Let(s, e1, e2) -> 
-  		let v1 = eval_exp e1 in
+  		let v1 = eval_exp id e1 in
   		Hashtbl.add var_store s v1;
-  		let v2 = eval_exp e2 in
+  		let v2 = eval_exp id e2 in
   		Hashtbl.remove var_store s; 
   		v2
   	| New(s, e1, e2) ->
-  		let v1 = eval_exp e1 in 
+  		let v1 = eval_exp id e1 in 
   		Hashtbl.add var_store s v1; 
-  		let v2 = eval_exp e2 in
+  		let v2 = eval_exp id e2 in
   		v2
   	| _  -> raise (NotImplementedError "This type of expression cannot be evaluated yet!")
 
@@ -184,7 +194,7 @@ let eval = function
 	| _ -> eprintf "The result was wrong."; exit(-1)
 
 let eval_with_error expression = 
-	try eval_exp expression with 
+	try eval_exp true expression with 
 	  	| TypeError msg -> prerr_string ("Error: " ^ msg ^ "\n");                       
   						 exit (-1)   
   		| DivisionError msg -> prerr_string ("Error: " ^msg ^ "\n");                   
