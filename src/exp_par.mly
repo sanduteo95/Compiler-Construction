@@ -81,7 +81,7 @@ statement:
 	| WHILE; LEFT_ROUND_BRACKET; o = operator_expression; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { While(o, s) }
 	| IF; LEFT_ROUND_BRACKET; o = operator_expression; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s1 = statements; RIGHT_CURLY_BRACKET; ELSE; LEFT_CURLY_BRACKET; s2 = statements; RIGHT_CURLY_BRACKET  { If(o, s1, s2) }
 	| l = left_assignment; ASSIGN; r = right_assignment; SEMI_COLLON  { Asg(l, r)}
-	| PRINT; LEFT_ROUND_BRACKET; p = print_value; RIGHT_ROUND_BRACKET; SEMI_COLLON  { Print(p) }
+	| PRINT; LEFT_ROUND_BRACKET; e = expression; RIGHT_ROUND_BRACKET; SEMI_COLLON  { Print(e) }
 	| LET; id = ID; ASSIGN; r = right_assignment; IN; s = statement; SEMI_COLLON  { Let(id, r, s) }
 	| LET; id = ID; ASSIGN; r = right_assignment; IN; e = expression; SEMI_COLLON  { Let(id, r, e) }
 	| RETURN; e = expression; SEMI_COLLON { e }
@@ -91,6 +91,7 @@ expression:
 	| i = INT  { Const(i) } 
 	| id = ID  { Deref(Identifier(id)) }
 	| b = BOOL  { MyBoolean(b) }
+	| t = TEXT  { MyString(t) }
 	| o = operator_expression  { o }
 	| f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, argument); RIGHT_ROUND_BRACKET  { Application(f, a)}
 
@@ -107,10 +108,6 @@ right_assignment:
 function_expression: 
 	| id = ID  { Identifier(id) }
 	| LEFT_ROUND_BRACKET; id = ID; LAMBDA; s = statement; RIGHT_ROUND_BRACKET { s }
-
-print_value:
-	| v = expression  { v }
-	| t = TEXT  { MyString(t) }
 
 operator_expression:
 	| e1 = expression; PLUS;  e2 = expression  { Operator(Plus, e1, e2) }  
