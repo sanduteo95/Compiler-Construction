@@ -5,7 +5,14 @@
 	- print
 */
 function main() {	
-	var n=read();
-	(let y=n/2 in if(y==0) {return x;} else {return y;}) = 7;
+	print("Type in a value: ");
+	var n = read();
+	var i = 0; 
+	var sum = 0;
+	while (i<n) {
+		i=i+1;
+		sum = sum+i;
+	}
+	return sum;
 }
 

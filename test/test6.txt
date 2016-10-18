@@ -6,6 +6,7 @@
 */
 function main() {
 	var x = 5;
+	print("Type in a value: ");
 	var y = read();
 	var eq = x==y;
 	var noteq = x!=y;

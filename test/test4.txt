@@ -6,6 +6,6 @@
 */
 function half(var x, var n) {
 	var x = 1;
-	return x+1;
+	return x/0;
 }
 
