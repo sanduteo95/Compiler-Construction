@@ -1,0 +1,7 @@
+function main () {
+	var x = 0; 
+	var z = 0;
+	(let y = 4 in if (y%2==0) { return x; } else { return z; }) =  5;
+	return x;
+}
+

@@ -12,9 +12,9 @@ let next_line lexbuf =
     }
 }
 
+
 let type = "var"
-let pos = ['0'-'9'] ['0'-'9']* 
-let neg = "-" ['1'-'9'] ['0'-'9']* 
+let const = ['0'-'9'] ['0'-'9']* 
 let text = "\"" ['a'-'z' 'A'-'Z' '.' '!' '?' ':' ',' '.' '-' ' ']+ "\"" 
 let mybool = "true" | "false"
 
@@ -28,8 +28,8 @@ rule read =
 	parse
 	| white  { read lexbuf }  
 	| newline  { next_line lexbuf; read lexbuf }  
-	| pos  { INT (int_of_string (Lexing.lexeme lexbuf)) }
-	| neg  { INT (int_of_string (Lexing.lexeme lexbuf)) }
+	| const  { INT (int_of_string (Lexing.lexeme lexbuf)) }
+	| '&'  { ADDRESS_OF }
 	| ','  { COMMA }
 	| ';'  { SEMI_COLLON }
 	| '{'  { LEFT_CURLY_BRACKET }
@@ -43,7 +43,7 @@ rule read =
 	| '%'  { MODULUS }
 	| "<="  { LEQ }
 	| "<"  { LESS }
-	| ">="  { GEQ }
+	| "=>"  { GEQ }
 	| ">"  { GREATER }
 	| "==" { EQ }
 	| "!="  { NOTEQ }

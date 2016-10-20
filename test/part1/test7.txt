@@ -7,18 +7,11 @@
 */
 function main() {
 	var m = 2;
-	print("Type in a value: ");
 	var x = read();
-	print("Type in a value: ");
 	var y = read();
-	while(y!=0 && x%y!=m) {
+	while(x%y!=m) {
 		x=x*2;
 		y=y/2;
-	}
-	if(y==0) {
-		return -1;
-	} else {
-		return x;
 	}
 }
 

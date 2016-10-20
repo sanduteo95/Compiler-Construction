@@ -7,12 +7,15 @@ all:
 	@echo " - clean: to clean the project of any junk files"
 
 own_test:  
-	@echo "Enter path to test file (.txt only); E.g. test/test1.txt:"; \
-	read path; \
-	sh individual_test.sh $$path
+	@echo "Enter the path to a file, containing the function(.txt only):"; \
+	read path1; \
+	echo "Enter the path to a file, containing the expected result (.txt only): "; \
+	read path2; \
+	sh individual_test.sh $$path1 $$path2
 
 all_tests:
-	@sh test.sh;
+	@sh test.sh part1;
+	@sh test.sh part2;
 
 clean:
 	@echo "Removing build files.";

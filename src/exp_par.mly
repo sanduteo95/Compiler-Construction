@@ -36,6 +36,7 @@ open Syntax
 %token RETURN
 %token FUNCTION
 %token LAMBDA
+%token ADDRESS_OF
 
 %token COMMA
 %token SEMI_COLLON
@@ -90,10 +91,11 @@ expression:
 	| LEFT_ROUND_BRACKET; e = expression; RIGHT_ROUND_BRACKET  { e }
 	| i = INT  { Const(i) } 
 	| id = ID  { Deref(Identifier(id)) }
+	| ADDRESS_OF; id = ID { Identifier(id) }
 	| b = BOOL  { MyBoolean(b) }
 	| t = TEXT  { MyString(t) }
 	| o = operator_expression  { o }
-	| f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, argument); RIGHT_ROUND_BRACKET  { Application(f, a)}
+	| f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, expression); RIGHT_ROUND_BRACKET  { Application(f, a)}
 
 left_assignment:  
 	| id = ID  { Identifier(id) }
@@ -102,6 +104,7 @@ left_assignment:
 	| LEFT_ROUND_BRACKET; LET; id = ID; ASSIGN; r = right_assignment; IN; s = statement; RIGHT_ROUND_BRACKET  { Let(id, r, s) }
 
 right_assignment:  
+	| LEFT_ROUND_BRACKET; s = statement; RIGHT_ROUND_BRACKET  { s }
 	| e = expression  { e }
 	| READ; LEFT_ROUND_BRACKET; RIGHT_ROUND_BRACKET  { Read }
 
@@ -124,8 +127,3 @@ operator_expression:
 	| e1 = expression; AND; e2 = expression  { Operator(And, e1, e2) }
 	| e1 = expression; OR; e2 = expression  { Operator(Or, e1, e2) }
 	| NEGATE; e = expression  { Negate(e) }
-
-argument:
-	| id = ID  { Identifier(id) }
-	| i = INT  { Const(i) } 
-	| o = operator_expression  { o }

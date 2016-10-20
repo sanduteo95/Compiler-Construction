@@ -1,0 +1,9 @@
+function f() {
+	var n = 5;
+	if(n%3==0) {
+		let x = 1 in x*n;
+	} else {
+		let x = n%3 in if(x==1) { return 1;} else { return 2;};
+	}
+}
+

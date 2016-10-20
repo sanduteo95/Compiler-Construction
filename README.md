@@ -1,5 +1,5 @@
 ## Description
-The programming language chosen is JavaScript-like, having found it the easiest to accommodate the needs of the syntax I have gone with. The initial syntax that was given to us HAS BEEN extended:
+The chosen programming language is JavaScript-like, having found it the easiest to accommodate the needs of the syntax I have gone with. The initial syntax that was given to us has been extended:
 	
 	Function definitions now consist of:
 		- a function name
@@ -30,10 +30,12 @@ If command line is preferred, follow these steps:
 
 After you have downloaded everything, you can run the parser and lexer by doing the following:
 	
-	1. While in the SAME directory, type in "make" to build the project. 
+	1. While in the same directory, type in "make" to build the project. 
 	2. Now, if you want to test it on my test cases, run "make all_tests".
 	3. Otherwise, run "make own_test" and you will be prompted for the path to the file you want to test.
 	5. If you want to clean up the project, run "make clean".
+	!!! Make sure if you're testing the evaluator that you create another .txt file with the same name, inside a "results" folder, 
+	that contains the expected result.
 
 ## Syntax
 Here are a few examples of the types of syntax it likes.
@@ -122,7 +124,7 @@ It is sensible to point out that the language also contains multiline comments o
 	\* Comment *\
 	!!! Comments are sentences using sensible punctuation marks, but no characters such as: @, #, %, $, ^ etc. 
 
-## Code example
+## Parser and Lexer
 For example, a program such as: 
 	
 	function main () {
@@ -172,5 +174,26 @@ would have the parse tree:
 	 				Asg(Identifier "x", Operator(Plus, Deref(Identifier "x"), Const 1)),
 	 			Deref(Identifier "x"))))]
 
+## Evaluator
+As of now, the evaluator cannot evaluate any function applications and files containing more than one function definitions in them. 
+
+I have decided to implement "Let" (call-by-value, the slow version) and "New", although I am aware at least that "New" would not be correct if there were more than one functions so that will need to be reimplemented (moreover, if we try to define a variable inside a while loop, it will not be happy). I only left them in so that I can use more of the syntax and in the hope of being able to evaluate tests from the previous part. Also, I have commented out the evaluation for "Read" and "Print", but if you want you can uncomment them in exp_store.ml and they should work just fine, but for the sake of test clarity I left them out. 
+
+As for uniformity over the syntax, I believe it is reasonaly uniform, as it accepts anything that my parser accepts. I have also extended my parser so that I can assign variable a pointer to another variable ( x=&y ), but it will not allow printing a pointer, as that would not make sense.
+
+On top of that, I have also implemented some error handling, so that error messages can be more precise: 
+	- TypeError: it prints out what type the operator expected
+	- VariableDeclaration: it prints out what variable has not been declared or has already been declared
+	- NotImplementedError: it prints out that a functionality is not yet implemented
+	- DivisionError: if trying to divide or get the rest of a division by 0, it prints an error
+
 ## Tests
-There are 10 simple test cases in the "test" folder, which you can run using the Makefile I gave you. Then there are two more test cases, a bit more complicated, also included in the Makefile. If you want to run your own tests, go back to the "Installation and Build" section to find out how to do this.
+There are two folders inside the "test" folder, which contain test cases for each part of the assignment. 
+
+Those test cases can be run using the Makefile provided in the main folder. 
+
+The first folder, "part1", contains 10 simple test cases, some of which can't be parsed due to some errors which are more or less easier to spot due to the error messages I have implemented. There are two more test cases, a bit more complicated.
+
+The second folder, "part2", contains another 10 simple test cases and a harder one, which can be evaluated and compared to the expected result inside the "results" folder. All this can be done using the Makefile.
+
+If you want to run your own tests, go back to the "Installation and Build" section to find out how to do this.

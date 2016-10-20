@@ -7,7 +7,7 @@ function bisection_iterative(var f, var a, var b, var TOL, var NMAX) {
 			N=NMAX+1;
 		} else {
 			N=N+1;
-			if(f(c)*f(a)>=0) {
+			if(f(c)*f(a)=>0) {
 				a=c;
 			} else {
 				b=c;

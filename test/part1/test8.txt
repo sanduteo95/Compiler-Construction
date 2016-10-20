@@ -5,11 +5,11 @@
 	- application of function to two parameters
 	- returning a function
 */
-function f(var x, var y) {
+function (var x, var y) {
 	return x<=y;
 }
 function g(var x, var y) {
-	return x>=y;
+	return x=>y;
 }
 function apply(var f, var x, var y) {
 	return func(x,y);

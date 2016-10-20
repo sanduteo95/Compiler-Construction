@@ -1,0 +1,6 @@
+function main() {
+	var x = true;
+	var y = false;
+	return (x==y) || (x!=y);
+}
+

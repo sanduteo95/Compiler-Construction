@@ -8,18 +8,18 @@ let input_is_int s =
 
 (** Checks if a variable is an integer. *)
 let is_int = function
-	| Const(_) -> true
+	| Integer(_) -> true
 	| _ -> false
 
 (** Checks if a variable is a boolean. *)
 let is_bool = function
-	| MyBoolean(_) -> true
+	|Boolean(_) -> true
 	| _ -> false
 
 (** Gets the value of a variable. *)
 let get_value = function
-	| Const(i) -> i
-	| MyBoolean(s) -> 
+	| Integer(i) -> i
+	| Boolean(s) -> 
 		(match s with 
 			| "true" -> 1
 			| "false" -> 0
@@ -28,5 +28,8 @@ let get_value = function
 
 (** Creates a new boolean. *)
 let create_bool = function
-	| true -> MyBoolean("true")
-	| false -> MyBoolean("false")
+	| true -> Boolean("true")
+	| false -> Boolean("false")
+
+(** Creates a new integer. *)
+let create_int i = Integer(i)

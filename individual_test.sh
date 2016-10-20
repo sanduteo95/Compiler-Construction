@@ -4,5 +4,6 @@ if [[ $# -eq 0 ]] ; then
     exit 0
 fi 
 
-echo "Test ($1): "
-./exp_test.native $1
+echo "Test ($1)"
+./exp_test.native $1 $2
+echo ""

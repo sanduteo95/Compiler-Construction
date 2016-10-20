@@ -1,0 +1,7 @@
+function main() {
+	var x = 10;
+	var y = x + 4;
+	x = x - 4;
+	return y<=x;
+}
+
