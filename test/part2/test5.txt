@@ -1,3 +1,8 @@
+/* Testing the evaluation of:
+	- plus
+	- minus
+	- less or equal
+*/
 function main() {
 	var x = 10;
 	var y = x + 4;

@@ -1,5 +1,10 @@
+/* Testing the evaluation of:
+	- minus
+	- plus
+	- times
+*/
 function main() {
 	var x = 5;
-	return x*x;
+	return (x-2)*(x+2);
 }
 

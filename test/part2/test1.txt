@@ -1,3 +1,11 @@
+/* Testing the evaluation of:
+	- while
+	- assignment
+	- modulus
+	- not equal
+	- if
+	- int function
+*/
 function main() {
 	var m = 2;
 	var x = 10;

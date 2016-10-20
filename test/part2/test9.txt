@@ -1,7 +1,12 @@
+/* Testing the evaluation of:
+	- uniform assignment (if on the left-hand side)
+	- sequence of expressions
+*/
 function main () {
 	var x = 0; 
 	var z = 0;
-	(let y = 4 in if (y%2==0) { return x; } else { return z; }) =  5;
+	var y = 4;
+	(if (y%2==0) { return x; } else { return z; }) =  5;
 	return x;
 }
 

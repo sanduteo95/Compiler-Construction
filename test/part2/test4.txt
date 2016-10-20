@@ -1,4 +1,8 @@
-function main() {
+/* Testing the evaluation of:
+	- greater
+	- if
+*/f
+unction main() {
 	var x = 5; 
 	var y = 3;
 	if(x>y) {
