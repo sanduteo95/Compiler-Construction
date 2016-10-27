@@ -1,0 +1,19 @@
+/* Testing:
+	- recursion
+	- changing the value of a variable that is pointed at
+	- assigning a derefrenced pointer a new value from a function
+*/
+function f(var n) {
+	if(n!=1) {
+		return n * f(n-1);
+	} else {
+		return 1;
+	}
+}
+function main() {
+	var n = 0;
+	var m = &n;
+	(*m) = f(3);
+	return n!=(*m);
+}
+

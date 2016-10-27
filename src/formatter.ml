@@ -2,16 +2,11 @@
 open Syntax
 open Printf
 
-(** Prints each parameter. If there are no parameters, prints an empty string. *)
-let print_param  = function 
-	| None -> printf ""
-	| Param(s) -> printf "%s" s
-
 (** Prints the parameters that the function takes, as a list. *)
 let rec print_parameters = function
 	| [] -> printf ""
-	| [p] -> print_param p
-	| p::ps -> print_param p; printf ", "; print_parameters ps
+	| [p] -> printf "%s" p
+	| p::ps -> printf "%s, " p; print_parameters ps
 
 (** Prints each operator type. *)
 let print_operator = function
@@ -31,7 +26,10 @@ let print_operator = function
 
 (** Prints each argument, which can only be of three types. *)
 let rec print_arg = function
-	| Const(i) -> printf "Const %d" i
+	| MyInteger(i) -> printf "Const %d" i
+  | MyFloat(f) -> printf "Float %f" f
+  | MyString(s) -> printf "String %s" s
+  | MyBoolean(b) -> printf "Boolean %b" b
 	| Deref(Identifier(s)) -> printf "Deref(Identifier \"%s\")" s
 	| Identifier(s) -> printf "Identifier \"%s\"" s
 	| Operator(op, e1, e2) -> printf "Operator("; print_operator op; printf ", "; print_arg e1; printf ", "; print_arg e2; printf ")"
@@ -54,9 +52,14 @@ let rec print_content content tab = match content with
   	| Negate(e) -> printf "Negate("; print_content e ""; printf ")"
   	| Operator(op, e1, e2) -> printf "%s" tab; printf "Operator("; print_operator op; printf ", "; print_content e1 ""; printf ", "; print_content e2 ""; printf ")"
   	| Application(e, es) -> printf "%s" tab; printf "Application("; print_content e ""; printf ", ["; print_arg_list es; printf "])"; printf ")"
+  	| Lambda (ps, e) ->  printf "%s" tab; printf "Lambda("; printf "["; print_parameters ps; printf "], "; print_content e ""; printf ")"
   	| MyString(s) -> printf "%s" tab; printf "MyString(%s)" s
-  	| Const(i) -> printf "Const %d" i
-  	| MyBoolean (s) -> printf "%s" tab; printf "MyBoolean(%s)" s
+  	| MyInteger(i) -> printf "Const %d" i
+    | MyFloat(f) -> printf "Float %f" f
+  	| MyBoolean (b) -> printf "%s" tab; printf "MyBoolean(%b)" b
+  	| MyTuple (es) -> printf "%s" tab; printf "MyTuple("; List.map (fun e -> print_content e ""; printf ", ") es; printf ")\n"
+  	| MyArray (n, es) -> printf "%s" tab; printf "MyArray of %d elements" n
+  	| Index (i, Identifier(s)) -> printf "%s" tab; printf "The %d th element of array %s" i s
   	| Read -> printf "%s" tab; printf "Read()"
   	| Print(e) -> printf "%s" tab; printf "Print("; print_content e ""; printf ")"
   	| Identifier(s) -> printf "Identifier \"%s\"" s
@@ -79,3 +82,10 @@ let rec print_functions = function
 let print_program p = match p with
 	| [("", [], Nothing)] -> printf "[ Nothing ] \n"
 	| _ -> printf "["; print_functions p
+
+let rec print_sth = function
+    | String(s) -> printf "String(%s)" s
+    | Integer(i) -> printf "Integer(%d)" i
+    | Boolean (b) -> printf "Boolean(%b)" b
+    | Pointer(location) -> printf "Pointer (%d)" location
+    | Tuple (es) -> printf "Tuple("; List.map (fun e -> print_sth e;  printf ", ") es; printf ")\n"

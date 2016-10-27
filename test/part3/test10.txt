@@ -1,0 +1,17 @@
+/* Testing:
+	- lambda function returning a pointer as the right-hand side of an assignment
+	- function returning a variable that happens to be a pointer
+	- assigning the dereferenced pointer a new value
+	- the variable pointed at has changed
+*/
+function f(var x) {
+	return x;
+}
+function main(){
+	var b = 5;
+	var *c = &b;
+	var g = (\b -> return b;)();
+	*(f(g(c))) = 2;
+	return b;
+}
+

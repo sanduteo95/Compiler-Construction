@@ -1,18 +1,5 @@
 (** Overall syntax used for parsing. *)
 
-(** Type used when returning a value from a function. Might need to change this to be able to extend to function application. *)
-type return = 
-  | Integer of int
-  | Boolean of string
-  | String of string
-  | Unit
-  | Pointer of string
-
-(** Type used to define a function's parameter. *)
-type parameter = 
-	| None
-	| Param of string
-
 (** Type used to define a variety of operators. *)
 type opcode =
   	| Plus | Minus | Times | Divide | Modulus
@@ -21,6 +8,7 @@ type opcode =
 
 (** Type used to define an expression, which is just the behaviour of the program. *)
 type expression =
+  | MyNull
   | Nothing (** Only used when the program doesn't have any code inside. *)
   | Seq of expression * expression (** Representation of a sequence of lines of code. *)
   | While of expression * expression (** Representation of a while loop. *)
@@ -30,9 +18,12 @@ type expression =
   | Negate of expression (** Representation of a negation. *)
   | Operator of opcode * expression * expression (** Representation of an expression containing an operator. *)
   | Application of expression * expression list (** Representation of a function application. *)
+  | Lambda of string list * expression (**Representation of a lambda function. *)
   | MyString of string (** Representation of a piece of text. *)
-  | Const of int (** Representation of a constant. *)
-  | MyBoolean of string (** Represetnation of a boolean. *)
+  | MyInteger of int (** Representation of an integer. *)
+  | MyFloat of float (** Representation of a float. *)
+  | MyBoolean of bool (** Representation of a boolean. *)
+  | MyTuple of expression list (** Representation of a tuple. *)
   | Read (** Representation of the reading functionality. *)
   | Print of expression (** Representation of the printing functionality. *)
   | Identifier of string (** Representation of a variable. *)
@@ -40,7 +31,19 @@ type expression =
   | New of string * expression * expression (** Representation of an initialisation. *)
 
 (** Type used to define a function, consisting of a function name, a parameter list and an exprresion - the code inside the function, represented in ocaml. *)
-type fundef = string * parameter list * expression 
+type fundef = string * string list * expression 
 
 (** Type used to define an entire program, which consists of multiple functions. *)
 type program = fundef list
+
+(** Type used when returning a value from a function. *)
+type return = 
+  | Null
+  | Integer of int
+  | Float of float
+  | Boolean of bool
+  | String of string
+  | Unit
+  | Pointer of int
+  | Fundef of (string list * expression)
+  | Tuple of return list

@@ -14,21 +14,23 @@ let next_line lexbuf =
 
 
 let type = "var"
-let const = ['0'-'9'] ['0'-'9']* 
-let text = "\"" ['a'-'z' 'A'-'Z' '.' '!' '?' ':' ',' '.' '-' ' ']+ "\"" 
+let int = ['0'-'9'] ['0'-'9']* 
+let float = ['0'-'9'] ['0'-'9']* "." ['0'-'9'] ['0'-'9']* 
+let text = "\"" ['a'-'z' 'A'-'Z' '1'-'9' '.' '!' '?' ':' ',' '.' '-' ' ']+ "\"" 
 let mybool = "true" | "false"
 
 let id = ['a'-'z' 'A'-'Z'] ['a'-'z' 'A'-'Z' '0'-'9' '_']*
 
 let white = [' ' '\t']+
 let newline = '\r' | '\n' | "\r\n"
-let comment = "/*" ['a'-'z' 'A'-'Z' '.' '!' ',' '.' '-' '(' ')' ':' ';' ' ' '\n' '\t' '\r']+ "*/"
+let comment = "/*" ['a'-'z' 'A'-'Z' '.' '!' ',' '.' '-' '!' '=' '(' ')' ':' ';' ' ' '\n' '\t' '\r']+ "*/"
 
 rule read =  
 	parse
 	| white  { read lexbuf }  
 	| newline  { next_line lexbuf; read lexbuf }  
-	| const  { INT (int_of_string (Lexing.lexeme lexbuf)) }
+	| int  { INT (int_of_string (Lexing.lexeme lexbuf)) }
+	| float  { FLOAT (float_of_string (Lexing.lexeme lexbuf)) }
 	| '&'  { ADDRESS_OF }
 	| ','  { COMMA }
 	| ';'  { SEMI_COLLON }
@@ -40,6 +42,7 @@ rule read =
 	| '-'  { MINUS }
 	| '*'  { TIMES }
 	| '/'  { DIVIDE } 
+	| '\\'  { FUN }
 	| '%'  { MODULUS }
 	| "<="  { LEQ }
 	| "<"  { LESS }
@@ -62,7 +65,8 @@ rule read =
 	| "print"  { PRINT }
 	| "function"  { FUNCTION }
 	| "->"  { LAMBDA }
-	| mybool  { BOOL (Lexing.lexeme lexbuf) }
+	| "NULL"  { NULL }
+	| mybool  { BOOL (bool_of_string (Lexing.lexeme lexbuf)) }
 	| id { ID (Lexing.lexeme lexbuf) }
 	| text { TEXT (Lexing.lexeme lexbuf) }
 	| comment  { read lexbuf }

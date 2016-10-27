@@ -16,6 +16,7 @@ own_test:
 all_tests:
 	@sh test.sh part1;
 	@sh test.sh part2;
+	@sh test.sh part3;
 
 clean:
 	@echo "Removing build files.";

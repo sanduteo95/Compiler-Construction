@@ -1,0 +1,24 @@
+/* Testing the following:
+	- pointer
+	- dereferenced pointer on the left side of an assignment
+	- function call on the right side of an assignment
+	- variable shadowing
+	- derefrenced pointer in arithmetic
+	- multiple function calls (order is not important)
+*/
+function f(var c) {
+	var c = double(c);
+	return c;
+}
+function double(var b) {
+	return 2*b;
+}
+function main() {
+	var a = 2;
+	var c = a+1;
+	var *b = &c;
+	*b = f(a);
+	c = c + (*b);
+	return c;
+}
+

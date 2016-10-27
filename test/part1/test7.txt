@@ -7,9 +7,9 @@
 */
 function main() {
 	var m = 2;
-	var x = read();
-	var y = read();
-	while(x%y!=m) {
+	var x = 12;
+	var y = 4;
+	while(y!=0 && x%y!=m) {
 		x=x*2;
 		y=y/2;
 	}

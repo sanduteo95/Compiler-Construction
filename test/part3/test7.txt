@@ -1,0 +1,11 @@
+/* Testing: 
+	- lambda function as a variable
+	- lambda function as an argument for another lambda function
+	- returning a string
+*/
+function main() {
+	var f = (\x -> if(x%2==0) { return true; } else { return false; })();
+	var g = (\g, x -> let y = g(x) in if(y==true) { return "string true"; } else { return "string false"; })(f, 3);
+	return g;
+}
+

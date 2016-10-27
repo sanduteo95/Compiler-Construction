@@ -1,5 +1,4 @@
-function fib() {
-	var n = 10;
+function fib(var n) {
 	var a = 0;
 	var b = 1;
 	var c = a+b;
@@ -11,5 +10,8 @@ function fib() {
 		i = i+1;
 	}
 	return c;
+}
+function main() {
+	return fib(10);
 }
 

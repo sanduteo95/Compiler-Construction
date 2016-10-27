@@ -11,4 +11,7 @@ function half(var x, var n) {
 		let y=x/2 in half(y,n+1);
 	}
 }
+function main() {
+	half(4, 2);
+}
 

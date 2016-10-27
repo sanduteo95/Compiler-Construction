@@ -8,14 +8,14 @@ function sum(var x, var y) {
 	return x+y;
 }
 function f(var x, var y) {
-	var c=f(x,y)/2;
+	var c = sum(x,y)/2;
 	return c;
 }
 function main() {
-	print(Input x);
-	var x = read();
+	print("Input x");
+	var x = 1;
 	print("Input y");
-	var y = read();
+	var y = 2;
 	print(f(x,y));
 }
 

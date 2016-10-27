@@ -174,7 +174,7 @@ would have the parse tree:
 	 				Asg(Identifier "x", Operator(Plus, Deref(Identifier "x"), Const 1)),
 	 			Deref(Identifier "x"))))]
 
-## Evaluator
+## Evaluator (phase 1)
 As of now, the evaluator cannot evaluate any function applications and files containing more than one function definitions in them. 
 
 I have decided to implement "Let" (call-by-value, the slow version) and "New", although I am aware at least that "New" would not be correct if there were more than one functions so that will need to be reimplemented (moreover, if we try to define a variable inside a while loop, it will not be happy). I only left them in so that I can use more of the syntax and in the hope of being able to evaluate tests from the previous part. Also, I have commented out the evaluation for "Read" and "Print", but if you want you can uncomment them in exp_store.ml and they should work just fine, but for the sake of test clarity I left them out. 
@@ -186,6 +186,15 @@ On top of that, I have also implemented some error handling, so that error messa
 	- VariableDeclaration: it prints out what variable has not been declared or has already been declared
 	- NotImplementedError: it prints out that a functionality is not yet implemented
 	- DivisionError: if trying to divide or get the rest of a division by 0, it prints an error
+
+## Evaluator (phase 2)
+For the next phase of the evaluator, I have implemented local variables according to the instructions on canvas, by using environments and stores as needed for the types of variables (let or new). I also implemented functions, first-order and higher-order, which can be be applied to parameters, returned from other functions or stored in a variable and used in the left-hand and right-hand side of an assignment expression.
+
+I extended the error messages to include FunctionError, so that if a function is not well defined or a program doesn't contain a main function, the error message will clearly indicate that and the user can fix their mistakes.
+
+I have also added strings to the language and a NULL value to use with pointers. As for pointers, I have further worked on them and added dereferencing (with the help of the '*'symbol'), so that if we define a pointer like so "var *x = &y", it will return the value of y if we type in "\*x".
+
+Recursive calls are possible, as well as simple tuples, which can be assigned, compared and assigned to function arguments as well as returned from functions. Lambda functions are also added into the syntax and can be applied to other lambdas and used, similarly to functions, in very complex assignments and in collaboration with let and if statements,
 
 ## Tests
 There are two folders inside the "test" folder, which contain test cases for each part of the assignment. 

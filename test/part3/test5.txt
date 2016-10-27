@@ -1,0 +1,19 @@
+/* Testing:
+	- changing a null value
+	- pointers
+	- pointer dereferencing in two function calls 
+*/
+function f(var x) {
+	return *x + 1;
+}
+function g(var x) {
+	return 2*(*x);
+}
+function main() {
+	var y = 2;
+	var *x = &y;
+	var z = NULL;
+	z = &y;
+	return f(x) + g(z);
+}
+

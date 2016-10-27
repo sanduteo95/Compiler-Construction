@@ -1,0 +1,22 @@
+/* Testing:
+	- recursion 
+	- variable shadowing in recursion and multiple functions
+	- assigning a simple variable the result of a function call
+*/
+function g(var x) {
+	if(x!=0) {
+		return x+g(x-1);
+	} else {
+		return 0;
+	}
+}
+function f(var x) {
+	x = g(x);
+	return x;
+}
+function main() {
+	var x = 5;
+	var y = f(x);
+	return x+y;
+}
+
