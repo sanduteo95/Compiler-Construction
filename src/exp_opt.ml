@@ -1,0 +1,200 @@
+(** Contains code for optimising an expression.  *)
+open Syntax
+open List
+open Printf
+open Exp_store
+
+let function_store = Hashtbl.create 100
+let global_max_loop = 10
+(* let replace_name = "replace"
+let replace_num = ref 0 *)
+let unrolled = ref false
+
+let rec convert = function
+	| Null -> MyNull
+  	| Integer(i) -> MyInteger(i)
+  	| Float(f) -> MyFloat(f)
+  	| Boolean(b) -> MyBoolean(b)
+  	| String(s) -> MyString(s)
+  	| Unit -> Nothing
+  	| Tuple(es) -> MyTuple(map convert es)
+	| Pointer(_) -> failwith "Can't have a dereferenced pointer in an operation."
+  	| Fundef(s, e) -> Lambda (s, e)
+
+let get_boolean = function
+	| MyBoolean(b) -> b
+	| _ -> failwith "Not a boolean."
+
+let get_integer = function
+	| MyInteger(i) -> i
+	| _ -> failwith "Not an integer."
+
+let is_primary = function
+	| MyNull | MyString(_) | MyInteger(_) | MyFloat(_) | MyBoolean(_) -> true
+	| _ -> false
+
+let rec get_ids aux = function
+	| [] -> aux
+	| Deref(Identifier(s))::rest -> get_ids (aux@[s]) rest
+	| _::rest -> get_ids aux rest
+
+let rec contains_print = function
+  	| MyNull | MyString(_) | MyInteger(_) | MyFloat(_) | MyBoolean(_) | Nothing | MyTuple(_) | Identifier(_) | Deref(_) | Read -> false
+  	| Negate(e) | Application(e, _) | Lambda(_, e) -> contains_print e
+  	| Operator(_, e1, e2) | Let(_, e1, e2) | New(_, e1, e2) | Asg(e1, e2) | Seq(e1, e2) | While(e1, e2) -> contains_print e1 || contains_print e2
+  	| For(_, e1, e2, e3) | If(e1, e2, e3) -> contains_print e1 || contains_print e2 || contains_print e3
+	| Print(_) -> true
+
+let rec contains_id_arg s expression = match expression with
+	| Deref(Identifier(t)) -> String.equal t s
+	| _ -> contains_id s expression
+and contains_id s = function
+	| Lambda(_, _) | MyNull | MyString(_) | MyInteger(_) | MyFloat(_) | MyBoolean(_) | Nothing | MyTuple(_) | Deref(_) | Read -> false
+	| Negate(e) | Print(e) -> contains_id s e
+	| Application(_, es) -> fold_left (fun a e -> (contains_id_arg s e) || a) false es
+	| Operator(_, e1, e2) | Let(_, e1, e2) | New(_, e1, e2) | Asg(e1, e2) | Seq(e1, e2) -> contains_id s e1 || contains_id s e2
+	| While(e1, e2) -> true
+	| For(_, e1, e2, e3) | If(e1, e2, e3) -> contains_id s e1 || contains_id s e2 || contains_id s e3
+	| Identifier(t) -> String.equal t s
+
+let rec opt_operator expression = match expression with
+  	| Operator(op, Deref(Identifier(_)), Deref(Identifier(_))) | Operator(op, Deref(Identifier(_)), _) | Operator(op, _, Deref(Identifier(_))) -> expression
+  	| Operator(op, e1, e2) ->
+		if(is_primary e1 && is_primary e2) then convert(Exp_eval.eval_operator [] (Hashtbl.create 100) op e1 e2)
+		else
+	  		let v1 = if(is_primary e1) then e1 else opt_operator e1 in
+	  		let v2 = if(is_primary e2) then e2 else opt_operator e2 in
+	  		Operator(op, v1, v2)
+  	| _ -> expression
+
+let rec create_nested_new ps vs a = match (ps, vs) with
+	| [], [] -> a
+	| p::ps, v::vs -> New(p, v, create_nested_new ps vs a)
+	| _, _ -> failwith "The number of values should be equal to the number of parameters."
+
+let rec loop_unroll max_loop is_function store s i n e =
+	 if(i<n && max_loop>1) then
+	 	let v = opt_exp max_loop false store e in
+		Seq(v, loop_unroll (max_loop-1) is_function store s (i+1) n e)
+	else opt_exp max_loop true store e
+and opt_exp max_loop is_function store expression = match expression with
+  	| Identifier(_) | MyNull | MyString(_) | MyInteger(_) | MyFloat(_) | MyBoolean(_) | Nothing -> expression
+  	| MyTuple(es) -> MyTuple(map (opt_exp max_loop is_function store) es)
+  	| Deref(e) ->
+		(match opt_exp max_loop is_function store e with
+	  		| Identifier(s) ->
+				(try Hashtbl.find store s with
+				 	| Not_found -> Deref(Identifier(s)))
+			| Deref(Identifier(s)) ->
+				(try Hashtbl.find store s with
+				 	| Not_found -> Deref(Deref(Identifier(s))))
+			| v -> Deref(v))
+  	| Let(s, e1, e2) ->
+		let v1 = opt_exp max_loop is_function store e1 in
+		if(contains_print v1) then Let(s, v1, opt_exp max_loop is_function store e2)
+		else
+			(Hashtbl.add store s v1;
+		  	let v2 = opt_exp max_loop is_function store e2 in
+		  	Hashtbl.remove store s;
+		  	v2)
+	| New(s, e1, e2) ->
+		(match opt_exp max_loop is_function store e1 with
+	  		| Read -> New(s, Read, opt_exp max_loop is_function store e2)
+	  		| v1 ->
+				if(contains_print v1) then New(s, v1, opt_exp max_loop is_function store e2)
+				else
+					(Hashtbl.add store s v1;
+					let v2 = opt_exp max_loop is_function store e2 in
+					if(not (contains_id s e2)) then v2
+					else New(s, v1, v2)))
+	| Asg(e1, e2) ->
+		(match opt_exp max_loop is_function store e1 with
+			| Identifier(s) ->
+				let v2 = opt_exp max_loop is_function store e2 in
+				Hashtbl.replace store s v2;
+				if(is_function) then
+					Asg(Identifier(s), v2)
+				else
+					Nothing
+			| v1 -> Asg(v1, opt_exp max_loop is_function store e2))
+  	| Seq(e1, e2) ->
+		(match opt_exp max_loop is_function store e1 with
+			| Nothing -> opt_exp max_loop is_function store e2
+			| v1 -> if !unrolled then Seq(v1, e2) else Seq(v1, opt_exp max_loop is_function store e2))
+  	| Negate(e) ->
+		(match opt_exp max_loop is_function store e with
+			| MyBoolean(b) -> MyBoolean(not b)
+			| v -> Negate(v))
+  	| Operator(op, e1, e2) ->
+		(match op with
+			| And ->
+				let v1 = opt_exp max_loop is_function store e1 in
+				if(is_primary v1) then
+					if(get_boolean v1) then opt_exp max_loop is_function store e2 else v1
+				else opt_operator (Operator(op, v1, opt_exp max_loop is_function store e2))
+			| Or ->
+				let v1 = opt_exp max_loop is_function store e1 in
+				if(is_primary v1) then
+					if(get_boolean v1) then v1 else opt_exp max_loop is_function store e2
+				else opt_operator (Operator(op, v1, opt_exp max_loop is_function store e2))
+			| _ ->
+				let v1 = opt_exp max_loop is_function store e1 in
+				let v2 = opt_exp max_loop is_function store e2 in
+				opt_operator (Operator(op, v1, v2)))
+  	| For(s, e1, e2, e3) ->
+		let v1 = opt_exp max_loop is_function store e1 in
+		(match v1, opt_exp max_loop is_function store e2 with
+			 | MyInteger(i), MyInteger(n) ->
+			 	let e = loop_unroll max_loop is_function store s i n e3 in
+				(unrolled := true;
+				let v = opt_exp global_max_loop true (extend store s (MyInteger(i))) e in
+				New(s, MyInteger(i), Seq(v, For(s, MyInteger(i+global_max_loop), MyInteger(n), e3))))
+			 | _, v2 -> For(s, e1, e2, e3))
+  	| While(e1, e2) ->
+		let v1 = opt_exp global_max_loop is_function store e1 in
+		if(max_loop >= 0) then
+			if(is_primary v1) then
+				if(get_boolean v1) then
+					let v2 = opt_exp global_max_loop is_function store e2 in
+					opt_exp max_loop is_function store (Seq(v2, opt_exp (max_loop-1) is_function store (While(e1, e2))))
+				else Nothing
+			else
+				opt_exp (max_loop-1) is_function store (If(v1, Seq(e2, While(e1, e2)), Nothing))
+		else While(e1, e2)
+  	| If(e1, e2, e3) ->
+		(match opt_exp max_loop is_function store e1 with
+		  | MyBoolean(b) -> if b then opt_exp max_loop is_function store e2 else opt_exp max_loop is_function store e3
+		  | v1 -> If(v1, opt_exp max_loop is_function store e2, opt_exp max_loop is_function store e3))
+  	| Application(e, ps) ->
+		let vs = map (opt_exp max_loop is_function store) ps in
+		if(fold_left (fun a v -> contains_print v || a) false vs) then Application(opt_exp max_loop true (Hashtbl.create 100) e, ps)
+		else (match opt_exp max_loop is_function store e with
+			  	| Identifier(s) ->
+					if(Hashtbl.mem function_store s) then
+				  		(match Hashtbl.find function_store s with
+					 		| Fundef(ps, expression) -> opt_exp max_loop true (Hashtbl.create 100) (create_nested_new ps vs expression)
+					 		| _ -> Application(Identifier(s), vs))
+					else
+				  		(match Hashtbl.find store s with
+							| Application(expression, pps) -> opt_exp max_loop true store (Application(expression, ps@pps))
+							| _ -> Application(Identifier(s), vs))
+			  	| Lambda(pps, expression) ->
+					if(length pps > length vs) then
+				  		let (ps1, ps2) = split [] (length vs) pps in Application(Lambda(ps2, opt_exp max_loop true (extend_list (Hashtbl.create 100) (combine ps1 vs)) expression), [])
+					else
+				  		opt_exp max_loop true (Exp_store.extend_list (Hashtbl.create 100) (combine pps vs)) expression
+			  	| v -> Application(v, vs))
+  	| Lambda(p, e) -> Lambda(p, e)
+  	| Read -> Read
+  	| Print(e) -> let v = opt_exp max_loop is_function store e in Print(v)
+
+(** Function evaluates each individual function in the program. *)
+let rec opt_fundef = function
+  	| [] -> []
+  	| (s, ps, expression)::[] -> [(s, ps, opt_exp global_max_loop false (Hashtbl.create 100) expression)]
+  	| (s, ps, expression)::program ->
+		Hashtbl.add function_store s (Fundef(ps, expression));
+		(s, ps, expression) :: opt_fundef program
+
+(** Function checks what type of program it is and rejects ones that we haven't implemented yet. *)
+let opt = opt_fundef

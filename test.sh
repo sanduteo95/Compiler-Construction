@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 echo "-------Tests from $1-------"
 for entry in "test/$1"/*

@@ -1,0 +1,13 @@
+/* Testing:
+    - variable shadowing
+    - function inlining
+*/
+function f(var x) {
+    x = x+1;
+}
+function main() {
+    var x=1;
+    f(x);
+    print(x);
+}
+

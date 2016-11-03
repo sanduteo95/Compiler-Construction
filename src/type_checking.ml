@@ -23,6 +23,7 @@ let get_boolean = function
 	| Boolean(b) -> b
 	| _ -> failwith "This case is never reached."
 
+(** Gets the operator used for integers.  *)
 let get_int_operator op = match op with 
 	| Plus -> ( + )
 	| Minus -> ( - )
@@ -31,6 +32,7 @@ let get_int_operator op = match op with
 	| Modulus -> ( mod )
 	| _ -> failwith "This case is never reached."
 
+(** Gets the operator used for integers and floats.  *)
 let get_mix_operator op = match op with
 	| Less -> ( < ) 
 	| Leq -> ( <= )
@@ -40,6 +42,7 @@ let get_mix_operator op = match op with
 	| Noteq -> ( != )
 	| _ -> failwith "This case is never reached."
 
+(** Gets the operator used for floats.  *)
 let get_float_operator op = match op with 
 	| Plus -> ( +. )
 	| Minus -> ( -. )
@@ -52,29 +55,17 @@ let get_float_operator op = match op with
 let rec tuple_mix_operator op v1 v2 = match v1, v2 with
 	| Tuple([]), Tuple([]) -> true
 	| Tuple(e1::es1), Tuple(e2::es2) -> 
-		let e =
-		(match e1, e2 with 
-			| Integer v1, Integer v2 -> let operator = get_mix_operator op in Boolean(operator v1 v2)
-			| Float v1, Float v2 -> let operator = get_mix_operator op in Boolean(operator v1 v2)
-			| String v1, String v2 -> let operator = get_mix_operator op in Boolean(operator v1 v2)
-			| _, _ -> raise (TypeError ("Tuples can only hold integers, strings and floats and must match up", "")))
-		in
-		let v = 
-		(match e with 
-			| Boolean(true) -> true
-			| Boolean(false) -> false
-			| _ -> failwith "Only true or false.")
-		in v && tuple_mix_operator op (Tuple(es1)) (Tuple(es2))
+		let operator = get_mix_operator op in
+		(operator v1 v2) && tuple_mix_operator op (Tuple(es1)) (Tuple(es2))
 	| Tuple([]), Tuple(_) | Tuple(_), Tuple([]) -> raise (TypeError ("The two tuples have different sizes", ""))
 	| _ -> failwith "This case is never reached."
 
 (** Gets the type of a variable. *)
 let get_type v = match v with
 	| Null -> -1
-	| Integer(_) -> 0
-	| Float(_) -> 1
-	| Boolean(_) -> 2
-	| String(_) -> 3
+	| Integer _ -> 0
+	| Float _ -> 1
+	| Boolean _ -> 2
+	| String _ -> 3
 	| Unit -> 4
-	| Pointer(_) -> failwith "It's a pointer!"
 	| _ -> raise (TypeError ("The only accepted types are null, int, float, bool, string, tuples or unit", ""))

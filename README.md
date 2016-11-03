@@ -1,6 +1,6 @@
 ## Description
 The chosen programming language is JavaScript-like, having found it the easiest to accommodate the needs of the syntax I have gone with. The initial syntax that was given to us has been extended:
-	
+
 	Function definitions now consist of:
 		- a function name
 		- a list of parameters (which have been defined as a new type)
@@ -16,11 +16,11 @@ The chosen programming language is JavaScript-like, having found it the easiest 
 	The expressions admitted by the type have been tweaked, as now an expression could do "Nothing".
 
 	An output string can now be admitted as an expression too, in the form of Text(...) for Prin.
-	
+
 	Thee "Application" expression has been modified to be able to be applied to multiple expressions .
 
 ## Installation and Build
-To extract the code from GIT you can either use the command line as explainged bellow or, by clicking on the "Clone or download" button, choose "Download Zip" to download a zip of the project in your preferred location. 
+To extract the code from GIT you can either use the command line as explainged bellow or, by clicking on the "Clone or download" button, choose "Download Zip" to download a zip of the project in your preferred location.
 
 If command line is preferred, follow these steps:
 
@@ -29,24 +29,24 @@ If command line is preferred, follow these steps:
 	3. Then, to open the directory, type in "cd Compiler-Construction/".
 
 After you have downloaded everything, you can run the parser and lexer by doing the following:
-	
-	1. While in the same directory, type in "make" to build the project. 
+
+	1. While in the same directory, type in "make" to build the project.
 	2. Now, if you want to test it on my test cases, run "make all_tests".
 	3. Otherwise, run "make own_test" and you will be prompted for the path to the file you want to test.
 	5. If you want to clean up the project, run "make clean".
-	!!! Make sure if you're testing the evaluator that you create another .txt file with the same name, inside a "results" folder, 
+	!!! Make sure if you're testing the evaluator that you create another .txt file with the same name, inside a "results" folder,
 	that contains the expected result.
 
 ## Syntax
 Here are a few examples of the types of syntax it likes.
 
 Seq of expression * expression
-	
+
 	e.g. expression;
 		 expression;
 
-If of expression * expression * expression 
-	
+If of expression * expression * expression
+
 	e.g. if (expression) {
 			 expression;
 		 }
@@ -54,31 +54,31 @@ If of expression * expression * expression
 			 expression;
 		 }
 
-While of expression * expression 
-	
+While of expression * expression
+
 	e.g. while (expression) {
 			 expression;
 		 }
 
 Asg of expression * expression
-	
+
 	e.g. x = expression;
 	!!! Now the left-handside of an assignment can also be a "let" or an "if-else"
 
 Deref of expression
-	
+
 	e.g. x = x + 1; (the x in right-hand side of the equation needs to be dereferenced)
 
 Negate of expression (used to replace the NOT operator, as it is applied to two operations and I couldn't make sense of that)
 
 	e.g. !expression
 
-Operator of opcode * expression * expression 
-	
+Operator of opcode * expression * expression
+
 	e.g. expression _ expression (so far type checking isn't implemented)
 
 Application of expression * expression (* e(e) *)
-	
+
 	e.g. Used when a function is applied to an expression, given that the function was already defined:
 	function f {
 		...
@@ -89,12 +89,12 @@ Application of expression * expression (* e(e) *)
 	However, there are no check as of now to see if the function exists.
 	!!! Also, the function can be a lambda function.
 
-Const of int 
+Const of int
 
 	e.g. 7
 
 Readint
-	
+
 	e.g. x = read() (no type checking as of now)
 
 Printint of expression
@@ -102,8 +102,8 @@ Printint of expression
 	e.g. print(expression)
 	!!! Expressions can be anything that represents a value (so not another print, or a return, if-else statement or while statement), as well as a string. (e.g. print("Hey."))
 
-Identifier of string 
-	
+Identifier of string
+
 	e.g. x
 	!!! Variable names can only consist of:
 		- lower and upper case letters
@@ -111,7 +111,7 @@ Identifier of string
 		- digits (not accepted at the start of the variable)
 
 Let of string * expression * expression
-	
+
 	e.g. let x = expression in expression;
 
 New of string * expression * expression
@@ -119,23 +119,23 @@ New of string * expression * expression
 	e.g. var x = expression;
 		 expression;
 
-It is sensible to point out that the language also contains multiline comments of the form: 
-	
+It is sensible to point out that the language also contains multiline comments of the form:
+
 	\* Comment *\
-	!!! Comments are sentences using sensible punctuation marks, but no characters such as: @, #, %, $, ^ etc. 
+	!!! Comments are sentences using sensible punctuation marks, but no characters such as: @, #, %, $, ^ etc.
 
 ## Parser and Lexer
-For example, a program such as: 
-	
+For example, a program such as:
+
 	function main () {
-		var x=1; 
-		x=x+1; 
+		var x=1;
+		x=x+1;
 		return x;
 	}
 
 would have the parse tree:
 
-	[("main", [], 
+	[("main", [],
 		New "x", Const 1,
 			Seq(
 				Asg(Identifier "x", Operator(Plus, Deref(Identifier "x"), Const 1),
@@ -162,12 +162,12 @@ Or a program such as:
 
 would have the parse tree:
 
-	[("double", [x], 
+	[("double", [x],
 		New "y", Const 6,
 			If(Operator(Greater, Deref(Identifier "x"), Deref(Identifier "y")),
 				Operator(Times, Const 2, Deref(Identifier "x")),
 	 			Deref(Identifier "y"))),
-	 ("main", [], 
+	 ("main", [],
 		New "x", Const 2,
 			Seq(
 				While(Operator(Geq, Deref(Identifier "x"), Const 10),
@@ -175,13 +175,13 @@ would have the parse tree:
 	 			Deref(Identifier "x"))))]
 
 ## Evaluator (phase 1)
-As of now, the evaluator cannot evaluate any function applications and files containing more than one function definitions in them. 
+As of now, the evaluator cannot evaluate any function applications and files containing more than one function definitions in them.
 
-I have decided to implement "Let" (call-by-value, the slow version) and "New", although I am aware at least that "New" would not be correct if there were more than one functions so that will need to be reimplemented (moreover, if we try to define a variable inside a while loop, it will not be happy). I only left them in so that I can use more of the syntax and in the hope of being able to evaluate tests from the previous part. Also, I have commented out the evaluation for "Read" and "Print", but if you want you can uncomment them in exp_store.ml and they should work just fine, but for the sake of test clarity I left them out. 
+I have decided to implement "Let" (call-by-value, the slow version) and "New", although I am aware at least that "New" would not be correct if there were more than one functions so that will need to be reimplemented (moreover, if we try to define a variable inside a while loop, it will not be happy). I only left them in so that I can use more of the syntax and in the hope of being able to evaluate tests from the previous part. Also, I have commented out the evaluation for "Read" and "Print", but if you want you can uncomment them in exp_store.ml and they should work just fine, but for the sake of test clarity I left them out.
 
 As for uniformity over the syntax, I believe it is reasonaly uniform, as it accepts anything that my parser accepts. I have also extended my parser so that I can assign variable a pointer to another variable ( x=&y ), but it will not allow printing a pointer, as that would not make sense.
 
-On top of that, I have also implemented some error handling, so that error messages can be more precise: 
+On top of that, I have also implemented some error handling, so that error messages can be more precise:
 	- TypeError: it prints out what type the operator expected
 	- VariableDeclaration: it prints out what variable has not been declared or has already been declared
 	- NotImplementedError: it prints out that a functionality is not yet implemented
@@ -196,13 +196,36 @@ I have also added strings to the language and a NULL value to use with pointers.
 
 Recursive calls are possible, as well as simple tuples, which can be assigned, compared and assigned to function arguments as well as returned from functions. Lambda functions are also added into the syntax and can be applied to other lambdas and used, similarly to functions, in very complex assignments and in collaboration with let and if statements,
 
-## Tests
-There are two folders inside the "test" folder, which contain test cases for each part of the assignment. 
+## Optimisation
+I have implemented the following technqiues in order to optimise our compiler:
 
-Those test cases can be run using the Makefile provided in the main folder. 
+1. Constant propagation
+	- it checks if a variable is set through user input and if so, it doesn't replace it
+	- otherwise, for any known variable and constant, it tries to optimise the entire expression so that the evaluator has to evaluate as few operations as possible
+2. Constant folding:
+	- it evaluates any constants
+3. Function inlining
+	- it checks if the argument of the function includes a print statement and if so, it doesn't apply function inlining at all
+	- otherwise, it replaces the arguments inside the function and attempts to optimise that funciton
+4. Loop unrolling
+	- for while loops as well as for loops (which have been added to my language over the past week)
+	- a maximum unrolling number is set globally, so currently I unroll a loop 5 times before I give up on it
+
+I have also added a very easy way of counting steps, but not with the help of a monad. If you run all the tests, you'll be able to see the number of steps and time required for both the optimised and non-optimised compilers.
+
+If you run the program with the option "-o" (which isn't compulsory) it'll optimise before it will evaluate, otherwise it will call the evaluator straight away:
+
+## Tests
+There are fours folders now inside the "test" folder, which contain test cases for each part of the assignment.
+
+Those test cases can be run using the Makefile provided in the main folder.
 
 The first folder, "part1", contains 10 simple test cases, some of which can't be parsed due to some errors which are more or less easier to spot due to the error messages I have implemented. There are two more test cases, a bit more complicated.
 
-The second folder, "part2", contains another 10 simple test cases and a harder one, which can be evaluated and compared to the expected result inside the "results" folder. All this can be done using the Makefile.
+The second folder, "part2", contains another 10 simple test cases and a harder one, which can be evaluated and compared to the expected result inside the "results" folder.
+
+The third folder, "part3", contains 10 medium-difficulty test cases which can be evaluated and compared to the expected result inside the "results" folder.
+
+The third folder, "part 4", contains 12 edge test cases, used to see if the optimiser does its best at optimising the functions, without changing the result and affecting the evaluator.
 
 If you want to run your own tests, go back to the "Installation and Build" section to find out how to do this.

@@ -1,0 +1,15 @@
+/* Testing:
+    -variable shadowing with pointers
+    - function inlining
+    - constant propagation
+*/
+function f(var x, var y) {
+    *x=(*x)+y;
+}
+function main() {
+    var y = read();
+    var *x = &y;
+    f(x, y);
+    return (*x)+y;
+}
+

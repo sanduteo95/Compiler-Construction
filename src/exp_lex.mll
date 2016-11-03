@@ -1,7 +1,7 @@
 {
 open Exp_par
 open Lexing
-exception SyntaxError of string 
+exception SyntaxError of string
 
 (** Makes sure the number of lines in the lexbuf is correct. *)
 let next_line lexbuf =
@@ -14,9 +14,9 @@ let next_line lexbuf =
 
 
 let type = "var"
-let int = ['0'-'9'] ['0'-'9']* 
-let float = ['0'-'9'] ['0'-'9']* "." ['0'-'9'] ['0'-'9']* 
-let text = "\"" ['a'-'z' 'A'-'Z' '1'-'9' '.' '!' '?' ':' ',' '.' '-' ' ']+ "\"" 
+let int = ['0'-'9'] ['0'-'9']*
+let float = ['0'-'9'] ['0'-'9']* "." ['0'-'9'] ['0'-'9']*
+let text = "\"" ['a'-'z' 'A'-'Z' '1'-'9' '.' '!' '?' ':' ',' '.' '-' ' ']+ "\""
 let mybool = "true" | "false"
 
 let id = ['a'-'z' 'A'-'Z'] ['a'-'z' 'A'-'Z' '0'-'9' '_']*
@@ -25,10 +25,10 @@ let white = [' ' '\t']+
 let newline = '\r' | '\n' | "\r\n"
 let comment = "/*" ['a'-'z' 'A'-'Z' '.' '!' ',' '.' '-' '!' '=' '(' ')' ':' ';' ' ' '\n' '\t' '\r']+ "*/"
 
-rule read =  
+rule read =
 	parse
-	| white  { read lexbuf }  
-	| newline  { next_line lexbuf; read lexbuf }  
+	| white  { read lexbuf }
+	| newline  { next_line lexbuf; read lexbuf }
 	| int  { INT (int_of_string (Lexing.lexeme lexbuf)) }
 	| float  { FLOAT (float_of_string (Lexing.lexeme lexbuf)) }
 	| '&'  { ADDRESS_OF }
@@ -38,10 +38,10 @@ rule read =
 	| '}'  { RIGHT_CURLY_BRACKET }
 	| '('  { LEFT_ROUND_BRACKET }
 	| ')'  { RIGHT_ROUND_BRACKET}
-	| '+'  { PLUS }  
+	| '+'  { PLUS }
 	| '-'  { MINUS }
 	| '*'  { TIMES }
-	| '/'  { DIVIDE } 
+	| '/'  { DIVIDE }
 	| '\\'  { FUN }
 	| '%'  { MODULUS }
 	| "<="  { LEQ }
@@ -59,6 +59,8 @@ rule read =
 	| "if"  { IF }
 	| "else"  {ELSE}
 	| "while"  { WHILE }
+	| "for"  { FOR }
+	| ":"  { TO }
 	| "let"  { LET }
 	| "in"  { IN }
 	| "read"  { READ }

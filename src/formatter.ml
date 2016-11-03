@@ -24,42 +24,30 @@ let print_operator = function
   	| And -> printf "And"
   	| Or -> printf "Or"
 
-(** Prints each argument, which can only be of three types. *)
-let rec print_arg = function
-	| MyInteger(i) -> printf "Const %d" i
-  | MyFloat(f) -> printf "Float %f" f
-  | MyString(s) -> printf "String %s" s
-  | MyBoolean(b) -> printf "Boolean %b" b
-	| Deref(Identifier(s)) -> printf "Deref(Identifier \"%s\")" s
-	| Identifier(s) -> printf "Identifier \"%s\"" s
-	| Operator(op, e1, e2) -> printf "Operator("; print_operator op; printf ", "; print_arg e1; printf ", "; print_arg e2; printf ")"
-	| _ -> eprintf "\nThe function cannot take this type of argument!\n"; exit(-1)
-
 (** Prints the list of arguments. *)
 let rec print_arg_list = function
 	| [] -> printf ""
-	| [arg] -> print_arg arg
-	| arg::args -> print_arg arg; printf ", "; print_arg_list args
-
-(** Prints a nicely formatted string for each syntx type, in the form of a tree. *)
-let rec print_content content tab = match content with
-	| Nothing -> printf " Nothing"
+	| [arg] -> print_content arg ""
+	| arg::args -> print_content arg ""; printf ", "; print_arg_list args
+and
+print_content content tab = match content with
+	| Nothing -> printf "Nothing"
   	| Seq(e1, e2) -> printf "%s" tab; printf "Seq(\n"; print_content e1 (tab^"\t"); printf ",\n "; print_content e2 (tab^"\t"); printf ")"
-  	| While(e1, e2) -> printf "%s" tab; printf "While("; print_content e1 ""; printf ",\n "; print_content e2 (tab^"\t"); printf ")"
+	| For(s, e1, e2, e3) -> printf "%s" tab; printf "For("; print_content e1 ""; printf ", "; print_content e2 ""; printf ",\n"; print_content e3 ""
+	| While(e1, e2) -> printf "%s" tab; printf "While("; print_content e1 ""; printf ",\n "; print_content e2 (tab^"\t"); printf ")"
   	| If(e1, e2, e3) -> printf "%s" tab; printf "If("; print_content e1 ""; printf ",\n"; print_content e2 (tab^"\t"); printf ",\n "; print_content e3 (tab^"\t")
   	| Asg(e1, e2) -> printf "%s" tab; printf "Asg("; print_content e1 (tab^"\t"); printf ", "; print_content e2 ""
   	| Deref(e) -> printf "%s" tab; printf "Deref("; print_content e ""; printf ")"
   	| Negate(e) -> printf "Negate("; print_content e ""; printf ")"
   	| Operator(op, e1, e2) -> printf "%s" tab; printf "Operator("; print_operator op; printf ", "; print_content e1 ""; printf ", "; print_content e2 ""; printf ")"
   	| Application(e, es) -> printf "%s" tab; printf "Application("; print_content e ""; printf ", ["; print_arg_list es; printf "])"; printf ")"
-  	| Lambda (ps, e) ->  printf "%s" tab; printf "Lambda("; printf "["; print_parameters ps; printf "], "; print_content e ""; printf ")"
-  	| MyString(s) -> printf "%s" tab; printf "MyString(%s)" s
+  	| Lambda (ps, e) ->  printf "%s" tab; printf "Lambda(["; print_parameters ps; printf "], "; print_content e ""; printf ")"
+  	| MyString(s) -> printf "MyString(%s)" s
   	| MyInteger(i) -> printf "Const %d" i
     | MyFloat(f) -> printf "Float %f" f
-  	| MyBoolean (b) -> printf "%s" tab; printf "MyBoolean(%b)" b
-  	| MyTuple (es) -> printf "%s" tab; printf "MyTuple("; List.map (fun e -> print_content e ""; printf ", ") es; printf ")\n"
-  	| MyArray (n, es) -> printf "%s" tab; printf "MyArray of %d elements" n
-  	| Index (i, Identifier(s)) -> printf "%s" tab; printf "The %d th element of array %s" i s
+  	| MyBoolean (b) -> printf "MyBoolean(%b)" b
+	| MyNull -> printf "MyNull"
+  	| MyTuple (e::es) -> printf "MyTuple("; print_content e ""; List.map (fun e -> printf ", "; print_content e "") es; printf ")"
   	| Read -> printf "%s" tab; printf "Read()"
   	| Print(e) -> printf "%s" tab; printf "Print("; print_content e ""; printf ")"
   	| Identifier(s) -> printf "Identifier \"%s\"" s
@@ -67,13 +55,13 @@ let rec print_content content tab = match content with
   	| New(s, e1, e2) -> printf "%s" tab; printf "New \"%s\", " s; print_content e1 ""; printf ",\n"; print_content e2 (tab^"\t"); printf ")"
 
 (** Prints the name of the function, parameters it takes and its content in the syntax format. *)
-let print_function (name, parameters, content) = 
+let print_function (name, parameters, content) =
 	printf "(\"%s\"," name;
 	printf " ["; print_parameters parameters; printf "], ";
 	printf "\n"; print_content content "\t"
 
 (**  Prints each of the functions and their definitions. *)
-let rec print_functions = function 
+let rec print_functions = function
 	| [] -> printf "]\n"
 	| [f] -> print_function f; printf ")]\n"
 	| f::fs -> print_function f;  printf "),\n "; print_functions fs
@@ -84,8 +72,12 @@ let print_program p = match p with
 	| _ -> printf "["; print_functions p
 
 let rec print_sth = function
-    | String(s) -> printf "String(%s)" s
-    | Integer(i) -> printf "Integer(%d)" i
-    | Boolean (b) -> printf "Boolean(%b)" b
-    | Pointer(location) -> printf "Pointer (%d)" location
-    | Tuple (es) -> printf "Tuple("; List.map (fun e -> print_sth e;  printf ", ") es; printf ")\n"
+  | Null -> printf "Null"
+  | Unit -> printf "()"
+  | String(s) -> printf "String(%s)" s
+  | Integer(i) -> printf "Integer(%d)" i
+  | Float(f) -> printf "Float(%f)" f
+  | Boolean (b) -> printf "Boolean(%b)" b
+  | Pointer(location) -> printf "Pointer(%d)" location
+  | Fundef(ps, e) -> printf "Fundef("; print_parameters ps; print_content e ""
+  | Tuple (es) -> printf "Tuple("; List.map (fun e -> print_sth e;  printf ", ") es; printf ")"

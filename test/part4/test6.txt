@@ -1,0 +1,9 @@
+/* Testing:
+	- function inlining with a curried lambda
+*/
+function main(){
+	var f = (\x,y -> return x+y;)();
+	return f(1, 2) + f(1, 4);
+}
+
+

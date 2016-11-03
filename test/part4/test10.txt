@@ -1,0 +1,13 @@
+/* Testing:
+    - for loops
+    - loop unrolling
+*/
+function main() {
+    var x = 0;
+    for(i = 1:1000) {
+        x = x+i;
+        i = i+1;
+    }
+    return x;
+}
+

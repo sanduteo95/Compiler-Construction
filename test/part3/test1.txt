@@ -4,14 +4,14 @@
 	- function call on the right side of an assignment
 	- variable shadowing
 	- derefrenced pointer in arithmetic
-	- multiple function calls (order is not important)
+	- multiple function calls
 */
+function double(var b) {
+	return 2*b;
+}
 function f(var c) {
 	var c = double(c);
 	return c;
-}
-function double(var b) {
-	return 2*b;
 }
 function main() {
 	var a = 2;
