@@ -2,22 +2,23 @@ all:
 	@ocamlbuild -use-menhir -use-ocamlfind -r -pkg unix src/exp_test.native;
 	@printf "\n"
 	@echo "Chose one of these options:"
-	@echo " - own_test: to test your own test file"
-	@echo " - all_tests: to test all the files provided in the test folder"
+	@echo " - parse: to parse"
+	@echo " - evaluate: to evaluate"
+	@echo " - optimise: to optimise"
+	@echo " - interpret: to interpret only"
 	@echo " - clean: to clean the project of any junk files"
 
-own_test:
-	@echo "Enter the path to a file, containing the function(.txt only):"; \
-	read path1; \
-	echo "Enter the path to a file, containing the expected result (.txt only): "; \
-	read path2; \
-	sh individual_test.sh $$path1 $$path2
+parse:
+	@sh test.sh -p;
 
-all_tests:
-	@sh test.sh part1;
-	@sh test.sh part2;
-	@sh test.sh part3;
-	@sh test.sh part4;
+evaluate:
+	@sh test.sh -e;
+
+optimise :
+	@sh test.sh -o;
+
+interpret :
+	@sh test.sh -i;
 
 clean:
 	@echo "Removing build files.";

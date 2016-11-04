@@ -1,9 +1,14 @@
 #!/bin/bash
 
-echo "-------Tests from $1-------"
-for entry in "test/$1"/*
+flag=$1
+
+for folder in "test"/*
 do
-	if [ "${entry: -4}" == ".txt" ]; then
-		sh individual_test.sh $entry "test/$1/results/${entry: 11: ${#entry}-11}"
-	fi
+	echo "-------Tests from ${folder: 5: 10}-------"
+	for file in "${folder}"/*
+	do
+		if [ "${file: -4}" == ".txt" ]; then
+			sh individual_test.sh $flag $file "${folder}/results/${file: 11: ${#file}-11}"
+		fi
+	done
 done

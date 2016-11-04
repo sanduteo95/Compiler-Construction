@@ -1,0 +1,9 @@
+function f() {
+    x=x+1;
+}
+function main() {
+    var x=0;
+    f();
+    return x;
+}
+
