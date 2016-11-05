@@ -1,7 +1,8 @@
 (** Contains methods used for type checking and creating the custom types. *)
 open Syntax
 open Exp_errors
-open List 
+open List
+open Printf
 
 (** Checks if user input is an integer. *)
 let input_is_int s =
@@ -13,18 +14,13 @@ let input_is_float s =
 	try ignore (float_of_string s); true
 	with _ -> false
 
-(** Checks if a variable is a boolean. *)
-let is_bool = function
-	| Boolean(_) -> true
-	| _ -> false
-
 (** Gets the value of a boolean. *)
 let get_boolean = function
 	| Boolean(b) -> b
-	| _ -> failwith "This case is never reached."
+	| _ -> raise (TypeError ("The negation statament expects a boolean", ""))
 
 (** Gets the operator used for integers.  *)
-let get_int_operator op = match op with 
+let get_int_operator op = match op with
 	| Plus -> ( + )
 	| Minus -> ( - )
 	| Times -> ( * )
@@ -34,7 +30,7 @@ let get_int_operator op = match op with
 
 (** Gets the operator used for integers and floats.  *)
 let get_mix_operator op = match op with
-	| Less -> ( < ) 
+	| Less -> ( < )
 	| Leq -> ( <= )
 	| Greater -> ( > )
 	| Geq -> ( >= )
@@ -43,7 +39,7 @@ let get_mix_operator op = match op with
 	| _ -> failwith "This case is never reached."
 
 (** Gets the operator used for floats.  *)
-let get_float_operator op = match op with 
+let get_float_operator op = match op with
 	| Plus -> ( +. )
 	| Minus -> ( -. )
 	| Times -> ( *. )
@@ -54,18 +50,15 @@ let get_float_operator op = match op with
 (** Applies prefix operators of the form int->int->bool or tuple->tuple->bool*)
 let rec tuple_mix_operator op v1 v2 = match v1, v2 with
 	| Tuple([]), Tuple([]) -> true
-	| Tuple(e1::es1), Tuple(e2::es2) -> 
+	| Tuple(e1::es1), Tuple(e2::es2) ->
 		let operator = get_mix_operator op in
 		(operator v1 v2) && tuple_mix_operator op (Tuple(es1)) (Tuple(es2))
 	| Tuple([]), Tuple(_) | Tuple(_), Tuple([]) -> raise (TypeError ("The two tuples have different sizes", ""))
 	| _ -> failwith "This case is never reached."
 
-(** Gets the type of a variable. *)
-let get_type v = match v with
-	| Null -> -1
-	| Integer _ -> 0
-	| Float _ -> 1
-	| Boolean _ -> 2
-	| String _ -> 3
-	| Unit -> 4
-	| _ -> raise (TypeError ("The only accepted types are null, int, float, bool, string, tuples or unit", ""))
+let print_exp = function
+	| Integer(i) -> printf "%d\n" i
+	| Float(f) -> printf "%f\n" f
+	| String(s) -> printf "%s\n" (String.sub s 1 (String.length s - 2))
+	| Boolean(b) -> printf "%b\n" b
+	| _ -> raise (TypeError ("The print function can only print integers, booleans or strings", "" ))

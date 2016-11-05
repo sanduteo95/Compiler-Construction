@@ -9,20 +9,22 @@ let rec print_parameters = function
 	| p::ps -> printf "%s, " p; print_parameters ps
 
 (** Prints each operator type. *)
-let print_operator = function
-	| Plus -> printf "Plus"
-	| Minus -> printf "Minus"
-	| Times -> printf "Times"
-	| Divide -> printf "Divide"
-	| Modulus -> printf "Modulus"
-	| Less -> printf "Less"
-  	| Leq -> printf "Leq"
-  	| Greater -> printf "Greater"
-  	| Geq -> printf "Geq"
-  	| Eq -> printf "Eq"
-  	| Noteq -> printf "Noteq"
-  	| And -> printf "And"
-  	| Or -> printf "Or"
+let string_of_operator = function
+	| Plus -> "Plus"
+	| Minus -> "Minus"
+	| Times -> "Times"
+	| Divide -> "Divide"
+	| Modulus -> "Modulus"
+	| Less -> "Less"
+  	| Leq -> "Leq"
+  	| Greater -> "Greater"
+  	| Geq -> "Geq"
+  	| Eq -> "Eq"
+  	| Noteq -> "Noteq"
+  	| And -> "And"
+  	| Or -> "Or"
+
+let print_operator op = printf "%s" (string_of_operator op)
 
 (** Prints the list of arguments. *)
 let rec print_arg_list = function
@@ -47,8 +49,7 @@ print_content content tab = match content with
     | MyFloat(f) -> printf "Float %f" f
   	| MyBoolean (b) -> printf "MyBoolean(%b)" b
 	| MyNull -> printf "MyNull"
-	| MyTuple [] -> failwith "A tuple an't be empty."
-  	| MyTuple (e::es) -> printf "MyTuple("; print_content e ""; List.map (fun e -> printf ", "; print_content e "") es; printf ")"
+  	| MyTuple (es) -> printf "MyTuple("; print_arg_list es; printf ")"
   	| Read -> printf "%s" tab; printf "Read()"
   	| Print(e) -> printf "%s" tab; printf "Print("; print_content e ""; printf ")"
   	| Identifier(s) -> printf "Identifier \"%s\"" s

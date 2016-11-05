@@ -6,6 +6,7 @@ all:
 	@echo " - evaluate: to evaluate"
 	@echo " - optimise: to optimise"
 	@echo " - interpret: to interpret only"
+	@echo " - generate: to generate assembly code only"
 	@echo " - clean: to clean the project of any junk files"
 
 parse:
@@ -14,11 +15,14 @@ parse:
 evaluate:
 	@sh test.sh -e;
 
-optimise :
+optimise:
 	@sh test.sh -o;
 
-interpret :
+interpret:
 	@sh test.sh -i;
+
+generate:
+	@sh test.sh -g;
 
 clean:
 	@echo "Removing build files.";

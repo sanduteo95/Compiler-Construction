@@ -82,10 +82,14 @@ and opt_exp max_loop is_function store expression = match expression with
 		(match opt_exp max_loop is_function store e with
 	  		| Identifier(s) ->
 				(try Hashtbl.find store s with
-				 	| Not_found -> Deref(Identifier(s)))
+				 	| Not_found ->
+						if(is_function) then raise (Exp_errors.FunctionError "")
+						else Deref(Identifier(s)))
 			| Deref(Identifier(s)) ->
 				(try Hashtbl.find store s with
-				 	| Not_found -> Deref(Deref(Identifier(s))))
+				 	| Not_found ->
+						if(is_function) then raise (Exp_errors.FunctionError "")
+						else Deref(Deref(Identifier(s))))
 			| v -> Deref(v))
   	| Let(s, e1, e2) ->
 		let v1 = opt_exp max_loop is_function store e1 in
@@ -110,10 +114,8 @@ and opt_exp max_loop is_function store expression = match expression with
 			| Identifier(s) ->
 				let v2 = opt_exp max_loop is_function store e2 in
 				Hashtbl.replace store s v2;
-				if(is_function) then
-					Asg(Identifier(s), v2)
-				else
-					Nothing
+				if(is_function) then Asg(Identifier(s), v2)
+				else Nothing
 			| v1 -> Asg(v1, opt_exp max_loop is_function store e2))
   	| Seq(e1, e2) ->
 		(match opt_exp max_loop is_function store e1 with
@@ -135,10 +137,7 @@ and opt_exp max_loop is_function store expression = match expression with
 				if(is_primary v1) then
 					if(get_boolean v1) then v1 else opt_exp max_loop is_function store e2
 				else opt_operator (Operator(op, v1, opt_exp max_loop is_function store e2))
-			| _ ->
-				let v1 = opt_exp max_loop is_function store e1 in
-				let v2 = opt_exp max_loop is_function store e2 in
-				opt_operator (Operator(op, v1, v2)))
+			| _ -> opt_operator (Operator(op, opt_exp max_loop is_function store e1, opt_exp max_loop is_function store e2)))
   	| For(s, e1, e2, e3) ->
 		let v1 = opt_exp max_loop is_function store e1 in
 		(match v1, opt_exp max_loop is_function store e2 with
@@ -169,16 +168,18 @@ and opt_exp max_loop is_function store expression = match expression with
 		else (match opt_exp max_loop is_function store e with
 			  	| Identifier(s) ->
 					if(Hashtbl.mem function_store s) then
-				  		(match Hashtbl.find function_store s with
-					 		| Fundef(ps, expression) -> opt_exp max_loop true (Hashtbl.create 100) (create_nested_new ps vs expression)
+				  		(match access function_store s with
+					 		| Fundef(ps, expression) ->
+								try opt_exp max_loop true (Hashtbl.create 100) (create_nested_new ps vs expression) with
+									| Exp_errors.FunctionError msg -> Application(Identifier(s), vs)
 					 		| _ -> Application(Identifier(s), vs))
-					else
-				  		(match Hashtbl.find store s with
-							| Application(expression, pps) -> opt_exp max_loop true store (Application(expression, ps@pps))
+					else (match access store s with
+							| Application(expression, pps) -> opt_exp max_loop is_function store (Application(expression, ps@pps))
 							| _ -> Application(Identifier(s), vs))
 			  	| Lambda(pps, expression) ->
 					if(length pps > length vs) then
-				  		let (ps1, ps2) = split [] (length vs) pps in Application(Lambda(ps2, opt_exp max_loop true (extend_list (Hashtbl.create 100) (combine ps1 vs)) expression), [])
+				  		let (ps1, ps2) = split [] (length vs) pps in
+						Application(Lambda(ps2, opt_exp max_loop is_function (extend_list (Hashtbl.create 100) (combine ps1 vs)) expression), [])
 					else
 				  		opt_exp max_loop true (Exp_store.extend_list (Hashtbl.create 100) (combine pps vs)) expression
 			  	| v -> Application(v, vs))
@@ -187,12 +188,7 @@ and opt_exp max_loop is_function store expression = match expression with
   	| Print(e) -> let v = opt_exp max_loop is_function store e in Print(v)
 
 (** Function evaluates each individual function in the program. *)
-let rec opt_fundef = function
+let rec opt = function
   	| [] -> []
   	| (s, ps, expression)::[] -> [(s, ps, opt_exp global_max_loop false (Hashtbl.create 100) expression)]
-  	| (s, ps, expression)::program ->
-		Hashtbl.add function_store s (Fundef(ps, expression));
-		(s, ps, expression) :: opt_fundef program
-
-(** Function checks what type of program it is and rejects ones that we haven't implemented yet. *)
-let opt = opt_fundef
+  	| (s, ps, expression)::program -> let _ = extend function_store s (Fundef(ps, expression)) in (s, ps, expression) :: opt program

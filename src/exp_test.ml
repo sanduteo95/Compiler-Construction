@@ -49,29 +49,27 @@ let test_result (steps, result) =
     end_time := Unix.gettimeofday ();
     let string_of_result =
         (match result with
-            | Null -> "a null value"
+            | Null -> "null"
             | Unit -> "()"
             | String(s) -> String.sub s 1 (String.length s - 2)
             | Integer(i) -> string_of_int i
             | Float(f) -> string_of_float f
             | Boolean(b) -> string_of_bool b
-            | Pointer(_) -> "a pointer to another variable"
-            | Tuple(_) -> "a tuple"
-            | Fundef(ps, _) -> "a function with " ^ string_of_int (List.length ps) ^ " parameters" )
-    in
-    let ic = open_in (Sys.argv.(3)) in
-    let actual_result = input_line ic in
-    let test = if (String.equal string_of_result actual_result) then "passed" else "failed" in
-    printf "%d %s %f" steps test (!end_time -. !start_time);
-    close_in ic
+            | Pointer(_) -> "pointer"
+            | Tuple(_) -> "tuple"
+            | Fundef(_, _) -> "function")
+    in printf "%s, %d, %f" string_of_result steps (!end_time -. !start_time)
 
 (** The function chooses what to do. *)
 let run expression = match flag with
         | "-o" -> opt expression |> eval_with_error |> test_result
+        | "-o -p" ->  opt expression |> print_program
         | "-p" -> print_program expression
         | "-e" -> eval_with_error expression |> test_result
+        (* | "-i" -> interpret expression
+        | "-g" -> generate expression *)
         | _ -> failwith "Not yet."
-        (* | "-i" -> interpret *)
+
 
 (** Function reads the file and prints the resulting parse tree.  *)
 let read_file_and_print_tree =

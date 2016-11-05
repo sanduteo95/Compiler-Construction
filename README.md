@@ -28,12 +28,16 @@ If command line is preferred, follow these steps:
 	2. Type in your username and password if asked for them.
 	3. Then, to open the directory, type in "cd Compiler-Construction/".
 
-After you have downloaded everything, you can run the parser and lexer by doing the following:
+After you have downloaded everything, you can run the program by doing the following:
 
 	1. While in the same directory, type in "make" to build the project.
-	2. Now, if you want to test it on my test cases, run "make all_tests".
-	3. Otherwise, run "make own_test" and you will be prompted for the path to the file you want to test.
-	5. If you want to clean up the project, run "make clean".
+	2. Now, if you want to:
+		- see the parse tree, run "make parse"
+		- evaluate the expression, run "make evaluate"
+		- evaluate the expression after it was optimised, run "make optimise"
+		- interpret the expression, run "make interpret"
+		- generate machine code for the expression, run "make generate"
+	3. If you want to clean up the project, run "make clean".
 	!!! Make sure if you're testing the evaluator that you create another .txt file with the same name, inside a "results" folder,
 	that contains the expected result.
 
