@@ -52,6 +52,10 @@ let rec interp_exp symt = function
         st addr;
         addr
     | Identifier(s) -> Printf.printf "Identifier %s at address %d.\n" s (lookup s symt); lookup s symt
+        (* let addr = lookup s symt in *)
+        (* let addr'= new_addr() in *)
+        (* mv addr addr'; *)
+        (* Printf.printf "Variable %s (moved from %d): %d.\n" s addr addr'; print_env symt; addr' *)
     | Deref(Identifier(s)) -> Printf.printf "DEREF.\n";
         let addr = lookup s symt in
         let addr'= new_addr() in

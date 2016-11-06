@@ -1,0 +1,9 @@
+function main() {
+    var x = 1;
+    x=x+1;
+    var y=3;
+    y=y+3;
+    var z = x+y;
+    return z;
+}
+

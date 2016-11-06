@@ -41,6 +41,15 @@ After you have downloaded everything, you can run the program by doing the follo
 	!!! Make sure if you're testing the evaluator that you create another .txt file with the same name, inside a "results" folder,
 	that contains the expected result.
 
+If you want to run your own test, type in "./exp_test.native <flags> <path to file>", where:
+	- <flags>:
+		- "-o -p": print the optimised parse tree
+		- "-p": print the non-optimised parse tree
+		- "-o -e": evaluate the optimised parse tree
+		- "-e": evaluate the non-optimised parse tree
+	- <path to file>: e.g. test/part4/test1.txt
+
+
 ## Syntax
 Here are a few examples of the types of syntax it likes.
 
