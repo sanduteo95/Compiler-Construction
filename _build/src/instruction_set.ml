@@ -9,14 +9,8 @@ let op (op, addr1, addr2) =
 let not addr =
     acc := 1-(find ram addr)
 
-let cmp addr =
-    acc := if (find ram addr == !acc) then 1 else 0
-
-let bne addr1 addr2 =
-    if(!acc == 0) then addr2 else addr1
-
-let jmpz addr1 addr2 =
-    if(!acc == 0) then addr2 else addr1
+let jmpz e1 e2 =
+    if(!acc == 0) then e2 else e1
 
 let mv addr1 addr2 = replace ram addr2 (find ram addr1)
 
