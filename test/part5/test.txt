@@ -10,7 +10,7 @@ function main() {
             y=y-1;
         }
     }
-    return x;
+    return y;
 }
 
 

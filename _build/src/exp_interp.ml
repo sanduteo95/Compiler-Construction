@@ -24,20 +24,24 @@ let convert_operator operator = match operator with
     | Times -> ( * )
     | Divide -> (/)
     | Modulus -> (mod)
-    | Less -> (<)
-    | Leq -> (<=)
-    | Greater -> (>)
-    | Geq -> (>=)
-    | Eq -> (==)
-    | Noteq -> (!=)
     | And -> (&&)
     | Or -> (||)
+    | _ -> failwith "Not possible."
 
 let rec interp_exp symt = function
     | Operator(operator, e1, e2) ->
         let addr1 = interp_exp symt e1 in
         let addr2 = interp_exp symt e2 in
-        op (convert_operator operator, addr1, addr2);
+        (match operator with
+            | Plus | Minus | Times | Divide | And | Or | Modulus ->
+                op (convert_operator operator, addr1, addr2)
+            | _ -> ( match operator with
+                    | Less -> slt addr1 addr2
+                    | Leq -> sle addr1 addr2
+                    | Greater -> sgt addr1 addr2
+                    | Geq -> sge addr1 addr2
+                    | Eq -> seq addr1 addr2
+                    | Noteq -> sne addr1 addr2));
         addr_base := addr1;
         st addr1;
         addr1

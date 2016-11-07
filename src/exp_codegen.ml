@@ -15,14 +15,14 @@ let new_label() =
     !label_base
 
 let string_of_operator = function
-    | ( + )  -> "add"
-    | ( - )  -> "sub"
-    | ( * )  -> "mul"
-    | ( / )  -> "div"
-    | ( && ) -> "and"
-    | ( || ) -> "or"
-    | ( mod ) -> "mod"
-    | _ -> "still need a few"
+    | Plus -> "add"
+    | Minus -> "sub"
+    | Times -> "mul"
+    | Divide -> "div"
+    | And -> "and"
+    | Or -> "or"
+    | Modulus -> "mod"
+    | _ -> failwith "Not possible."
 
 let codegen_op (op, addr1, addr2) =
     (string_of_operator op)
@@ -51,11 +51,50 @@ let codegen_jmpz label =
     "jmpz " ^ label
     ^ "\n" |> Buffer.add_string code
 
+let codegen_slt addr1 addr2 =
+    "slt r"^ (string_of_int addr1)
+    ^ ", r" ^ (string_of_int addr2)
+    ^ "\n" |> Buffer.add_string code
+
+let codegen_sle addr1 addr2 =
+    "sle r"^ (string_of_int addr1)
+    ^ ", r" ^ (string_of_int addr2)
+    ^ "\n" |> Buffer.add_string code
+
+let codegen_sgt addr1 addr2 =
+    "sgt r"^ (string_of_int addr1)
+    ^ ", r" ^ (string_of_int addr2)
+    ^ "\n" |> Buffer.add_string code
+
+let codegen_sge addr1 addr2 =
+    "sge r"^ (string_of_int addr1)
+    ^ ", r" ^ (string_of_int addr2)
+    ^ "\n" |> Buffer.add_string code
+
+let codegen_seq addr1 addr2 =
+    "seq r"^ (string_of_int addr1)
+    ^ ", r" ^ (string_of_int addr2)
+    ^ "\n" |> Buffer.add_string code
+
+let codegen_sne addr1 addr2 =
+    "sne r"^ (string_of_int addr1)
+    ^ ", r" ^ (string_of_int addr2)
+    ^ "\n" |> Buffer.add_string code
+
 let rec codegen symt = function
     | Operator(operator, e1, e2) ->
         let addr1 = codegen symt e1 in
         let addr2 = codegen symt e2 in
-        codegen_op (operator, addr1, addr2);
+        (match operator with
+            | Plus | Minus | Times | Divide | And | Or | Modulus ->
+                codegen_op (operator, addr1, addr2)
+            | _ -> (match operator with
+                    | Less -> codegen_slt addr1 addr2
+                    | Leq -> codegen_sle addr1 addr2
+                    | Greater -> codegen_sgt addr1 addr2
+                    | Geq -> codegen_sge addr1 addr2
+                    | Eq -> codegen_seq addr1 addr2
+                    | Noteq -> codegen_sne addr1 addr2));
         addr_base := addr1;
         codegen_st addr1;
         addr1
