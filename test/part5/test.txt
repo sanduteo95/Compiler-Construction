@@ -1,9 +1,10 @@
 function main() {
-    var x = 1;
+    var x = read();
     x=x+1;
     var y=3;
-    y=y+3;
+    y=y+5;
     while(x<y) {
+        print(x);
         if(y%x==0) {
             x=x+1;
         } else {

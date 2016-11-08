@@ -3,16 +3,6 @@ open Instruction_set
 open Exp_store
 
 let code = Buffer.create 100
-let addr_base = ref 0
-let label_base = ref 0
-
-let new_addr() =
-  	addr_base := !addr_base + 1;
-  	!addr_base
-
-let new_label() =
-    label_base := !label_base + 1;
-    !label_base
 
 let string_of_operator = function
     | Plus -> "add"
@@ -25,39 +15,47 @@ let string_of_operator = function
     | _ -> failwith "Not possible."
 
 let codegen_op (op, addr1, addr2) =
-    (string_of_operator op)
+    "\t" ^ (string_of_operator op)
     ^ " r" ^ (string_of_int addr1)
     ^ ", r" ^ (string_of_int addr2)
     ^ "\n" |> Buffer.add_string code
 
 let codegen_not addr =
-    "not" ^ " r" ^ (string_of_int addr)
+    "\t" ^ "not" ^ " r" ^ (string_of_int addr)
     ^ "\n" |> Buffer.add_string code
 
 let codegen_mv addr1 addr2 =
-    "mv r" ^ (string_of_int addr1)
+    "\t" ^ "mv r" ^ (string_of_int addr1)
     ^ ", r" ^ (string_of_int addr2)
     ^ "\n" |> Buffer.add_string code
 
 let codegen_st addr =
-    "st r" ^ (string_of_int addr)
+    "\t" ^ "st r" ^ (string_of_int addr)
+    ^ "\n" |> Buffer.add_string code
+
+let codegen_ldr addr =
+    "\t" ^ "ld r" ^ (string_of_int addr)
     ^ "\n" |> Buffer.add_string code
 
 let codegen_ldc n =
-    "ld " ^ (string_of_int n)
+    "\t" ^ "ld " ^ (string_of_int n)
     ^ "\n" |> Buffer.add_string code
 
 let codegen_jmpz label =
-    "jmpz " ^ label
+    "\t" ^ "jmpz " ^ label
+    ^ "\n" |> Buffer.add_string code
+
+let codegen_jmp label =
+    "\t" ^ "jmp " ^ label
     ^ "\n" |> Buffer.add_string code
 
 let codegen_slt addr1 addr2 =
-    "slt r"^ (string_of_int addr1)
+    "\t" ^ "slt r"^ (string_of_int addr1)
     ^ ", r" ^ (string_of_int addr2)
     ^ "\n" |> Buffer.add_string code
 
 let codegen_sle addr1 addr2 =
-    "sle r"^ (string_of_int addr1)
+    "\t" ^ "sle r"^ (string_of_int addr1)
     ^ ", r" ^ (string_of_int addr2)
     ^ "\n" |> Buffer.add_string code
 
@@ -67,17 +65,17 @@ let codegen_sgt addr1 addr2 =
     ^ "\n" |> Buffer.add_string code
 
 let codegen_sge addr1 addr2 =
-    "sge r"^ (string_of_int addr1)
+    "\t" ^ "sge r"^ (string_of_int addr1)
     ^ ", r" ^ (string_of_int addr2)
     ^ "\n" |> Buffer.add_string code
 
 let codegen_seq addr1 addr2 =
-    "seq r"^ (string_of_int addr1)
+    "\t" ^ "seq r"^ (string_of_int addr1)
     ^ ", r" ^ (string_of_int addr2)
     ^ "\n" |> Buffer.add_string code
 
 let codegen_sne addr1 addr2 =
-    "sne r"^ (string_of_int addr1)
+    "\t" ^ "sne r"^ (string_of_int addr1)
     ^ ", r" ^ (string_of_int addr2)
     ^ "\n" |> Buffer.add_string code
 
@@ -101,7 +99,6 @@ let rec codegen symt = function
     | Negate(e) ->
         let addr = codegen symt e in
         codegen_not addr;
-        addr_base := addr;
         codegen_st addr;
         addr
     | Identifier(s) -> lookup s symt
@@ -144,21 +141,34 @@ let rec codegen symt = function
         addr_base := addr1;
         addr1
     | While(e1, e2) ->
+        let loop_label = ("LOOP" ^ string_of_int (new_label())) in
+        "\n" ^ loop_label ^ ":\n" |> Buffer.add_string code;
         let addr1 = codegen symt e1 in
-        let label = ("L" ^ string_of_int (new_label())) in
-        codegen_jmpz label;
-        let _ = codegen symt e2 in
+        let branch = "BRANCH" ^ string_of_int (new_label()) in
+        codegen_jmpz branch;
         let addr = codegen symt e2 in
-        label ^ ":\n" |> Buffer.add_string code;
+        codegen_jmp loop_label;
+        "\n" ^ branch ^ ":\n" |> Buffer.add_string code;
         addr
     | If(e1, e2, e3) ->
         let addr1 = codegen symt e1 in
-        let label = ("L" ^ string_of_int (new_label())) in
-        codegen_jmpz label;
+        let branch = "BRANCH" ^ string_of_int (new_label()) in
+        codegen_jmpz branch;
         let _ = codegen symt e2 in
-        label ^ ":\n" |> Buffer.add_string code;
+        let end_if = "END" ^ string_of_int (new_label()) in
+        codegen_jmp end_if;
+        "\n" ^ branch ^ ":\n" |> Buffer.add_string code;
         let addr2 = codegen symt e3 in
+        end_if ^ ":\n" |> Buffer.add_string code;
         addr2
+    | Read ->
+        codegen_ldr read_addr;
+        read_addr
+    | Print(e) ->
+        let addr = codegen symt e in
+        codegen_mv addr print_addr; (* register for printing *)
+        print_addr
+    | Nothing -> -1
     | _ -> failwith "Not implemented yet."
 
 let generate program = match program with
@@ -168,7 +178,8 @@ let generate program = match program with
     | ("main", [], expression)::[] ->
         Buffer.reset code;
         addr_base := 0;
+        "\n" ^  "main" ^ ":\n" |> Buffer.add_string code;
         let addr = codegen [] expression in
         Buffer.output_buffer stdout code;
-        "ld r" ^ (string_of_int addr) |> print_endline
+        "\t" ^ "ld r" ^ (string_of_int addr) |> print_endline
     | _ ->  failwith "Not implemented yet."

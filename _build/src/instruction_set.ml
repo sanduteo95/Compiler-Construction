@@ -1,5 +1,18 @@
 open Hashtbl
 
+let read_addr = 1
+let print_addr = 0
+let addr_base = ref 2
+let label_base = ref 0
+
+let new_addr() =
+  	addr_base := !addr_base + 1;
+  	!addr_base
+
+let new_label() =
+    label_base := !label_base + 1;
+    !label_base
+
 let ram : (int, int) Hashtbl.t = Hashtbl.create 100
 let acc = ref 0
 
