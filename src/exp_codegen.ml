@@ -19,34 +19,42 @@ let string_of_operator = function
     | Eq -> "seq"
     | Noteq -> "sne"
 
+let string_of_addr addr =
+    if addr < stack_overflow then
+        if addr==0 then " s"^(string_of_int addr) ^ " # REGISTER FOR READING"
+        else
+            if addr==1 then " s"^(string_of_int addr) ^ " # REGISTER FOR PRINTING"
+            else " s"^(string_of_int addr)
+    else " r"^(string_of_int addr)
+
 let label_name incr name =
     if(incr) then name ^ string_of_int(new_label())
-    else name ^ string_of_int(!label_base)
+    else name ^ string_of_int(!label_addr)
 
 let codegen_label label =
     "\n" ^ label ^ ":\n" |> Buffer.add_string code
 
 let codegen_op (op, addr1, addr2) =
     "\t" ^ (string_of_operator op)
-    ^ " r" ^ (string_of_int addr1)
-    ^ ", r" ^ (string_of_int addr2)
+    ^ (string_of_addr addr1)
+    ^ "," ^ (string_of_addr addr2)
     ^ "\n" |> Buffer.add_string code
 
 let codegen_not addr =
-    "\t" ^ "not" ^ " r" ^ (string_of_int addr)
+    "\t" ^ "not"  ^ (string_of_addr addr)
     ^ "\n" |> Buffer.add_string code
 
 let codegen_mv addr1 addr2 =
-    "\t" ^ "mv r" ^ (string_of_int addr1)
-    ^ ", r" ^ (string_of_int addr2)
+    "\t" ^ "mv" ^ (string_of_addr addr1)
+    ^ "," ^ (string_of_addr addr2)
     ^ "\n" |> Buffer.add_string code
 
 let codegen_st addr =
-    "\t" ^ "st r" ^ (string_of_int addr)
+    "\t" ^ "st" ^ (string_of_addr addr)
     ^ "\n" |> Buffer.add_string code
 
 let codegen_ldr addr =
-    "\t" ^ "ld r" ^ (string_of_int addr)
+    "\t" ^ "ld" ^ (string_of_addr addr)
     ^ "\n" |> Buffer.add_string code
 
 let codegen_ldc n =
@@ -66,7 +74,7 @@ let rec codegen symt = function
         let addr1 = codegen symt e1 in
         let addr2 = codegen symt e2 in
         codegen_op (operator, addr1, addr2);
-        addr_base := addr1;
+        stack_addr := addr1;
         codegen_st addr1;
         addr1
     | Negate(e) ->
@@ -77,21 +85,23 @@ let rec codegen symt = function
     | Identifier(s) -> lookup s symt
     | Deref(Identifier(s)) ->
         let addr = lookup s symt in
-        let addr'= new_addr() in
-        codegen_mv addr addr';
-        addr'
+        if(addr < stack_overflow) then addr
+        else
+            let addr'= new_stack_addr() in
+            codegen_mv addr addr';
+            addr'
     | MyNull ->
-        let addr = new_addr() in
+        let addr = new_stack_addr() in
         codegen_ldc 0;
         codegen_st addr;
         addr
     | MyInteger(i) ->
-        let addr = new_addr() in
+        let addr = new_stack_addr() in
         codegen_ldc i;
         codegen_st addr;
         addr
     | MyBoolean(b) ->
-        let addr = new_addr() in
+        let addr = new_stack_addr() in
         if(b) then codegen_ldc 1 else codegen_ldc 0;
         codegen_st addr;
         addr
@@ -105,19 +115,21 @@ let rec codegen symt = function
         addr1
     | New(s, e1, e2) ->
         let addr1 = codegen symt e1 in
-        let addr2 = codegen ((s, addr1)::symt) e2 in
+        let addr' = new_heap_addr() in
+        codegen_mv addr1 addr';
+        let addr2 = codegen ((s, addr')::symt) e2 in
         addr2
     | Let(s, e1, e2) ->
         let addr1 = codegen symt e1 in
         let addr2 = codegen ((s, addr1)::symt) e2 in
         codegen_mv addr2 addr1;
-        addr_base := addr1;
+        stack_addr := addr1;
         addr1
     | While(e1, e2) ->
         let loop = label_name true "LOOP" in
         codegen_label loop;
         let addr1 = codegen symt e1 in
-        addr_base := addr1;
+        stack_addr := addr1;
         let end_loop = label_name false "END_LOOP" in
         codegen_jmpz end_loop;
         let addr2 = codegen symt e2 in
@@ -130,11 +142,11 @@ let rec codegen symt = function
         let loop = label_name true "LOOP" in
         codegen_label loop;
         codegen_op (Leq, addr1, addr2);
-        addr_base := addr1;
+        stack_addr := addr1;
         let end_loop = label_name false "END_LOOP" in
         codegen_jmpz end_loop;
         let addr = codegen ((s, addr1)::symt) e3 in
-        let addr' = new_addr() in
+        let addr' = new_stack_addr() in
         codegen_ldc 1;
         codegen_st addr';
         codegen_op (Plus, addr1, addr');
@@ -144,7 +156,8 @@ let rec codegen symt = function
         addr
     | If(e1, e2, e3) ->
         let addr1 = codegen symt e1 in
-        addr_base := addr1;
+        stack_addr := addr1;
+        codegen_ldr addr1;
         let branch = label_name true "BRANCH" in
         codegen_jmpz branch;
         let _ = codegen symt e2 in
@@ -156,7 +169,7 @@ let rec codegen symt = function
         addr2
     | Read ->
         codegen_ldr read_addr;
-        let addr = new_addr() in
+        let addr = new_stack_addr() in
         codegen_st addr;
         addr
     | Print(e) ->
@@ -172,9 +185,9 @@ let generate program = match program with
         "" |> print_endline
     | ("main", [], expression)::[] ->
         Buffer.reset code;
-        addr_base := initial_addr_base;
+        stack_addr := print_addr + 1;
         "\n" ^  "main" ^ ":\n" |> Buffer.add_string code;
         let addr = codegen [] expression in
         Buffer.output_buffer stdout code;
-        "\t" ^ "ld r" ^ (string_of_int addr) |> print_endline
+        "\t" ^ "ld" ^ (string_of_addr addr) |> print_endline
     | _ ->  failwith "Not implemented yet."

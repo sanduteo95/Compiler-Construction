@@ -73,7 +73,8 @@ eval_exp env store expression = steps := !steps+1;
           | Integer(i), Integer(j) ->
               if(i <= j) then
                   let location = newref() in
-                  let _ = eval_exp ((s, Pointer(location))::env) (extend store location (Integer(i))) e3 in eval_exp env store (For(s, MyInteger(i+1), MyInteger(j), e3))
+                  let _ = eval_exp ((s, Pointer(location))::env) (extend store location (Integer(i))) e3 in
+                  eval_exp env store (For(s, MyInteger(i+1), MyInteger(j), e3))
               else eval_exp env store Nothing
           | _ -> raise (TypeError ("For loops only contains integers", "")))
       | While(e1, e2)->

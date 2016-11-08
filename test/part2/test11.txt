@@ -1,11 +1,10 @@
 /* Testing the evaluation of:
 	- uniform assignment (if on the right-hand side)
-	- unit variable
 	- unit function
 */
 function main() {
 	var y = 0;
 	var x = (if(1==1) {y=1;} else {y=2;});
-	return x;
+	return y;
 }
 

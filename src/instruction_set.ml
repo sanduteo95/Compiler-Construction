@@ -1,21 +1,25 @@
 open Hashtbl
 
-let read_addr = 0
-let print_addr = 1
+let read_addr = 0 (* Register for getting user input. *)
+let print_addr = 1 (* Register for printing. *)
 
-let initial_addr_base = print_addr + 1
-let overflow = 5000
+let stack_addr = ref (print_addr + 1) (* The base of the stack. *)
+let stack_overflow = 1000 (* The limit of the stack.*)
+let heap_addr = ref (stack_overflow + 1) (* The beginning of the heap. *)
 
-let addr_base = ref initial_addr_base
-let label_base = ref 0
+let label_addr = ref 0
 
-let new_addr() =
-  	addr_base := !addr_base + 1;
-  	!addr_base
+let new_stack_addr() =
+  	stack_addr := !stack_addr + 1;
+  	!stack_addr
+
+let new_heap_addr() =
+     heap_addr := !heap_addr + 1;
+     !heap_addr
 
 let new_label() =
-    label_base := !label_base + 1;
-    !label_base
+    label_addr := !label_addr + 1;
+    !label_addr
 
 let ram : (int, int) Hashtbl.t = Hashtbl.create 100
 let acc = ref 0

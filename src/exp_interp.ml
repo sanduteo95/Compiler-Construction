@@ -18,14 +18,20 @@ let convert_operator operator = match operator with
     | Noteq -> (fun a -> fun b -> if a<>b then 1 else 0)
 
 let rec interp_exp symt expression =
-    if(List.length symt > overflow) then
+    if(!stack_addr > stack_overflow) then
         failwith "Stackoverflow."
     else (match expression with
         | Operator(operator, e1, e2) ->
             let addr1 = interp_exp symt e1 in
-            let addr2 = interp_exp symt e2 in
-            op (convert_operator operator, addr1, addr2);
-            addr_base := addr1;
+            (match operator with
+                 | And ->
+                     if(Hashtbl.find ram addr1 == 0) then ldc 0
+                     else op (convert_operator operator, addr1, interp_exp symt e2)
+                 | Or ->
+                    if(Hashtbl.find ram addr1 == 1) then ldc 1
+                    else op (convert_operator operator, addr1, interp_exp symt e2)
+                 | _ -> op (convert_operator operator, addr1, interp_exp symt e2));
+            stack_addr := addr1;
             st addr1;
             addr1
         | Negate(e) ->
@@ -36,21 +42,23 @@ let rec interp_exp symt expression =
         | Identifier(s) -> lookup s symt
         | Deref(Identifier(s)) ->
             let addr = lookup s symt in
-            let addr'= new_addr() in
-            mv addr addr';
-            addr'
+            if(addr < stack_overflow) then addr
+            else
+                let addr'= new_stack_addr() in
+                mv addr addr';
+                addr'
         | MyNull ->
-            let addr = new_addr() in
+            let addr = new_stack_addr() in
             ldc 0;
             st addr;
             addr
         | MyInteger(i) ->
-            let addr = new_addr() in
+            let addr = new_stack_addr() in
             ldc i;
             st addr;
             addr
         | MyBoolean(b) ->
-            let addr = new_addr() in
+            let addr = new_stack_addr() in
             if(b) then ldc 1 else ldc 0;
             st addr;
             addr
@@ -64,17 +72,19 @@ let rec interp_exp symt expression =
             addr1
         | New(s, e1, e2) ->
             let addr1 = interp_exp symt e1 in
-            let addr2 = interp_exp ((s, addr1)::symt) e2 in
+            let addr' = new_heap_addr() in
+            mv addr1 addr';
+            let addr2 = interp_exp ((s, addr')::symt) e2 in
             addr2
         | Let(s, e1, e2) ->
             let addr1 = interp_exp symt e1 in
             let addr2 = interp_exp ((s, addr1)::symt) e2 in
             mv addr2 addr1;
-            addr_base := addr1;
+            stack_addr := addr1;
             addr1
         | While(e1, e2) ->
             let addr1 = interp_exp symt e1 in
-            addr_base := addr1;
+            stack_addr := addr1;
             let e = jmpz e2 Nothing in
             let addr = interp_exp symt e in
             if(addr <> -1) then interp_exp symt (While(e1, e2))
@@ -83,10 +93,10 @@ let rec interp_exp symt expression =
             let addr1 = interp_exp symt e1 in
             let addr2 = interp_exp symt e2 in
             op (convert_operator Leq, addr1, addr2);
-            addr_base := addr1;
+            stack_addr := addr1;
             let e = jmpz e3 Nothing in
             let addr = interp_exp ((s, addr1)::symt) e in
-            let addr' = new_addr() in
+            let addr' = new_stack_addr() in
             ldc 1;
             st addr';
             op (convert_operator Plus, addr1, addr');
@@ -95,13 +105,14 @@ let rec interp_exp symt expression =
             else addr
         | If(e1, e2, e3) ->
             let addr1 = interp_exp symt e1 in
-            addr_base := addr1;
+            stack_addr := addr1;
+            ldr addr1;
             let e = jmpz e2 e3 in
             let addr = interp_exp symt e in
             addr
         | Read ->
             ldr read_addr;  (* register for reading *)
-            let addr = new_addr() in
+            let addr = new_stack_addr() in
             st addr;
             addr
         | Print(e) ->
@@ -115,7 +126,7 @@ let rec interp_exp symt expression =
 let interpret program = match program with
     | [] -> 0
     | ("main", [], expression)::[] ->
-        addr_base := initial_addr_base;
+        stack_addr := print_addr + 1;
         Hashtbl.add ram read_addr 3; (* register for reading; set to 3 for testing purposes*)
         let addr = interp_exp [] expression in
         if(addr <> -1) then (Hashtbl.find ram addr) else -1
