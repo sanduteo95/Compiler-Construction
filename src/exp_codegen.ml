@@ -14,6 +14,11 @@ let string_of_operator = function
     | Modulus -> "mod"
     | _ -> failwith "Not possible."
 
+let label_name name = name ^ string_of_int(new_label())
+
+let codegen_label label =
+    "\n" ^ label ^ ":\n" |> Buffer.add_string code
+
 let codegen_op (op, addr1, addr2) =
     "\t" ^ (string_of_operator op)
     ^ " r" ^ (string_of_int addr1)
@@ -141,25 +146,42 @@ let rec codegen symt = function
         addr_base := addr1;
         addr1
     | While(e1, e2) ->
-        let loop_label = ("LOOP" ^ string_of_int (new_label())) in
-        "\n" ^ loop_label ^ ":\n" |> Buffer.add_string code;
+        let loop = label_name "LOOP" in
+        codegen_label loop;
         let addr1 = codegen symt e1 in
-        let branch = "BRANCH" ^ string_of_int (new_label()) in
-        codegen_jmpz branch;
-        let addr = codegen symt e2 in
-        codegen_jmp loop_label;
-        "\n" ^ branch ^ ":\n" |> Buffer.add_string code;
+        let end_loop = label_name "END_LOOP" in
+        codegen_jmpz end_loop;
+        let addr2 = codegen symt e2 in
+        codegen_jmp loop;
+        codegen_label end_loop;
+        addr2
+    | For(s, e1, e2, e3) ->
+        let addr1 = codegen symt e1 in
+        let addr2 = codegen symt e2 in
+        let loop = label_name "LOOP" in
+        codegen_label loop;
+        codegen_sle addr1 addr2;
+        let end_loop = label_name "END_LOOP" in
+        codegen_jmpz end_loop;
+        let addr = codegen ((s, addr1)::symt) e3 in
+        let addr' = new_addr() in
+        codegen_ldc 1;
+        codegen_st addr';
+        codegen_op (Plus, addr1, addr');
+        codegen_st addr';
+        codegen_jmp loop;
+        codegen_label end_loop;
         addr
     | If(e1, e2, e3) ->
         let addr1 = codegen symt e1 in
-        let branch = "BRANCH" ^ string_of_int (new_label()) in
+        let branch = label_name "BRANCH" in
         codegen_jmpz branch;
         let _ = codegen symt e2 in
-        let end_if = "END" ^ string_of_int (new_label()) in
-        codegen_jmp end_if;
-        "\n" ^ branch ^ ":\n" |> Buffer.add_string code;
+        let end_branch = label_name "END_BRANCH" in
+        codegen_jmp end_branch;
+        codegen_label branch;
         let addr2 = codegen symt e3 in
-        end_if ^ ":\n" |> Buffer.add_string code;
+        codegen_label end_branch;
         addr2
     | Read ->
         codegen_ldr read_addr;

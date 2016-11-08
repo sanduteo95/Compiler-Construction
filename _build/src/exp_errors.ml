@@ -1,5 +1,0 @@
-exception TypeError of string * string (** Error for type checking: returns error message and variable. *)
-exception FunctionError of string (** Error for function application: returns error message. *)
-exception DivisionError of string (** Error for division by 0. *)
-exception NotImplementedError of string (** Error for not implemented features. *)
-exception VariableDeclaration of string * string (** Error for variables declared twice. *)

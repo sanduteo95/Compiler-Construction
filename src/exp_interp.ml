@@ -133,7 +133,7 @@ let interpret program = match program with
     | [] -> 0
     | ("main", [], expression)::[] ->
         addr_base := 0;
-        Hashtbl.add ram read_addr 3; (* register for reading *)
+        Hashtbl.add ram read_addr 3; (* register for reading; set to 3 for testing purposes*)
         let addr = interp_exp [] expression in
         if(addr <> -1) then (Hashtbl.find ram addr) else -1
     | _ -> failwith "Not implemented yet."
