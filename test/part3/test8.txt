@@ -6,14 +6,14 @@
 */
 function create(var x, var y, var z) {
 	var tuple = (x, y, z);
-	return tuple;
+	return *tuple;
 }
 function compare(var p, var q) {
-	return p < q;
+	return *p < *q;
 }
 function main() {
 	var p = create(1, 2, "string1");
 	var q = create(2, 3, "string2");
-	return compare(p, q);
+	return compare(*p, *q);
 }
 

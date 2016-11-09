@@ -5,14 +5,14 @@
 function f(var x) {
 	var i=1;
 	var sum=0;
-	while(i<=x) {
- 		sum = sum+i*10;
- 		i = i+1;
+	while(*i<=*x) {
+ 		*sum = *sum+(*i)*10;
+ 		*i = *i+1;
 	}
-	return sum+x;
+	return *sum+*x;
 }
 function g(var x) {
-  	return 5*x;
+  	return 5*(*x);
 }
 function main() {
   	return f(g(1));

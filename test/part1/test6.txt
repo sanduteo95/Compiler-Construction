@@ -7,8 +7,8 @@
 function main() {
 	var x = 5;
 	var y = 4;
-	var eq = x==y;
-	var noteq = x!=y;
-	return !(eq==noteq);
+	var eq = (*x)==(*y);
+	var noteq = (*x)!=(*y);
+	return !(*eq==*noteq);
 }
 

@@ -5,13 +5,13 @@
 	- the variable pointed at has changed
 */
 function f(var x) {
-	return x;
+	return *x;
 }
 function main(){
 	var b = 5;
 	var *c = &b;
-	var g = (\b -> return b;)();
-	*(f(g(c))) = 2;
-	return b;
+	var g = (\b -> return *b;)();
+	*(f(g(*c))) = 2;
+	return *b;
 }
 

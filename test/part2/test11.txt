@@ -4,7 +4,7 @@
 */
 function main() {
 	var y = 0;
-	var x = (if(1==1) {y=1;} else {y=2;});
-	return y;
+	var x = (if(1==1) {*y=1;} else {*y=2;});
+	return *y;
 }
 

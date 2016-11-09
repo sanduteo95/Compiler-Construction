@@ -1,26 +1,26 @@
 function f(var x) {
-	return x*x*x - x - 2.0;
+	return (*x)*(*x)*(*x) - (*x) - 2.0;
 }
-function bisection_iterative(var f, var a, var b, var TOL, var NMAX) { 
+function bisection_iterative(var f, var a, var b, var TOL, var NMAX) {
 	var N=1;
 	var c=0.0;
-	while(N<=NMAX) {
-		c=(a+b)/2.0;
-		if(f(c) == 0.0 || (b-a)/2.0 < TOL) {
-			N=NMAX+1;
+	while(*N<=*NMAX) {
+		*c=(*a+*b)/2.0;
+		if(f(*c) == 0.0 || (*b-*a)/2.0 < *TOL) {
+			*N=*NMAX+1;
 		} else {
-			N=N+1;
-			if(f(c)*f(a)=>0.0) {
-				a=c;
+			*N=*N+1;
+			if(f(*c)*f(*a)=>0.0) {
+				*a=*c;
 			} else {
-				b=c;
+				*b=*c;
 			}
 		}
 	}
-	return c;
+	return *c;
 }
 function main() {
-	var x = bisection_iterative(f, 1.0, 2.0, 2.0, 1);
-	return x;
+	var x = bisection_iterative(*f, 1.0, 2.0, 2.0, 1);
+	return *x;
 }
 

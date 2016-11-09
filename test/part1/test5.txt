@@ -1,21 +1,21 @@
-/* Testing the following: 
+/* Testing the following:
 	- PRINT of strings
 	- New where the value is a function application
 	- DIVIDE
 	- PRINT of function application
 */
 function sum(var x, var y) {
-	return x+y;
+	return *x+*y;
 }
 function f(var x, var y) {
-	var c = sum(x,y)/2;
-	return c;
+	var c = sum(*x,*y)/2;
+	return *c;
 }
 function main() {
 	print("Input x");
 	var x = 1;
 	print("Input y");
 	var y = 2;
-	print(f(x,y));
+	print(f(*x,*y));
 }
 

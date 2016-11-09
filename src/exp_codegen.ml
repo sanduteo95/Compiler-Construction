@@ -83,14 +83,19 @@ let rec codegen symt = function
         stack_addr := addr;
         codegen_st addr;
         addr
-    | Identifier(s) -> lookup s symt
-    | Deref(Identifier(s)) ->
+    | Identifier(s) ->
         let addr = lookup s symt in
-        if(addr < stack_overflow) then addr
-        else
-            let addr'= new_stack_addr() in
-            codegen_mv addr addr';
-            addr'
+        let addr'= new_stack_addr() in
+        codegen_mv addr addr';
+        addr'
+    | Deref(e) ->
+        let addr = codegen symt e in
+        codegen_ldr addr;
+        let addr' = !acc in
+        let addr'' = new_stack_addr() in
+        codegen_ldr addr';
+        codegen_st addr'';
+        addr''
     | MyNull ->
         let addr = new_stack_addr() in
         codegen_ldc 0;
@@ -111,33 +116,42 @@ let rec codegen symt = function
         codegen symt e2
     | Asg(e1, e2) ->
         let addr1 = codegen symt e1 in
+        codegen_ldr addr1;
+        let haddr = !acc in
         let addr2 = codegen symt e2 in
-        codegen_mv addr2 addr1;
-        addr1
+        codegen_mv addr2 haddr;
+        stack_addr := addr1;
+        codegen_ldc haddr;
+        codegen_st addr2;
+        addr2
     | New(s, e1, e2) ->
         let addr1 = codegen symt e1 in
-        let addr' = new_heap_addr() in
-        codegen_mv addr1 addr';
-        let addr2 = codegen ((s, addr')::symt) e2 in
-        addr2
+        let saddr = new_stack_addr() in
+        let haddr = new_heap_addr() in
+        codegen_ldc haddr;
+        codegen_st saddr;
+        codegen_mv addr1 haddr;
+        codegen ((s, saddr)::symt) e2
     | Let(s, e1, e2) ->
         let addr1 = codegen symt e1 in
         let addr2 = codegen ((s, addr1)::symt) e2 in
-        codegen_mv addr2 addr1;
+        (if addr2 != addr1 then codegen_mv addr2 addr1);
         stack_addr := addr1;
         addr1
     | While(e1, e2) ->
+        let initial_addr = !stack_addr in
         let loop = label_name true "LOOP" in
         codegen_label loop;
         let addr1 = codegen symt e1 in
-        stack_addr := addr1;
         let end_loop = label_name false "END_LOOP" in
         codegen_jmpz end_loop;
-        let addr2 = codegen symt e2 in
+        stack_addr := initial_addr;
+        let addr = codegen symt e2 in
         codegen_jmp loop;
         codegen_label end_loop;
-        addr2
+        addr
     | For(s, e1, e2, e3) ->
+        let initial_addr = !stack_addr in
         let addr1 = codegen symt e1 in
         let addr2 = codegen symt e2 in
         let loop = label_name true "LOOP" in
@@ -147,6 +161,7 @@ let rec codegen symt = function
         let end_loop = label_name false "END_LOOP" in
         codegen_jmpz end_loop;
         let addr = codegen ((s, addr1)::symt) e3 in
+        stack_addr := initial_addr;
         let addr' = new_stack_addr() in
         codegen_ldc 1;
         codegen_st addr';
@@ -157,7 +172,6 @@ let rec codegen symt = function
         addr
     | If(e1, e2, e3) ->
         let addr1 = codegen symt e1 in
-        stack_addr := addr1;
         codegen_ldr addr1;
         let branch = label_name true "BRANCH" in
         codegen_jmpz branch;
@@ -165,9 +179,9 @@ let rec codegen symt = function
         let end_branch = label_name false "END_BRANCH" in
         codegen_jmp end_branch;
         codegen_label branch;
-        let addr2 = codegen symt e3 in
+        let addr = codegen symt e3 in
         codegen_label end_branch;
-        addr2
+        addr
     | Read ->
         codegen_ldr read_addr;
         let addr = new_stack_addr() in

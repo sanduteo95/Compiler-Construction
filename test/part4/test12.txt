@@ -1,9 +1,9 @@
 function f(var x) {
-    x=x+1;
+    *x=*x+1;
 }
 function main() {
     var x=read();
-    f(x);
-    return x;
+    f(*x);
+    return *x;
 }
 

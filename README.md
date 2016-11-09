@@ -209,7 +209,7 @@ I have also added strings to the language and a NULL value to use with pointers.
 
 Recursive calls are possible, as well as simple tuples, which can be assigned, compared and assigned to function arguments as well as returned from functions. Lambda functions are also added into the syntax and can be applied to other lambdas and used, similarly to functions, in very complex assignments and in collaboration with let and if statements,
 
-## Optimisation
+## Optimisations
 I have implemented the following technqiues in order to optimise our compiler:
 
 1. Constant propagation
@@ -227,6 +227,13 @@ I have implemented the following technqiues in order to optimise our compiler:
 I have also added a very easy way of counting steps, but not with the help of a monad. If you run all the tests, you'll be able to see the number of steps and time required for both the optimised and non-optimised compilers.
 
 If you run the program with the option "-o" (which isn't compulsory) it'll optimise before it will evaluate, otherwise it will call the evaluator straight away:
+
+## Interpreter and compiler
+For this part of the assignment, I have managed to implement both the interpreter and compiler for a simple iterative language, including local variables, let statement, as well as if statements and while and for loops. The compiler print labels to each jump location, so that the code is easy to read, and has a variety of instructions for each operator and others for moving values around.
+
+Let statement have variables that are allocated just on the stack, whereas local variables (declared with "var") are located on the heap, but there is also a pointer on the stack to that location on the heap. My interpreter and compiler both accept pointers too, which as far as I can see are working fine.
+
+As for the stack and used registers, I have put register 0 and 1 aside for reading and printing and have only allowed a stack of size 1000, so that values bigger than this value will be situated on the heap. I can relax this value if I notice it's not enough for functions that can be evaluated by the previously implemented evaluator.
 
 ## Tests
 There are fours folders now inside the "test" folder, which contain test cases for each part of the assignment.

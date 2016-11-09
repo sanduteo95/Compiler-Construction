@@ -3,11 +3,11 @@
 	- constant folding
 */
 function modulus(var x, var y) {
-	return x%y;
+	return *x%*y;
 }
 function main() {
 	var a = modulus(5,3);
 	var b = modulus(6,2);
-	return a+b;
+	return *a+*b;
 }
 

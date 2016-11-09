@@ -92,13 +92,13 @@ statement:
 	| l = left_assignment; ASSIGN; r = right_assignment; SEMI_COLLON  { Asg(l, r)}
 	| PRINT; LEFT_ROUND_BRACKET; e = expression; RIGHT_ROUND_BRACKET; SEMI_COLLON  { Print(e) }
 	| RETURN; e = expression; SEMI_COLLON { e }
-	| id = ID; SEMI_COLLON { Identifier(id) }
+	| TIMES; id = ID; SEMI_COLLON { Identifier(id) }
 	| f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, expression); RIGHT_ROUND_BRACKET; SEMI_COLLON  { Application(f, a)}
 
 for_loop:
-	| FOR; LEFT_ROUND_BRACKET id = ID; ASSIGN; id1 = ID; TO; id2 = ID; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { For(id, Deref(Identifier(id1)), Deref(Identifier(id2)), s) }
-	| FOR; LEFT_ROUND_BRACKET; id = ID; ASSIGN; i = INT; TO; id1 = ID; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { For(id, MyInteger(i), Deref(Identifier(id1)), s) }
-	| FOR; LEFT_ROUND_BRACKET; id = ID; ASSIGN; id1 = ID; TO; i = INT; RIGHT_ROUND_BRACKET LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { For(id, Deref(Identifier(id1)), MyInteger(i), s) }
+	| FOR; LEFT_ROUND_BRACKET id = ID; ASSIGN; TIMES; id1 = ID; TO; TIMES; id2 = ID; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { For(id, Deref(Identifier(id1)), Deref(Identifier(id2)), s) }
+	| FOR; LEFT_ROUND_BRACKET; id = ID; ASSIGN; i = INT; TO; TIMES; id1 = ID; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { For(id, MyInteger(i), Deref(Identifier(id1)), s) }
+	| FOR; LEFT_ROUND_BRACKET; id = ID; ASSIGN; TIMES; id1 = ID; TO; i = INT; RIGHT_ROUND_BRACKET LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { For(id, Deref(Identifier(id1)), MyInteger(i), s) }
 	| FOR; LEFT_ROUND_BRACKET; id = ID; ASSIGN; i1 = INT; TO; i2 = INT; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { For(id, MyInteger(i1), MyInteger(i2), s) }
 
 new_declaration:
@@ -119,31 +119,30 @@ value:
 	| b = BOOL  { MyBoolean(b) }
 	| t = TEXT  { MyString(t) }
 
-pointer:
-	| ADDRESS_OF; id = ID { Identifier(id) }
-
 min_expression:
 	| vs = values  { vs }
+	| ADDRESS_OF; id = ID { Identifier(id) }
+	| TIMES; TIMES; id = ID { Deref(Deref(Identifier(id))) }
+	| LEFT_ROUND_BRACKET; TIMES; TIMES; id = ID; RIGHT_ROUND_BRACKET { Deref(Deref(Identifier(id))) }
 	| LEFT_ROUND_BRACKET; ts = separated_nonempty_list(COMMA, ids); RIGHT_ROUND_BRACKET  { MyTuple(ts) }
-	| p = pointer  { p }
-	| TIMES; id = ID { Deref(Deref(Identifier(id))) }
-	| LEFT_ROUND_BRACKET; TIMES; id = ID; RIGHT_ROUND_BRACKET { Deref(Deref(Identifier(id))) }
 	| o = operator_expression  { o }
 
 expression:
-	| id = ID  { Deref(Identifier(id)) }
+	| id = ID  { Identifier(id) }
+	| TIMES; id = ID  { Deref(Identifier(id)) }
+	| LEFT_ROUND_BRACKET; TIMES; id = ID; RIGHT_ROUND_BRACKET { Deref(Identifier(id)) }
 	| me = min_expression  { me }
 	| f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, expression); RIGHT_ROUND_BRACKET  { Application(f, a)}
 
 left_assignment:
-	| id = ID  { Identifier(id) }
-	| p = pointer  { p }
-	| TIMES; id = ID { Deref(Identifier(id)) }
-	| LEFT_ROUND_BRACKET; TIMES; id = ID; RIGHT_ROUND_BRACKET { Deref(Identifier(id)) }
+	| TIMES; id = ID  { Identifier(id) }
+	| ADDRESS_OF; id = ID { Identifier(id) }
+	| TIMES; TIMES; id = ID { Deref(Identifier(id)) }
+	| LEFT_ROUND_BRACKET; TIMES; TIMES; id = ID; RIGHT_ROUND_BRACKET { Deref(Identifier(id)) }
 	| LEFT_ROUND_BRACKET; IF; LEFT_ROUND_BRACKET; o = operator_expression; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s1 = statements; RIGHT_CURLY_BRACKET; ELSE; LEFT_CURLY_BRACKET; s2 = statements; RIGHT_CURLY_BRACKET; RIGHT_ROUND_BRACKET  { If(o, s1, s2) }
 	| LEFT_ROUND_BRACKET; LET; id = ID; ASSIGN; r = right_assignment; IN; s = statement; RIGHT_ROUND_BRACKET  { Let(id, r, s) }
-	| LEFT_ROUND_BRACKET; f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, expression); RIGHT_ROUND_BRACKET ; RIGHT_ROUND_BRACKET  { Application(f, a) }
 	| TIMES; LEFT_ROUND_BRACKET; f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, expression); RIGHT_ROUND_BRACKET ; RIGHT_ROUND_BRACKET  { Application(f, a) }
+	| TIMES; TIMES; LEFT_ROUND_BRACKET; f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, expression); RIGHT_ROUND_BRACKET ; RIGHT_ROUND_BRACKET  { Deref(Application(f, a)) }
 
 right_assignment:
 	| NULL  { MyNull }

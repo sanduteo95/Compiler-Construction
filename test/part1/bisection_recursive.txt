@@ -1,24 +1,24 @@
 function f(var x) {
-	return x*x*x - x - 2.0;
+	return (*x)*(*x)*(*x) - (*x) - 2.0;
 }
-function bisection_recursive(var f, var a, var b, var TOL, var NMAX) { 
-	if(NMAX < 0) {
+function bisection_recursive(var f, var a, var b, var TOL, var NMAX) {
+	if(*NMAX < 0) {
 		print("Method failed.");
 	} else {
-		var c=(a+b)/2.0;
-		if(f(c) == 0.0 || (b-a)/2.0 < TOL) {
-			return c;
+		var c=(*a+*b)/2.0;
+		if(f(*c) == 0.0 || (*b-*a)/2.0 < *TOL) {
+			return *c;
 		} else {
-			if(f(c)*f(a)=>0.0) {
-				a=c;
+			if(f(*c)*f(*a)=>0.0) {
+				*a=*c;
 			} else {
-				b=c;
+				*b=*c;
 			}
-			return bisection_recursive(f, a, b, TOL, NMAX-1);
+			return bisection_recursive(*f, *a, *b, *TOL, *NMAX-1);
 		}
 	}
 }
 function main() {
-	return bisection_recursive(f, 1.0, 2.0, 2.0, 1);
+	return bisection_recursive(*f, 1.0, 2.0, 2.0, 1);
 }
 

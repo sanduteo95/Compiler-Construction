@@ -10,14 +10,14 @@ function main() {
 	var m = 2;
 	var x = 10;
 	var y = 4;
-	while(y!=0 && x%y!=m) {
-		x=x*2;
-		y=y/2;
+	while(*y!=0 && *x%*y!=*m) {
+		*x=(*x)*2;
+		*y=*y/2;
 	}
-	if(y!=0) {
-		return y;
+	if(*y!=0) {
+		return *y;
 	} else {
-		return x;
+		return *x;
 	}
 }
 

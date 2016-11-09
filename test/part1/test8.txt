@@ -6,18 +6,18 @@
 	- returning a function
 */
 function f(var x, var y) {
-	return x<=y;
+	return *x<=*y;
 }
 function g(var x, var y) {
-	return x=>y;
+	return *x=>*y;
 }
 function apply(var f, var x, var y) {
-	return f(x,y);
+	return f(*x,*y);
 }
 function main() {
 	var x=5;
 	var y=3;
-	if(apply(f,x,y) && apply(g,x,y)) {
+	if(apply(*f,*x,*y) && apply(*g,*x,*y)) {
 		print("Equal");
 	} else {
 		print("Not equal");

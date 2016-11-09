@@ -4,12 +4,12 @@
     - constant propagation
 */
 function f(var x, var y) {
-    *x=(*x)+y;
+    **x=(**x)+*y;
 }
 function main() {
     var y = read();
     var *x = &y;
-    f(x, y);
-    return (*x)+y;
+    f(*x, *y);
+    return (**x)+*y;
 }
 

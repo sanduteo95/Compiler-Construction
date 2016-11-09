@@ -55,13 +55,23 @@ and contains_id s = function
 	| For(_, e1, e2, e3) | If(e1, e2, e3) -> contains_id s e1 || contains_id s e2 || contains_id s e3
 	| Identifier(t) -> String.equal t s
 
-let rec opt_operator expression = match expression with
+let rec opt_operator store expression = match expression with
   	| Operator(op, Deref(Identifier(_)), Deref(Identifier(_))) | Operator(op, Deref(Identifier(_)), _) | Operator(op, _, Deref(Identifier(_))) -> expression
+	| Operator(op, Identifier(a), Identifier(b)) ->
+		let val_a = Hashtbl.find store a in
+		let val_b = Hashtbl.find store b in
+		Operator(op, val_a, val_b)
+	| Operator(op, Identifier(a), exp) ->
+		let val_a = Hashtbl.find store a in
+		Operator(op, val_a, exp)
+	| Operator(op, exp, Identifier(a)) ->
+		let val_a = Hashtbl.find store a in
+		Operator(op, exp, val_a)
   	| Operator(op, e1, e2) ->
 		if(is_primary e1 && is_primary e2) then convert(Exp_eval.eval_operator [] (Hashtbl.create 100) op e1 e2)
 		else
-	  		let v1 = if(is_primary e1) then e1 else opt_operator e1 in
-	  		let v2 = if(is_primary e2) then e2 else opt_operator e2 in
+	  		let v1 = if(is_primary e1) then e1 else opt_operator store e1 in
+	  		let v2 = if(is_primary e2) then e2 else opt_operator store e2 in
 	  		Operator(op, v1, v2)
   	| _ -> expression
 
@@ -70,11 +80,11 @@ let rec create_nested_new ps vs a = match (ps, vs) with
 	| p::ps, v::vs -> New(p, v, create_nested_new ps vs a)
 	| _, _ -> failwith "The number of values should be equal to the number of parameters."
 
-let rec loop_unroll max_loop is_function store s i n e =
-	 if(i<n && max_loop>1) then
-	 	let v = opt_exp max_loop false store e in
-		Seq(v, loop_unroll (max_loop-1) is_function store s (i+1) n e)
-	else opt_exp max_loop true store e
+let rec loop_unroll max_loop store s i n e =
+	let v = opt_exp max_loop true (extend store s (MyInteger(i))) e in
+	if(i<n && max_loop>1) then
+	   	Seq(v, loop_unroll (max_loop-1) store s (i+1) n e)
+	else v
 and opt_exp max_loop is_function store expression = match expression with
   	| Identifier(_) | MyNull | MyString(_) | MyInteger(_) | MyFloat(_) | MyBoolean(_) | Nothing -> expression
   	| MyTuple(es) -> MyTuple(map (opt_exp max_loop is_function store) es)
@@ -83,12 +93,12 @@ and opt_exp max_loop is_function store expression = match expression with
 	  		| Identifier(s) ->
 				(try Hashtbl.find store s with
 				 	| Not_found ->
-						if(is_function) then raise (Exp_errors.FunctionError "")
+						if(is_function) then (printf "Identifier %s\n" s; raise (Exp_errors.FunctionError ""))
 						else Deref(Identifier(s)))
 			| Deref(Identifier(s)) ->
 				(try Hashtbl.find store s with
-				 	| Not_found ->
-						if(is_function) then raise (Exp_errors.FunctionError "")
+				 	| Not_found -> printf "Identifier %s.\n" s;
+						if(is_function) then (printf "Deref identifier %s\n" s; raise (Exp_errors.FunctionError ""))
 						else Deref(Deref(Identifier(s))))
 			| v -> Deref(v))
   	| Let(s, e1, e2) ->
@@ -131,29 +141,31 @@ and opt_exp max_loop is_function store expression = match expression with
 				let v1 = opt_exp max_loop is_function store e1 in
 				if(is_primary v1) then
 					if(get_boolean v1) then opt_exp max_loop is_function store e2 else v1
-				else opt_operator (Operator(op, v1, opt_exp max_loop is_function store e2))
+				else opt_operator store (Operator(op, v1, opt_exp max_loop is_function store e2))
 			| Or ->
 				let v1 = opt_exp max_loop is_function store e1 in
 				if(is_primary v1) then
 					if(get_boolean v1) then v1 else opt_exp max_loop is_function store e2
-				else opt_operator (Operator(op, v1, opt_exp max_loop is_function store e2))
-			| _ -> opt_operator (Operator(op, opt_exp max_loop is_function store e1, opt_exp max_loop is_function store e2)))
+				else opt_operator store (Operator(op, v1, opt_exp max_loop is_function store e2))
+			| _ -> opt_operator store (Operator(op, opt_exp max_loop is_function store e1, opt_exp max_loop is_function store e2)))
   	| For(s, e1, e2, e3) ->
 		let v1 = opt_exp max_loop is_function store e1 in
 		(match v1, opt_exp max_loop is_function store e2 with
 			 | MyInteger(i), MyInteger(n) ->
-			 	let e = loop_unroll max_loop is_function store s i n e3 in
+			 	let e = loop_unroll max_loop store s i n e3 in
 				(unrolled := true;
-				let v = opt_exp global_max_loop true (extend store s (MyInteger(i))) e in
-				New(s, MyInteger(i), Seq(v, For(s, MyInteger(i+global_max_loop), MyInteger(n), e3))))
-			 | _, v2 -> For(s, e1, e2, e3))
+				if(i+global_max_loop<n) then
+			 		Let(s, MyInteger(i), Seq(e, For(s, MyInteger(i+global_max_loop), MyInteger(n), e3)))
+				else
+					opt_exp 0 is_function store e)
+			 | _, _ -> For(s, e1, e2, e3))
   	| While(e1, e2) ->
 		let v1 = opt_exp global_max_loop is_function store e1 in
-		if(max_loop >= 0) then
+		if(max_loop > 0) then
 			if(is_primary v1) then
 				if(get_boolean v1) then
 					let v2 = opt_exp global_max_loop is_function store e2 in
-					opt_exp max_loop is_function store (Seq(v2, opt_exp (max_loop-1) is_function store (While(e1, e2))))
+					opt_exp 0 is_function store (Seq(v2, opt_exp (max_loop-1) is_function store (While(e1, e2))))
 				else Nothing
 			else
 				opt_exp (max_loop-1) is_function store (If(v1, Seq(e2, While(e1, e2)), Nothing))
@@ -163,7 +175,12 @@ and opt_exp max_loop is_function store expression = match expression with
 		  | MyBoolean(b) -> if b then opt_exp max_loop is_function store e2 else opt_exp max_loop is_function store e3
 		  | v1 -> If(v1, opt_exp max_loop is_function store e2, opt_exp max_loop is_function store e3))
   	| Application(e, ps) ->
-		let vs = map (opt_exp max_loop is_function store) ps in
+		let vs = map (fun p -> let new_p = opt_exp max_loop is_function store p in
+			 (match p, new_p with
+				 | Identifier(_), Identifier(s) ->
+				 	(try access store s with
+						| Exp_errors.VariableDeclaration (_, _) -> Identifier(s))
+				 | _, _ -> new_p)) ps in
 		if(fold_left (fun a v -> contains_print v || a) false vs) then Application(opt_exp max_loop true (Hashtbl.create 100) e, ps)
 		else (match opt_exp max_loop is_function store e with
 			  	| Identifier(s) ->
@@ -191,4 +208,4 @@ and opt_exp max_loop is_function store expression = match expression with
 let rec opt = function
   	| [] -> []
   	| (s, ps, expression)::[] -> [(s, ps, opt_exp global_max_loop false (Hashtbl.create 100) expression)]
-  	| (s, ps, expression)::program -> let _ = extend function_store s (Fundef(ps, expression)) in (s, ps, expression) :: opt program
+  	| (s, ps, expression)::program -> let function_store = extend function_store s (Fundef(ps, expression)) in (s, ps, expression) :: opt program

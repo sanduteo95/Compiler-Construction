@@ -1,12 +1,12 @@
 /* Testing the following:
 	- LESS
 	- GREATER
-	- OR 
+	- OR
 */
 function main() {
 	var a=2;
 	var b=2;
-	if(a<b || b>a) {
+	if(*a<*b || *b>*a) {
 		print("Not equal");
 	} else {
 		print("Equal");

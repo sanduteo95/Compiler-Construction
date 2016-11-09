@@ -4,11 +4,11 @@
 	- string function
 */
 function main() {
-	var x = 5; 
+	var x = 5;
 	var y = 0;
 	var z = 0;
-	(if (x%2==0) { y; } else { z; }) = x ;
-	if(y!=0) {
+	(if (*x%2==0) { *y; } else { *z; }) = *x ;
+	if(*y!=0) {
 		return "y";
 	} else {
 		return "z";

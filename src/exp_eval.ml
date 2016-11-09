@@ -47,13 +47,13 @@ eval_application env store ps parameters exp =
 and
 eval_exp env store expression = steps := !steps+1;
     match expression with
-      | MyNull -> Null | MyString(s) -> String(s) | MyInteger(i) -> Integer(i) | MyFloat(f) -> Float(f) | MyBoolean(b) -> Boolean(b)  | Nothing -> steps := !steps + 1; Unit
+      | MyNull -> Null | MyString(s) -> String(s) | MyInteger(i) -> Integer(i) | MyFloat(f) -> Float(f) | MyBoolean(b) -> Boolean(b)  | Nothing -> Unit
       | MyTuple(es) ->  Tuple(map (fun e -> eval_exp env store e) es)
       | Identifier(s) -> lookup s env
       | Deref(e) ->
         (match eval_exp env store e with
             | Pointer(location) -> access store location
-            | v -> v)
+            | _ -> failwith "Can't dereference a constant value.")
       | Let(s, e1, e2) -> let v = eval_exp env store e1 in eval_exp ((s,v)::env) store e2
       | New(s, e1, e2) ->
         let v1 = eval_exp env store e1 in
@@ -73,7 +73,7 @@ eval_exp env store expression = steps := !steps+1;
           | Integer(i), Integer(j) ->
               if(i <= j) then
                   let location = newref() in
-                  let _ = eval_exp ((s, Pointer(location))::env) (extend store location (Integer(i))) e3 in
+                  let _ = eval_exp ((s, Integer(i))::env) store e3 in
                   eval_exp env store (For(s, MyInteger(i+1), MyInteger(j), e3))
               else eval_exp env store Nothing
           | _ -> raise (TypeError ("For loops only contains integers", "")))

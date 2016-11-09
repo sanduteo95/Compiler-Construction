@@ -3,14 +3,14 @@
 	- constant folding
 */
 function f(var x) {
-	return x+1;
+	return *x+1;
 }
 function main() {
 	var z = read();
 	var a = 0;
-	let x=10 in let y=20 in a=x*y*z;
+	let x=10 in let y=20 in *a=x*y*(*z);
 	var b = 0;
-	let y=2 in b=f(y);
-	return a+b;
+	let y=2 in *b=f(y);
+	return *a+*b;
 }
 

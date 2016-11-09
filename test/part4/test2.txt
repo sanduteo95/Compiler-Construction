@@ -3,10 +3,10 @@
 	- constant folding
 */
 function f(var x, var y) {
-	return x*y*1;
+	return (*x)*(*y)*1;
 }
 function main() {
 	var x = read();
-	return f(x,2);
+	return f(*x,2);
 }
 

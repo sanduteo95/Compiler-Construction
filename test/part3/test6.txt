@@ -1,16 +1,16 @@
-/*	Tesing: 
+/*	Tesing:
 	- changing a pointers value
 	- variable shadowing
 	- dereferenced pointer as a function argument
 	- function on the left-hand side of an assignment
 */
 function new(var z) {
-	return z;
+	return *z;
 }
 function main() {
 	var x = 2;
 	var *y = &x;
-	(new(y))=8;
-	return x + new(*y);
+	*(new(*y))=8;
+	return *x + new(**y);
 }
 

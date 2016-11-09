@@ -3,12 +3,12 @@
 	- if
 */
 function main() {
-	var x = 5; 
+	var x = 5;
 	var y = 3;
-	if(x>y) {
-		return x;
+	if(*x>*y) {
+		return *x;
 	} else {
-		return y;
+		return *y;
 	}
 }
 
