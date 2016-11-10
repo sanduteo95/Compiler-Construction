@@ -28,7 +28,7 @@ let new_label() =
 let ram : (int, int) Hashtbl.t = Hashtbl.create 100
 
 (** The text storage. *)
-let text : (int, Syntax.expression) Hashtbl.t = Hashtbl.create 100
+let text : (int, string * string list * Syntax.expression) Hashtbl.t = Hashtbl.create 100
 (** The accumulator. *)
 let acc = ref 0
 
@@ -84,6 +84,6 @@ let call addr =
     let haddr = !acc in
     find text haddr
 
-let load saddr haddr expression =
+let load saddr haddr (s, ps, expression) =
     add ram saddr haddr;
-    add text haddr expression
+    add text haddr (s, ps, expression)

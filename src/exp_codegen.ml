@@ -4,6 +4,8 @@ open Exp_store
 
 let code = Buffer.create 100
 
+let functions = Buffer.create 100
+
 let string_of_operator = function
     | Plus -> "add"
     | Minus -> "sub"
@@ -71,7 +73,7 @@ let codegen_str addr1 addr2 =
 let codegen_mvr addr1 addr2 =
     codegen_ldr addr1;
     "\t" ^ "mv" ^ (string_of_addr addr2)
-    ^ ", eax"
+    ^ ", acc"
     ^ "\n" |> Buffer.add_string code;
     stack_addr := addr1;
     "\t" ^ "ld acc"
@@ -91,11 +93,12 @@ let codegen_jmp label =
     "\t" ^ "jmp " ^ label
     ^ "\n" |> Buffer.add_string code
 
-let codegen_call label =
-    "\t" ^ "call " ^ label
+let rec codegen_call addr =
+    codegen_ldr addr;
+    "\t" ^ "call acc"
     ^ "\n" |> Buffer.add_string code
 
-let rec codegen symt = function
+let rec codegen symt expression = match expression with
     | Operator(operator, e1, e2) ->
         let addr1 = codegen symt e1 in
         let addr2 = codegen symt e2 in
@@ -135,7 +138,7 @@ let rec codegen symt = function
         codegen_st addr;
         addr
     | Seq(e1, e2) ->
-        let addr1 = codegen symt e1 in
+        let _ = codegen symt e1 in
         codegen symt e2
     | Asg(e1, e2) ->
         let addr1 = codegen symt e1 in
@@ -205,18 +208,16 @@ let rec codegen symt = function
         addr
     | Application(exp, ps) ->
         let initial_addr = !stack_addr in
-        let addrs = List.map(codegen symt) ps in
-        List.map (fun addr -> let new_addr = new_stack_addr() in codegen_ldc addr; codegen_st new_addr) addrs;
-        let new_addr = new_stack_addr() in
+        let saddr = new_stack_addr() in
         codegen_ldc initial_addr;
-        codegen_st new_addr;
-        let _ = codegen symt exp in
-        codegen_call "function";
-        (* codegen_ldr addr'; *)
+        codegen_st saddr;
+        let addr = codegen symt exp in
+        let _ = List.fold_left (fun a p -> let addr = codegen symt p in let addr' = new_stack_addr() in codegen_ldc addr; codegen_st addr'; a@[addr']) [] ps in
+        codegen_call addr;
+        "\t" ^ "ld acc" |> Buffer.add_string code;
         stack_addr := initial_addr+1;
-        let addr'' = new_stack_addr() in
-        codegen_st addr'';
-        addr''
+        st !stack_addr;
+        !stack_addr
     | Print(e) ->
         let addr = codegen symt e in
         codegen_mv addr print_addr; (* register for printing *)
@@ -233,15 +234,19 @@ let rec gen_prog symt program = match program with
         let addr = codegen symt expression in
         "\t" ^ "ld" ^ (string_of_addr addr) ^ "\n" |> Buffer.add_string code
     | (s, ps, expression)::program ->
-        "\n" ^ s ^ ":\n" |> Buffer.add_string code;
         let saddr = new_stack_addr() in
         let haddr = new_heap_addr() in
-        load saddr haddr expression;
-        codegen [] expression;
+        (* load saddr haddr (s, ps, expression); *)
+        "\n" ^ s ^ ":\n" |> Buffer.add_string functions;
+        let addrs = (List.fold_left (fun a p -> let saddr = new_stack_addr() in a@[(p, saddr)] ) [] ps) in
+        let addr = codegen addrs expression in
+        "\t" ^ "ld" ^ (string_of_addr addr) ^ "\n" |> Buffer.add_string functions;
         gen_prog ((s, saddr)::symt) program
 
 let generate program =
     Buffer.reset code;
     stack_addr := print_addr + 1;
     gen_prog [] program;
+    "\tjmp END \n END: \n \t nop\n" |> Buffer.add_string code;
+    Buffer.output_buffer stdout functions;
     Buffer.output_buffer stdout code;

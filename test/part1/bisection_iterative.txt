@@ -5,15 +5,15 @@ function bisection_iterative(var f, var a, var b, var TOL, var NMAX) {
 	var N=1;
 	var c=0.0;
 	while(*N<=*NMAX) {
-		*c=(*a+*b)/2.0;
+		c=(*a+*b)/2.0;
 		if(f(*c) == 0.0 || (*b-*a)/2.0 < *TOL) {
-			*N=*NMAX+1;
+			N=*NMAX+1;
 		} else {
-			*N=*N+1;
+			N=*N+1;
 			if(f(*c)*f(*a)=>0.0) {
-				*a=*c;
+				a=*c;
 			} else {
-				*b=*c;
+				b=*c;
 			}
 		}
 	}

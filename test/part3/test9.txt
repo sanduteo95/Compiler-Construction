@@ -11,7 +11,7 @@ function g(var x) {
 	}
 }
 function f(var x) {
-	*x = g(*x);
+	x = g(*x);
 	return *x;
 }
 function main() {

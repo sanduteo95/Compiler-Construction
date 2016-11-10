@@ -17,8 +17,8 @@ function main() {
 	var a = 2;
 	var c = *a+1;
 	var *b = &c;
-	**b = f(*a);
-	*c = *c + (**b);
+	*b = f(*a);
+	c = *c + (**b);
 	return *c;
 }
 

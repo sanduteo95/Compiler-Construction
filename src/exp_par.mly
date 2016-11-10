@@ -92,7 +92,7 @@ statement:
 	| l = left_assignment; ASSIGN; r = right_assignment; SEMI_COLLON  { Asg(l, r)}
 	| PRINT; LEFT_ROUND_BRACKET; e = expression; RIGHT_ROUND_BRACKET; SEMI_COLLON  { Print(e) }
 	| RETURN; e = expression; SEMI_COLLON { e }
-	| TIMES; id = ID; SEMI_COLLON { Identifier(id) }
+	| id = ID; SEMI_COLLON { Identifier(id) }
 	| f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, expression); RIGHT_ROUND_BRACKET; SEMI_COLLON  { Application(f, a)}
 
 for_loop:
@@ -135,14 +135,14 @@ expression:
 	| f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, expression); RIGHT_ROUND_BRACKET  { Application(f, a)}
 
 left_assignment:
-	| TIMES; id = ID  { Identifier(id) }
+	| id = ID  { Identifier(id) }
 	| ADDRESS_OF; id = ID { Identifier(id) }
-	| TIMES; TIMES; id = ID { Deref(Identifier(id)) }
+	| TIMES; id = ID { Deref(Identifier(id)) }
 	| LEFT_ROUND_BRACKET; TIMES; TIMES; id = ID; RIGHT_ROUND_BRACKET { Deref(Identifier(id)) }
 	| LEFT_ROUND_BRACKET; IF; LEFT_ROUND_BRACKET; o = operator_expression; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s1 = statements; RIGHT_CURLY_BRACKET; ELSE; LEFT_CURLY_BRACKET; s2 = statements; RIGHT_CURLY_BRACKET; RIGHT_ROUND_BRACKET  { If(o, s1, s2) }
 	| LEFT_ROUND_BRACKET; LET; id = ID; ASSIGN; r = right_assignment; IN; s = statement; RIGHT_ROUND_BRACKET  { Let(id, r, s) }
-	| TIMES; LEFT_ROUND_BRACKET; f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, expression); RIGHT_ROUND_BRACKET ; RIGHT_ROUND_BRACKET  { Application(f, a) }
-	| TIMES; TIMES; LEFT_ROUND_BRACKET; f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, expression); RIGHT_ROUND_BRACKET ; RIGHT_ROUND_BRACKET  { Deref(Application(f, a)) }
+	| LEFT_ROUND_BRACKET; f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, expression); RIGHT_ROUND_BRACKET ; RIGHT_ROUND_BRACKET  { Application(f, a) }
+	| TIMES; LEFT_ROUND_BRACKET; f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, expression); RIGHT_ROUND_BRACKET ; RIGHT_ROUND_BRACKET  { Deref(Application(f, a)) }
 
 right_assignment:
 	| NULL  { MyNull }

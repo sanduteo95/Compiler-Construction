@@ -127,19 +127,18 @@ let rec interp_exp symt expression =
             print_addr
         | Application(exp, ps) ->
             let initial_addr = !stack_addr in
-            let addrs = List.map(interp_exp symt) ps in
-            List.map (fun addr -> let new_addr = new_stack_addr() in ldc addr; st new_addr) addrs;
-            let new_addr = new_stack_addr() in
+            let saddr = new_stack_addr() in
             ldc initial_addr;
-            st new_addr;
+            st saddr;
             let addr = interp_exp symt exp in
-            let e = call addr in
-            let addr' = interp_exp symt e in
+            let addrs = List.fold_left (fun a p -> let addr = interp_exp symt p in let addr' = new_stack_addr() in ldc addr; st addr'; a@[addr']) [] ps in
+            let (s, pps, e) = call addr in
+            let addr' = interp_exp ((List.combine pps addrs)@symt) e in
             ldr addr';
             stack_addr := initial_addr+1;
-            let addr'' = new_stack_addr() in
-            st addr'';
-            addr''
+            st !stack_addr;
+            (* st addr''; *)
+            !stack_addr
         | Nothing -> -1
         | _ -> failwith "Not implemented yet.")
 
@@ -151,7 +150,7 @@ let rec interp_program symt program = match program with
         | (s, ps, expression)::program ->
             let saddr = new_stack_addr() in
             let haddr = new_heap_addr() in
-            load saddr haddr expression;
+            load saddr haddr (s, ps, expression);
             interp_program ((s, saddr)::symt) program
 
 let interpret program =

@@ -13,7 +13,7 @@ function main() {
 	var y = 2;
 	var *x = &y;
 	var z = NULL;
-	*z = &y;
+	z = &y;
 	return f(**x) + g(**z);
 }
 

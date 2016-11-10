@@ -6,7 +6,7 @@ function main () {
 	var x = 0;
 	var z = 0;
 	var y = 4;
-	(if (*y%2==0) { *x; } else { *z; }) =  5;
+	(if (*y%2==0) { x; } else { z; }) =  5;
 	return *x;
 }
 

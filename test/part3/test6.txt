@@ -10,7 +10,7 @@ function new(var z) {
 function main() {
 	var x = 2;
 	var *y = &x;
-	*(new(*y))=8;
+	(new(*y))=8;
 	return *x + new(**y);
 }
 

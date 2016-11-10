@@ -10,7 +10,7 @@ function main() {
 	while(*i<=*n) {
 		var j=(*i)*2;
 		print(*j);
-		*i = *i+1; /* Added this so as not to enter an infinite loop. */
+		i = *i+1; /* Added this so as not to enter an infinite loop. */
 	}
 }
 

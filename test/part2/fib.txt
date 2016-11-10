@@ -10,10 +10,10 @@ function fib(var n) {
 		} else {
 			var i = 2;
 			while(*i<*n){
-				*c = *a+*b;
-				*a = *b;
-				*b = *c;
-				*i = *i+1;
+				c = *a+*b;
+				a = *b;
+				b = *c;
+				i = *i+1;
 			}
 			return *c;
 		}

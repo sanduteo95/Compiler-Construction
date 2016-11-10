@@ -13,7 +13,7 @@ function f(var n) {
 function main() {
 	var n = 0;
 	var m = &n;
-	**m = f(3);
+	*m = f(3);
 	return *n!=(**m);
 }
 
