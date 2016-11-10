@@ -1,0 +1,174 @@
+main:
+        ld r0 # REGISTER FOR READING
+        st r3
+        ld 1001
+        st r4
+        mv r3, r1001
+        mv r4, r5
+        mv r4, r6
+        ld r6
+        ld acc
+        st r7
+        ld 1
+        st r8
+        add r7, r8
+        st r7
+        ld r5
+        mv r7, acc
+        ld acc
+        st r7
+        ld 3
+        st r6
+        ld 1002
+        st r7
+        mv r6, r1002
+        mv r7, r8
+        mv r7, r9
+        ld r9
+        ld acc
+        st r10
+        ld 5
+        st r11
+        add r10, r11
+        st r10
+        ld r8
+        mv r10, acc
+        ld acc
+        st r10
+        ld 0
+        st r9
+        ld 1003
+        st r10
+        mv r9, r1003
+        ld 1
+        st r11
+        ld 10
+        st r12
+
+LOOP1:
+        sle r11, r12
+        jmpz END_LOOP1
+        mv r10, r12
+        mv r10, r13
+        ld r13
+        ld acc
+        st r14
+        mv r11, r15
+        add r14, r15
+        st r14
+        ld r12
+        mv r14, acc
+        ld acc
+        st r14
+        ld 1
+        st r11
+        add r11, r11
+        st r11
+        jmp LOOP1
+
+END_LOOP1:
+        ld 0
+        st r12
+        ld 1004
+        st r13
+        mv r12, r1004
+
+LOOP2:
+        mv r4, r14
+        ld r14
+        ld acc
+        st r15
+        mv r7, r16
+        ld r16
+        ld acc
+        st r17
+        slt r15, r17
+        st r15
+        jmpz END_LOOP2
+        mv r13, r14
+        mv r13, r15
+        ld r15
+        ld acc
+        st r16
+        mv r4, r17
+        ld r17
+        ld acc
+        st r18
+        add r16, r18
+        st r16
+        ld r14
+        mv r16, acc
+        ld acc
+        st r16
+        mv r7, r15
+        ld r15
+        ld acc
+        st r16
+        mv r4, r17
+        ld r17
+        ld acc
+        st r18
+        mod r16, r18
+        st r16
+        ld 0
+        st r17
+        seq r16, r17
+        st r16
+        ld r16
+        jmpz BRANCH3
+        mv r4, r17
+        mv r4, r18
+        ld r18
+        ld acc
+        st r19
+        ld 1
+        st r20
+        add r19, r20
+        st r19
+        ld r17
+        mv r19, acc
+        ld acc
+        st r19
+        jmp END_BRANCH3
+
+BRANCH3:
+        mv r7, r17
+        mv r7, r18
+        ld r18
+        ld acc
+        st r19
+        ld 1
+        st r20
+        sub r19, r20
+        st r19
+        ld r17
+        mv r19, acc
+        ld acc
+        st r19
+
+END_BRANCH3:
+        jmp LOOP2
+
+END_LOOP2:
+        mv r10, r18
+        ld r18
+        ld acc
+        st r19
+        mv r13, r20
+        ld r20
+        ld acc
+        st r21
+        add r19, r21
+        st r19
+        mv r19, r1 # REGISTER FOR PRINTING
+        mv r10, r20
+        ld r20
+        ld acc
+        st r21
+        mv r13, r22
+        ld r22
+        ld acc
+        st r23
+        add r21, r23
+        st r21
+        ld r21

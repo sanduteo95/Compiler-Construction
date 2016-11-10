@@ -1,0 +1,19 @@
+main:
+        ld 1
+        st r3
+        ld 100
+        st r4
+
+LOOP1:
+        sle r3, r4
+        jmpz END_LOOP1
+        mv r3, r4
+        mv r4, r1 # REGISTER FOR PRINTING
+        ld 1
+        st r3
+        add r3, r3
+        st r3
+        jmp LOOP1
+
+END_LOOP1:
+        ld r1 # REGISTER FOR PRINTING

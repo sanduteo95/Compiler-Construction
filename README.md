@@ -231,9 +231,18 @@ If you run the program with the option "-o" (which isn't compulsory) it'll optim
 ## Interpreter and compiler
 For this part of the assignment, I have managed to implement both the interpreter and compiler for a simple iterative language, including local variables, let statement, as well as if statements and while and for loops. The compiler print labels to each jump location, so that the code is easy to read, and has a variety of instructions for each operator and others for moving values around.
 
-Let statement have variables that are allocated just on the stack, whereas local variables (declared with "var") are located on the heap, but there is also a pointer on the stack to that location on the heap. My interpreter and compiler both accept pointers too, which as far as I can see are working fine.
+Let statement have variables that are allocated just on the stack, whereas local variables (declared with "var") are located on the heap, but there is also a pointer on the stack to that location on the heap. My interpreter and compiler both accept pointers too, which as far as I can see are working fine. I have also added function applications to the interpreter, although lambdas aren't currently working, as well as the generator, but it's not entirely perfect yet.
 
 As for the stack and used registers, I have put register 0 and 1 aside for reading and printing and have only allowed a stack of size 1000, so that values bigger than this value will be situated on the heap. I can relax this value if I notice it's not enough for functions that can be evaluated by the previously implemented evaluator.
+
+If you want to interpret and generate one file at a time, run this command:
+
+	sh run.sh <flag> <path>
+	where:
+		- flag: -i or -g
+		- path: the path to a file inside the test folder
+
+There are also some test cases inside folder "part5", with their generated code inside the "results" folder.
 
 ## Tests
 There are fours folders now inside the "test" folder, which contain test cases for each part of the assignment.

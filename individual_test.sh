@@ -7,12 +7,12 @@ fi
 
 LENGTH=${#2}
 echo "${2:11:$LENGTH-11}: "
-OUTPUT=$(./exp_test.native $1 $2)
 if [ $1 == "-p" ] || [ $1 == "-g" ] || [ $1 == "-i" ]; then
-    echo $OUTPUT
+    ./exp_test.native $1 $2
 fi
 
 if [ $1 == "-e" ] || [ $1 == "-o" ] ; then
+    OUTPUT=$(./exp_test.native $1 $2)
     IFS=', ' read -r -a array <<< ${OUTPUT}
     length=${#array[@]}
     TIME=${array[${length}-1]}

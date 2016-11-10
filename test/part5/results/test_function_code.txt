@@ -1,0 +1,33 @@
+f:
+        ld r6
+        mv r4, r5
+        ld r5
+        ld acc
+        st r6
+        mv r4, r7
+        ld r7
+        ld acc
+        st r8
+        mul r6, r8
+        st r6
+
+main:
+        mv r3, r4
+        ld 5
+        st r5
+        ld r5
+        st r6
+        ld bp(7)
+        st r8
+        ld r4
+        call acc(function address)
+        ld acc
+        ld r8
+        ld 1002
+        st r8
+        mv r7, r1002
+        mv r8, r9
+        ld r9
+        ld acc
+        st r10
+        ld r10

@@ -126,18 +126,18 @@ let rec interp_exp symt expression =
             mv addr print_addr; (* register for printing *)
             print_addr
         | Application(exp, ps) ->
+            let addr = interp_exp symt exp in
+            let addrs = List.fold_left (fun a p -> let addr = interp_exp symt p in let addr' = new_stack_addr() in ldc addr; st addr'; a@[addr']) [] ps in
             let initial_addr = !stack_addr in
             let saddr = new_stack_addr() in
             ldc initial_addr;
             st saddr;
-            let addr = interp_exp symt exp in
-            let addrs = List.fold_left (fun a p -> let addr = interp_exp symt p in let addr' = new_stack_addr() in ldc addr; st addr'; a@[addr']) [] ps in
             let (s, pps, e) = call addr in
             let addr' = interp_exp ((List.combine pps addrs)@symt) e in
+            ldr saddr;
+            stack_addr := !acc;
             ldr addr';
-            stack_addr := initial_addr+1;
             st !stack_addr;
-            (* st addr''; *)
             !stack_addr
         | Nothing -> -1
         | _ -> failwith "Not implemented yet.")
@@ -149,6 +149,7 @@ let rec interp_program symt program = match program with
             if(addr <> -1 && addr <> 2) then (Hashtbl.find ram addr) else addr
         | (s, ps, expression)::program ->
             let saddr = new_stack_addr() in
+            let initial_addr = !stack_addr in
             let haddr = new_heap_addr() in
             load saddr haddr (s, ps, expression);
             interp_program ((s, saddr)::symt) program
