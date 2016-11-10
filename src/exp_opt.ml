@@ -208,4 +208,4 @@ and opt_exp max_loop is_function store expression = match expression with
 let rec opt = function
   	| [] -> []
   	| (s, ps, expression)::[] -> [(s, ps, opt_exp global_max_loop false (Hashtbl.create 100) expression)]
-  	| (s, ps, expression)::program -> let function_store = extend function_store s (Fundef(ps, expression)) in (s, ps, expression) :: opt program
+  	| (s, ps, expression)::program -> let _ = extend function_store s (Fundef(ps, expression)) in (s, ps, expression) :: opt program

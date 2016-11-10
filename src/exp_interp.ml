@@ -47,12 +47,9 @@ let rec interp_exp symt expression =
             addr'
         | Deref(e) ->
             let addr = interp_exp symt e in
-            ldr addr;
-            let addr' = !acc in
-            let addr'' = new_stack_addr() in
-            ldr addr';
-            st addr'';
-            addr''
+            let addr' = new_stack_addr() in
+            str addr addr';
+            addr'
         | MyNull ->
             let addr = new_stack_addr() in
             ldc 0;
@@ -69,25 +66,18 @@ let rec interp_exp symt expression =
             st addr;
             addr
         | Seq(e1, e2) ->
-            let addr1 = interp_exp symt e1 in
+            let _ = interp_exp symt e1 in
             interp_exp symt e2
         | Asg(e1, e2) ->
             let addr1 = interp_exp symt e1 in
-            ldr addr1;
-            let haddr = !acc in
             let addr2 = interp_exp symt e2 in
-            mv addr2 haddr;
-            stack_addr := addr1;
-            ldc haddr;
-            st addr2;
+            mvr addr1 addr2;
             addr2
         | New(s, e1, e2) ->
             let addr1 = interp_exp symt e1 in
             let saddr = new_stack_addr() in
             let haddr = new_heap_addr() in
-            ldc haddr;
-            st saddr;
-            mv addr1 haddr;
+            alloc saddr haddr addr1;
             let addr2 = interp_exp ((s, saddr)::symt) e2 in
             addr2
         | Let(s, e1, e2) ->
@@ -98,7 +88,7 @@ let rec interp_exp symt expression =
             addr1
         | While(e1, e2) ->
             let initial_addr = !stack_addr in
-            let addr1 = interp_exp symt e1 in
+            let _ = interp_exp symt e1 in
             let e = jmpz e2 Nothing in
             let addr = interp_exp symt e in
             stack_addr := initial_addr;
@@ -135,28 +125,36 @@ let rec interp_exp symt expression =
             let addr = interp_exp symt e in
             mv addr print_addr; (* register for printing *)
             print_addr
-        (* | Application(exp, ps) ->
-            let initial_addr = !stack_addr;
+        | Application(exp, ps) ->
+            let initial_addr = !stack_addr in
             let addrs = List.map(interp_exp symt) ps in
             List.map (fun addr -> let new_addr = new_stack_addr() in ldc addr; st new_addr) addrs;
             let new_addr = new_stack_addr() in
-            ld initial_addr;
+            ldc initial_addr;
             st new_addr;
-            let addr = lookup s symt in
-            let addr' = interp_exp symt (call addr);
-            ldc addr'; *)
-
+            let addr = interp_exp symt exp in
+            let e = call addr in
+            let addr' = interp_exp symt e in
+            ldr addr';
+            stack_addr := initial_addr+1;
+            let addr'' = new_stack_addr() in
+            st addr'';
+            addr''
         | Nothing -> -1
         | _ -> failwith "Not implemented yet.")
 
-let interpret program = match program with
-    | [] -> 0
-    | ("main", [], expression)::[] ->
-        stack_addr := print_addr + 1;
-        Hashtbl.add ram read_addr 3; (* register for reading; set to 3 for testing purposes*)
-        let addr = interp_exp [] expression in
-        if(addr <> -1 && addr <> 2) then (Hashtbl.find ram addr) else addr
-    (* | (s, ps, expression)::program ->
-        let saddr = new_stack_addr() in
-        load saddr expression;
-        interpret program *)
+let rec interp_program symt program = match program with
+        | [] -> 0
+        | ("main", [], expression)::[] ->
+            let addr = interp_exp symt expression in
+            if(addr <> -1 && addr <> 2) then (Hashtbl.find ram addr) else addr
+        | (s, ps, expression)::program ->
+            let saddr = new_stack_addr() in
+            let haddr = new_heap_addr() in
+            load saddr haddr expression;
+            interp_program ((s, saddr)::symt) program
+
+let interpret program =
+    Hashtbl.add ram read_addr 3;
+    stack_addr := print_addr + 1;
+    interp_program [] program
