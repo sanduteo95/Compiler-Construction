@@ -28,4 +28,9 @@ if [ $1 == "-e" ] || [ $1 == "-o" ] ; then
         echo "  Test: FAILED"
     fi
 fi
+
+if [ $1 == "-s" ] ; then
+    sh run.sh $1 $2
+fi
+
 echo ""

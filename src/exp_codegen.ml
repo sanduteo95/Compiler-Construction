@@ -27,7 +27,6 @@ let string_of_addr addr =
         else
             if addr==1 then " r"^(string_of_int addr) ^ " # REGISTER FOR PRINTING"
             else " r"^(string_of_int addr)
-    (* else " -" ^ (string_of_int (addr-stack_overflow)) ^ "(bp)" *)
     else " r" ^ (string_of_int addr)
 
 let label_name incr name =

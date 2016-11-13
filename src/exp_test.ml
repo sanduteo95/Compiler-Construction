@@ -8,6 +8,7 @@ open Exp_errors
 open Exp_opt
 open Exp_interp
 open Exp_codegen
+open Exp_codegenx86
 open Formatter
 
 (** The argument for optimisation, which is optional. *)
@@ -69,6 +70,7 @@ let run expression = match flag with
         | "-e" -> eval_with_error expression |> test_result
         | "-i" -> interpret expression |> printf "%d\n"
         | "-g" -> generate expression
+        | "-s" -> generatex86 expression
         | _ -> failwith "Not yet."
 
 (** Function reads the file and prints the resulting parse tree.  *)
