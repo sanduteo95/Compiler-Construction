@@ -1,7 +1,6 @@
 function main() {
-    var x = 1;
-    var *y = &x;
-    *y = **y + 2;
-    return *x;
+    var sum = 1;
+    sum = *sum + 1;
+    return *sum;
 }
 

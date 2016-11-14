@@ -15,8 +15,7 @@ if [ $1 == "-s" ] ; then
 
     OUTPUT=$(./exp_test.native $1 $2)
     BEFORE=`cat before.txt`
-    AFTER=`cat after.txt`
-    echo "$BEFORE$OUTPUT$AFTER" >> program.txt
+    echo "$BEFORE$OUTPUT" >> program.txt
     mv program.txt program.s
     gcc -c program.s -o program.o
     gcc program.o -o program

@@ -36,42 +36,34 @@ main:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    movl	$260, -4(%rbp)
-    movl	-4(%rbp), %eax
-    movl	%eax, %edi
+    movq	$260, -8(%rbp)
+    movq	-8(%rbp), %rax
     pushq $1
     leaq -24(%rbp), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
-    leaq -40(%rbp), %rax
+    movq -32(%rbp), %rax
     pushq %rax
-    ##offset 4
-    movq -48(%rbp), %rax
+    popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 4
-    movq -48(%rbp), %rax
-    movq (%rax), %rax
-    movq (%rax), %rax
-    pushq %rax
-    pushq $2
+    pushq $1
     popq %rax
     popq %rbx
     addq %rax, %rbx
     pushq %rbx
     popq %rax
-    popq %rdx
-    movq %rax, (%rdx)
-    ##offset 4
-    movq -48(%rbp), %rax
-    movq (%rax), %rax
+    popq %rbx
+    movq %rax, (%rbx)
+    movq -32(%rbp), %rax
+    pushq %rax
+    popq %rax
     movq (%rax), %rax
     pushq %rax
     popq %rdi
     callq print
-    movl	$0, %eax
+    movq	$0, %rax
     leave
     .cfi_def_cfa 7, 8
     ret
