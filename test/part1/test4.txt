@@ -12,6 +12,6 @@ function half(var x, var n) {
 	}
 }
 function main() {
-	half(4, 2);
+	half(5, 2);
 }
 

@@ -1,6 +1,4 @@
 function main() {
-    var sum = 1;
-    sum = *sum + 1;
-    return *sum;
+	let x=2 in let y=2 in x/y;
 }
 

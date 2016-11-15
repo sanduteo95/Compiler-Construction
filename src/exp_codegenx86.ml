@@ -1,4 +1,6 @@
 open Syntax
+open X86_code
+open Exp_store
 
 let sp = ref 0
 let stack_overflow = 1000
@@ -8,20 +10,14 @@ let lf = ref 3
 
 let code = Buffer.create 100
 
-let rec lookup s env = match env with
-  	 | [] -> failwith "Not found."
-  	 | (var, value)::env -> if (String.equal s var) then value else lookup s env
-
-let tab _ = "    "
-
 let x86_operator = function
     | Plus -> "addq %rax, %rbx\n" ^ tab() ^ "pushq %rbx\n"
     | Minus -> "subq %rax, %rbx\n" ^ tab() ^ "pushq %rbx\n"
-    | Times -> "mulq %rax, %rbx\n" ^ tab() ^ "pushq %rbx\n"
-    (* | Divide -> "divq %rax\n" ^ tab() ^ "pushq %rax\n" *)
+    | Times -> "mulq %rbx\n" ^ tab() ^ "pushq %rax\n"
+    | Divide -> "push %rax\n" ^ tab() ^ "push %rbx\n" ^ tab() ^ "pop %rax\n" ^ tab() ^ "pop %rbx\n" ^ tab() ^ "cltd\n" ^ tab() ^ "divq %rbx\n" ^ tab() ^ "pushq %rax\n"
     | And -> "andq %rax, %rbx\n" ^ tab() ^ "pushq %rbx\n"
     | Or -> "orq %rax, %rbx\n" ^ tab() ^ "pushq %rbx\n"
-    (* | Modulus -> "divq %rax\n" *)
+    | Modulus -> "push %rax\n" ^ tab() ^ "push %rbx\n" ^ tab() ^ "pop %rax\n" ^ tab() ^ "pop %rbx\n" ^ tab() ^ "cltd\n" ^ tab() ^ "divq %rbx\n" ^ tab() ^ "pushq %rdx\n"
     | Less -> "cmpq %rax, %rbx\n" ^ tab() ^ "setl %al\n" ^ tab() ^ "pushq %rax\n"
     | Leq -> "cmpq %rax, %rbx\n" ^ tab() ^ "setle %al\n" ^ tab()  ^ "pushq %rax\n"
     | Greater -> "cmpq %rax, %rbx\n" ^ tab() ^ "setg %al\n" ^ tab()  ^ "pushq %rax\n"
@@ -29,11 +25,13 @@ let x86_operator = function
     | Eq -> "cmpq %rax, %rbx\n" ^ tab() ^ "sete %al\n" ^ tab()  ^ "pushq %rax\n"
     | Noteq -> "cmpq %rax, %rbx\n" ^ tab() ^ "setne %al\n" ^ tab()  ^ "pushq %rax\n"
 
+let x86_addr addr = string_of_int (-16 -8 * addr)
+
 let codegenx86_st n =
     tab() ^ "pushq $" ^ (string_of_int n) ^ "\n" |> Buffer.add_string code
 
 let codegenx86_new _ =
-    tab() ^ "leaq " ^ (string_of_int (-16-8*(!sp))) ^ "(%rbp), %rax\n"
+    tab() ^ "leaq " ^ (x86_addr (!sp)) ^ "(%rbp), %rax\n"
     ^ tab() ^ "pushq %rax\n" |> Buffer.add_string code
 
 let codegenx86_op op =
@@ -43,11 +41,15 @@ let codegenx86_op op =
 
 let codegenx86_not _ =
     tab() ^ "popq %rax\n"
-    ^ tab() ^ "negq" ^ " %rax\n"
+    ^ tab() ^ "cmpq	$0, %rax\n"
+    ^ tab() ^ "sete	%al\n"
+    ^ tab() ^ "pushq %rax\n"
+    ^ tab() ^ "popq %rax\n"
     ^ tab() ^ "pushq %rax\n" |> Buffer.add_string code
 
 let codegenx86_id addr =
-    tab() ^ "movq " ^ (string_of_int (-16-8*addr)) ^ "(%rbp), %rax\n"
+    tab() ^ "##offset " ^ (string_of_int addr) ^ "\n"
+    ^ tab() ^ "movq " ^ (x86_addr addr) ^ "(%rbp), %rax\n"
     ^ tab() ^ "pushq %rax\n" |> Buffer.add_string code
 
 let codegenx86_deref _ =
@@ -78,28 +80,23 @@ let codegenx86_let _ =
     ^ tab() ^ "pushq %rax\n"
     |> Buffer.add_string code
 
+let arg i = match i with
+    | 1 -> "%rdi"
+    | 2 -> "%rsi"
+    | 3 -> "%rex"
+    | 4 -> "%dcx"
+    | 5 -> "%r8"
+    | 6 -> "%r9"
+    | _ -> failwith "Too many function arguments."
+
 let rec codegenx86_formal_arg i =
-    let res = (match i with
-        | 1 -> tab() ^ "pushq %rdi\n"
-        | 2 -> tab() ^ "pushq %rsi\n"
-        | 3 -> tab() ^ "pushq %rex\n"
-        | 4 -> tab() ^ "pushq %dcx\n"
-        | 5 -> tab() ^ "pushq %r8\n"
-        | 6 -> tab() ^ "pushq %r9\n"
-        | _ -> failwith "Too many function arguments.") in
-    res |> Buffer.add_string code;
+    tab() ^ "pushq " ^ (arg i) ^ "\n" |> Buffer.add_string code;
+    sp := !sp + 1;
     i+1
 
 let codegenx86_actual_arg i =
-    let res = (match i with
-        | 1 -> tab() ^ "popq %rdi\n"
-        | 2 -> tab() ^ "popq %rsi\n"
-        | 3 -> tab() ^ "popq %rex\n"
-        | 4 -> tab() ^ "popq %dcx\n"
-        | 5 -> tab() ^ "popq %r8\n"
-        | 6 -> tab() ^ "popq %r9\n"
-        | _ -> failwith "Too many function arguments.") in
-    res |> Buffer.add_string code;
+    tab() ^ "popq " ^ (arg i) ^ "\n" |> Buffer.add_string code;
+    sp := !sp - 1;
     i+1
 
 let rec codegenx86 symt expression =
@@ -120,8 +117,7 @@ let rec codegenx86 symt expression =
             sp := !sp + 1
         | Deref(e) ->
             codegenx86 symt e;
-            codegenx86_deref();
-            sp := !sp + 1
+            codegenx86_deref()
         | MyNull ->
             codegenx86_st 0;
             sp := !sp + 1
@@ -142,9 +138,12 @@ let rec codegenx86 symt expression =
             let label2 = ".L" ^ (string_of_int !lb) in
             lb := !lb + 1;
             codegenx86_if label1;
+            sp := !sp - 1;
+            let old_sp = !sp in
             codegenx86 symt e2;
             tab() ^ "jmp " ^ label2 ^ "\n"
             ^ label1 ^ ":\n" |> Buffer.add_string code;
+            sp := old_sp;
             codegenx86 symt e3;
             label2 ^ ":\n" |> Buffer.add_string code
         | While(e1, e2) ->
@@ -167,57 +166,21 @@ let rec codegenx86 symt expression =
             codegenx86 symt e1;
             codegenx86_new();
             sp := !sp + 1;
-            codegenx86 ((s, !sp) :: symt) e2;
+            codegenx86 ((s, !sp) :: symt) e2
         | Let(s, e1, e2) ->
             codegenx86 symt e1;
             codegenx86 ((s, !sp) :: symt) e2;
             codegenx86_let ()
         | Application(Identifier(s), ps) ->
             let i = ref 1 in
+            let old_sp = !sp in
             let _ = List.map (fun p -> codegenx86 symt p; i := codegenx86_actual_arg !i) ps in
             tab() ^ "callq " ^ s ^ "\n" |> Buffer.add_string code;
-            sp := !sp + 1;
+            sp := old_sp + 1;
             tab() ^ "pushq %rax\n" |> Buffer.add_string code
+        (* | Print(e) ->
+        | Read ->  *)
         | _ -> failwith "Not implemented.")
-
-let prefix_function name id =
-"\n" ^ tab() ^ ".globl	" ^ name ^ "\n"
-^ tab() ^ ".type	" ^ name ^ ", @function\n"
-^ name ^ ":\n" ^ ".LFB" ^ (string_of_int id) ^ ":\n"
-^ tab() ^ ".cfi_startproc\n"
-^ tab() ^ "pushq	%rbp\n"
-^ tab() ^ ".cfi_def_cfa_offset 16\n"
-^ tab() ^ ".cfi_offset 6, -16\n"
-^ tab() ^ "movq	%rsp, %rbp\n"
-^ tab() ^ ".cfi_def_cfa_register 6\n"
-^ tab() ^ "subq	$16, %rsp\n"
-
-let suffix_function name =
-tab () ^ "popq %rax\n"
-^ tab () ^ "popq %rbp\n"
-^ tab () ^ ".cfi_def_cfa 7, 8\n"
-^ tab () ^ "ret\n"
-^ tab () ^ ".cfi_endproc\n"
-^ ".LFE" ^ (string_of_int !lf) ^ ":\n"
-^ tab() ^ ".size	" ^ name ^ ", .-" ^ name
-
-let prefix_main id =
-prefix_function "main" id
-^ tab() ^ "movq	$260, -8(%rbp)\n"
-^ tab() ^ "movq	-8(%rbp), %rax\n"
-
-let suffix_main id =
-tab() ^ "popq %rdi\n"
-^ tab() ^ "callq print\n"
-^ tab() ^ "movq	$0, %rax\n"
-^ tab() ^ "leave\n"
-^ tab() ^ ".cfi_def_cfa 7, 8\n"
-^ tab() ^ "ret\n"
-^ tab() ^ ".cfi_endproc\n"
-^ ".LFE" ^ (string_of_int id) ^ ":\n"
-^ tab() ^ ".size	" ^ "main" ^ ", .-" ^ "main" ^ "\n"
-^ tab() ^ ".ident	\"GCC: (GNU) 6.2.1 20160830\"\n"
-^ tab () ^ ".section	.note.GNU-stack,\"\",@progbits\n"
 
 let rec generatex86_program symt program =
     sp := 0;
@@ -231,18 +194,17 @@ let rec generatex86_program symt program =
         | (s, ps, expression)::prog ->
             prefix_function s (!lf) |> Buffer.add_string code;
             let i = ref 1 in
-            let _ = List.map (fun p -> i := codegenx86_formal_arg !i) ps in
-            (* sp := !sp - 1; *)
-            let symt = List.fold_right (fun p a -> sp := !sp + 1; codegenx86_new(); a@[(p, !sp)]) ps [] in
-            sp := 0;
-            codegenx86 ((s, !lf)::symt) expression;
-            suffix_function s |> Buffer.add_string code;
+            let f_symt = List.fold_left (fun a p -> i := codegenx86_formal_arg !i; codegenx86_new(); sp := !sp + 1; a@[(p, !sp)]) [] ps in
+            codegenx86 ((s, !lf)::f_symt) expression;
+            suffix_function s (!lf) |> Buffer.add_string code;
             lf := !lf + 1;
-            generatex86_program ((s, !lf)::symt) prog
+            generatex86_program ((s, !sp)::symt) prog
 
 let generatex86 program =
     Buffer.reset code;
     lb := 3;
     lf := 3;
-    generatex86_program [] program;
+    prefix_program |> Buffer.add_string code;
+    (try generatex86_program [] program with
+        | Failure _ -> Buffer.reset code);
     Buffer.output_buffer stdout code

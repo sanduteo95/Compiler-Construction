@@ -2,7 +2,7 @@ function f(var x) {
     return (*x)*(*x);
 }
 function main() {
-    var sum=f(5);
+    var sum = f(5);
     return *sum;
 }
 

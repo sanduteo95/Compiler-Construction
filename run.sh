@@ -11,18 +11,19 @@ if [ $1 == "-s" ] ; then
         exit 0
     fi
 
-    # ./exp_test.native $1 $2
-
     OUTPUT=$(./exp_test.native $1 $2)
-    BEFORE=`cat before.txt`
-    echo "$BEFORE$OUTPUT" >> program.txt
-    mv program.txt program.s
-    gcc -c program.s -o program.o
-    gcc program.o -o program
-    # rm program.s
-    rm program.o
-    ./program
-    rm program
+    if [[ $OUTPUT != "" ]] ; then
+        echo "$OUTPUT" >> program.txt
+        mv program.txt program.s
+        gcc -c program.s -o program.o
+        gcc program.o -o program
+        # rm program.s
+        rm program.o
+        ./program
+        rm program
+    else
+        echo "not implemented"
+    fi
 else
     echo "This script only works for generating x86 code."
     exit 0

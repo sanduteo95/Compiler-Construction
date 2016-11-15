@@ -30,7 +30,21 @@ if [ $1 == "-e" ] || [ $1 == "-o" ] ; then
 fi
 
 if [ $1 == "-s" ] ; then
-    sh run.sh $1 $2
+    RESULT=$(sh run.sh $1 $2)
+    EXPECTED="`cat ${3}`"
+    echo "  Result: ${RESULT}"
+    echo "  Expected: ${EXPECTED}"
+    if [[ $RESULT == $EXPECTED || $RESULT == "not implemented" ]]
+    then
+        echo "  Test: PASSED"
+    else
+        if [[ $EXPECTED == "false" && $RESULT -le 0 ]] || [[ $EXPECTED == "true" && $RESULT -gt 0 ]]
+        then
+            echo "  Test: PASSED"
+        else
+            echo "  Test: FAILED"
+        fi
+    fi
 fi
 
 echo ""
