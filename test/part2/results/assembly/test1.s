@@ -92,7 +92,6 @@ main:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
     ##offset 6
     movq -64(%rbp), %rax
     pushq %rax
@@ -115,7 +114,6 @@ main:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
 .L3:
     ##offset 6
     movq -64(%rbp), %rax

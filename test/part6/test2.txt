@@ -3,8 +3,6 @@ function main() {
     for(i=1:10) {
         sum = *sum+i;
     }
-    var x = 2;
-    x = *x + *sum;
-    return *x;
+    return *sum;
 }
 

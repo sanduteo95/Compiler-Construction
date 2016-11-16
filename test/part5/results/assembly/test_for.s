@@ -75,9 +75,7 @@ main:
     popq %rdi
     callq print
     pushq %rax
-    movq -24(%rbp), %rax
-    addq $1, %rax
-    movq %rax, -24(%rbp)
+    addq $1, -24(%rbp)
 .L3:
     ##offset 1
     movq -24(%rbp), %rax

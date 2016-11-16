@@ -129,7 +129,6 @@ main:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
     popq %rax
     popq %rbx 
     pushq %rax
@@ -137,24 +136,23 @@ main:
     popq %rbx 
     pushq %rax
     pushq $0
-    leaq -64(%rbp), %rax
+    leaq -56(%rbp), %rax
     pushq %rax
     pushq $2
     ## number of arguments 1
-    ##offset 8
-    movq -80(%rbp), %rax
+    ##offset 7
+    movq -72(%rbp), %rax
     pushq %rax
     ## arg number 1
     popq %rdi
     callq f
     pushq %rax
-    ##offset 7
-    movq -72(%rbp), %rax
+    ##offset 6
+    movq -64(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
     popq %rax
     popq %rbx 
     pushq %rax
@@ -164,8 +162,8 @@ main:
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 7
-    movq -72(%rbp), %rax
+    ##offset 6
+    movq -64(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax

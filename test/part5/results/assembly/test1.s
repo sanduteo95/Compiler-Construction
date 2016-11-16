@@ -86,12 +86,11 @@ main:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
     pushq $3
-    leaq -48(%rbp), %rax
+    leaq -40(%rbp), %rax
     pushq %rax
-    ##offset 5
-    movq -56(%rbp), %rax
+    ##offset 4
+    movq -48(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
@@ -101,45 +100,41 @@ main:
     popq %rbx
     addq %rax, %rbx
     pushq %rbx
-    ##offset 5
-    movq -56(%rbp), %rax
+    ##offset 4
+    movq -48(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
     pushq $0
-    leaq -72(%rbp), %rax
+    leaq -56(%rbp), %rax
     pushq %rax
     pushq $1
     jmp .L3
 .L4:
-    ##offset 8
-    movq -80(%rbp), %rax
+    ##offset 6
+    movq -64(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 9
-    movq -88(%rbp), %rax
+    ##offset 7
+    movq -72(%rbp), %rax
     pushq %rax
     popq %rax
     popq %rbx
     addq %rax, %rbx
     pushq %rbx
-    ##offset 8
-    movq -80(%rbp), %rax
+    ##offset 6
+    movq -64(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
-    movq -88(%rbp), %rax
-    addq $1, %rax
-    movq %rax, -88(%rbp)
+    addq $1, -72(%rbp)
 .L3:
-    ##offset 9
-    movq -88(%rbp), %rax
+    ##offset 7
+    movq -72(%rbp), %rax
     pushq %rax
     pushq $10
     popq %rax
@@ -151,12 +146,12 @@ main:
     cmpq $0, %rax
     jnz .L4
     pushq $0
-    leaq -104(%rbp), %rax
+    leaq -80(%rbp), %rax
     pushq %rax
     jmp .L5
 .L6:
-    ##offset 12
-    movq -112(%rbp), %rax
+    ##offset 9
+    movq -88(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
@@ -171,15 +166,14 @@ main:
     popq %rbx
     addq %rax, %rbx
     pushq %rbx
-    ##offset 12
-    movq -112(%rbp), %rax
+    ##offset 9
+    movq -88(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
-    ##offset 5
-    movq -56(%rbp), %rax
+    ##offset 4
+    movq -48(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
@@ -225,11 +219,10 @@ main:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
     jmp .L8
 .L7:
-    ##offset 5
-    movq -56(%rbp), %rax
+    ##offset 4
+    movq -48(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
@@ -239,13 +232,12 @@ main:
     popq %rbx
     subq %rax, %rbx
     pushq %rbx
-    ##offset 5
-    movq -56(%rbp), %rax
+    ##offset 4
+    movq -48(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
 .L8:
 .L5:
     ##offset 2
@@ -254,8 +246,8 @@ main:
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 5
-    movq -56(%rbp), %rax
+    ##offset 4
+    movq -48(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
@@ -269,14 +261,14 @@ main:
     cmpq $0, %rax
     jnz .L6
     ## number of arguments 1
-    ##offset 8
-    movq -80(%rbp), %rax
+    ##offset 6
+    movq -64(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 12
-    movq -112(%rbp), %rax
+    ##offset 9
+    movq -88(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
@@ -289,14 +281,14 @@ main:
     popq %rdi
     callq print
     pushq %rax
-    ##offset 8
-    movq -80(%rbp), %rax
+    ##offset 6
+    movq -64(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 12
-    movq -112(%rbp), %rax
+    ##offset 9
+    movq -88(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax

@@ -89,10 +89,7 @@ main:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
-    movq -40(%rbp), %rax
-    addq $1, %rax
-    movq %rax, -40(%rbp)
+    addq $1, -40(%rbp)
 .L3:
     ##offset 3
     movq -40(%rbp), %rax

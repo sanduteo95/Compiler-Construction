@@ -152,7 +152,6 @@ main:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
 .L5:
     ## number of arguments 1
     ##offset 2

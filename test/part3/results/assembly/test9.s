@@ -153,7 +153,6 @@ f:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
     ##offset 2
     movq -32(%rbp), %rax
     pushq %rax

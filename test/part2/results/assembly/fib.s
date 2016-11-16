@@ -165,7 +165,6 @@ fib:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
     ##offset 6
     movq -64(%rbp), %rax
     pushq %rax
@@ -178,7 +177,6 @@ fib:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
     ##offset 8
     movq -80(%rbp), %rax
     pushq %rax
@@ -191,7 +189,6 @@ fib:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
     ##offset 10
     movq -96(%rbp), %rax
     pushq %rax
@@ -209,7 +206,6 @@ fib:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
 .L7:
     ##offset 10
     movq -96(%rbp), %rax

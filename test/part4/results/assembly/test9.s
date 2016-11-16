@@ -85,7 +85,6 @@ f:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
     popq %rax
     movq %rbp, %rsp
     popq %rbp

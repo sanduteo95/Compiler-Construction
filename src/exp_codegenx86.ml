@@ -77,14 +77,16 @@ let codegenx86_while label =
     tab ^ "popq %rax\n"
     ^ tab ^ "cmpq $0, %rax\n"
     ^ tab ^ "jnz " ^ label ^ "\n"
-    |> Buffer.add_string code
+    |> Buffer.add_string code;
+    sp := !sp - 1
 
 let codegenx86_asg _ =
     tab ^ "popq %rbx\n"
     ^ tab ^ "popq %rax\n"
     ^ tab ^ "movq %rax, (%rbx)\n"
-    ^ tab ^ "pushq %rax\n" |> Buffer.add_string code;
-    sp := !sp - 1
+    (* ^ tab ^ "pushq %rax\n"  *)
+    |> Buffer.add_string code;
+    sp := !sp - 2
 
 let codegenx86_let _ =
     tab ^ "popq %rax\n"
@@ -170,12 +172,10 @@ codegenx86 symt expression =
         codegenx86 symt e3;
         label2 ^ ":\n" |> Buffer.add_string code
     | While(e1, e2) ->
-        let old_sp = !sp in
         let (label1, label2) = codegenx86_labels() in
         tab ^ "jmp " ^ label1 ^ "\n" |> Buffer.add_string code;
         label2^ ":\n" |> Buffer.add_string code;
         codegenx86 symt e2;
-        sp := old_sp;
         label1^ ":\n" |> Buffer.add_string code;
         codegenx86 symt e1;
         codegenx86_while label2
@@ -183,15 +183,12 @@ codegenx86 symt expression =
         let (label1, label2) = codegenx86_labels() in
         codegenx86 symt e1;
         tab ^ "jmp " ^ label1 ^ "\n" |> Buffer.add_string code;
-        let old_sp = !sp in
+        let s_sp = !sp in
         label2^ ":\n" |> Buffer.add_string code;
-        codegenx86 ((s, old_sp)::symt) e3;
-        tab ^ "movq " ^ (string_of_int(-16-8*old_sp)) ^ "(%rbp), %rax\n"
-        ^ tab ^ "addq $1, %rax\n"
-        ^ tab ^ "movq %rax, " ^ (string_of_int(-16-8*old_sp)) ^ "(%rbp)\n" |> Buffer.add_string code;
-        sp := old_sp;
+        codegenx86 ((s, s_sp)::symt) e3;
+        tab ^ "addq $1, " ^ (string_of_int(-16-8*s_sp)) ^ "(%rbp)\n" |> Buffer.add_string code;
         label1^ ":\n" |> Buffer.add_string code;
-        codegenx86 ((s, old_sp)::symt) (Operator(Leq, Identifier(s), e2));
+        codegenx86 ((s, s_sp)::symt) (Operator(Leq, Identifier(s), e2));
         codegenx86_while label2
     | Asg(e1, e2) ->
         codegenx86 symt e2;
@@ -211,6 +208,10 @@ codegenx86 symt expression =
         codegenx86_appl "print" [e] symt
     | Read ->
         codegenx86_appl "read" [] symt
+    (* | Lambda(_, _) ->
+    | MyFloat(_) ->
+    | MyTuple(_) ->
+    | MyString(_) ->*)
     | _ -> failwith "Not implemented."
 
 let rec generatex86_program symt program =

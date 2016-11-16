@@ -99,7 +99,6 @@ main:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
     jmp .L4
 .L3:
     ##offset 2
@@ -119,7 +118,6 @@ main:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
 .L4:
     ##offset 2
     movq -32(%rbp), %rax
