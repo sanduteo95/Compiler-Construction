@@ -13,5 +13,6 @@ function main() {
 		x=*x*2;
 		y=*y/2;
 	}
+	return 0;
 }
 

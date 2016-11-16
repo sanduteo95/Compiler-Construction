@@ -22,5 +22,6 @@ function main() {
 	} else {
 		print("Not equal");
 	}
+	return 0;
 }
 

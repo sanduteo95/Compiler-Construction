@@ -14,13 +14,14 @@ if [ $1 == "-s" ] ; then
     OUTPUT=$(./exp_test.native $1 $2)
     if [[ $OUTPUT != "" ]] ; then
         echo "$OUTPUT" >> program.txt
+
         mv program.txt program.s
         gcc -c program.s -o program.o
         gcc program.o -o program
-        # rm program.s
-        rm program.o
         ./program
-        rm program
+        mv program.s "${2: 0: 11}/results/assembly/${2: 11: -4}.s"
+        rm program.o
+        mv program "${2: 0: 11}/results/assembly/${2: 11: -4}"
     else
         echo "not implemented"
     fi

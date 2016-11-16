@@ -17,5 +17,6 @@ function main() {
 	print("Input y");
 	var y = 2;
 	print(f(*x,*y));
+	return 0;
 }
 

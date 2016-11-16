@@ -11,5 +11,6 @@ function main() {
 	} else {
 		print("Equal");
 	}
+	return 0;
 }
 

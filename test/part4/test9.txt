@@ -8,6 +8,6 @@ function f(var x) {
 function main() {
     var x=1;
     f(*x);
-    print(*x);
+    return *x;
 }
 

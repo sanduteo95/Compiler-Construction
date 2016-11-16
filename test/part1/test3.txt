@@ -12,5 +12,6 @@ function main() {
 		print(*j);
 		i = *i+1; /* Added this so as not to enter an infinite loop. */
 	}
+	return 0;
 }
 
