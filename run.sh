@@ -19,11 +19,11 @@ if [ $1 == "-s" ] ; then
         gcc -c program.s -o program.o
         gcc program.o -o program
         ./program
-        mv program.s "${2: 0: 11}/results/assembly/${2: 11: -4}.s"
+        mv program.s "${2: 0: 11}results/assembly/${2: 11: -4}.s"
         rm program.o
-        mv program "${2: 0: 11}/results/assembly/${2: 11: -4}"
+        mv program "${2: 0: 11}results/assembly/${2: 11: -4}"
     else
-        echo "not implemented"
+        echo "NotImplemented"
     fi
 else
     echo "This script only works for generating x86 code."

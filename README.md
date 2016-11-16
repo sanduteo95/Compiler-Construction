@@ -245,7 +245,13 @@ If you want to interpret and generate one file at a time, run this command:
 There are also some test cases inside folder "part5", with their generated code inside the "results" folder.
 
 ## x86 compiler
-For the x86 code generator I have implemented integers, booleans, a simple imperative language with immutable and mutable variables, with if and while loops, and with function applications. I also implemented pointers.
+For the x86 code generator I have implemented the following:
+- integers, booleans and a NULL value for pointers
+- immutable and mutable variables: let statements, assignments, dereferencing
+- pointers to mutable variables
+- if statements
+- while and for loops
+- functions that can take any number of arguments
 
 ## Tests
 There are fours folders now inside the "test" folder, which contain test cases for each part of the assignment.

@@ -30,11 +30,14 @@ if [ $1 == "-e" ] || [ $1 == "-o" ] ; then
 fi
 
 if [ $1 == "-s" ] ; then
-    RESULT=$(sh run.sh $1 $2)
+
+    OUTPUT=$(sh run.sh $1 $2)
+    IFS=', ' read -r -a array <<< ${OUTPUT}
+    RESULT=${array[${length}-1]}
     EXPECTED="`cat ${3}`"
     echo "  Result: ${RESULT}"
     echo "  Expected: ${EXPECTED}"
-    if [[ $RESULT == $EXPECTED || $RESULT == "not implemented" ]]
+    if [[ $RESULT == $EXPECTED ]]
     then
         echo "  Test: PASSED"
     else

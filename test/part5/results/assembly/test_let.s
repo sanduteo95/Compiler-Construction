@@ -20,8 +20,10 @@ print:
     movl	$.LC0, %edi
     movl	$0, %eax
     call	printf
-    movl	$0, %edi
-    call	exit
+    nop
+    leave
+    .cfi_def_cfa 7, 8
+    ret
     .cfi_endproc
 .LFE2:
     .size	print, .-print

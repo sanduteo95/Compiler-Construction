@@ -20,8 +20,10 @@ print:
     movl	$.LC0, %edi
     movl	$0, %eax
     call	printf
-    movl	$0, %edi
-    call	exit
+    nop
+    leave
+    .cfi_def_cfa 7, 8
+    ret
     .cfi_endproc
 .LFE2:
     .size	print, .-print
@@ -62,16 +64,16 @@ half:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    ## arg number 1
-    pushq %rdi
-    leaq -24(%rbp), %rax
-    pushq %rax
     ## arg number 2
     pushq %rsi
+    leaq -24(%rbp), %rax
+    pushq %rax
+    ## arg number 1
+    pushq %rdi
     leaq -40(%rbp), %rax
     pushq %rax
-    ##offset 2
-    movq -32(%rbp), %rax
+    ##offset 4
+    movq -48(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
@@ -85,16 +87,16 @@ half:
     popq %rax
     cmpq $0, %rax
     jz .L3
-    ##offset 4
-    movq -48(%rbp), %rax
+    ##offset 2
+    movq -32(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
     jmp .L4
 .L3:
-    ##offset 2
-    movq -32(%rbp), %rax
+    ##offset 4
+    movq -48(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
@@ -110,8 +112,8 @@ half:
     divq %rbx
     pushq %rax
     ## number of arguments 2
-    ##offset 4
-    movq -48(%rbp), %rax
+    ##offset 2
+    movq -32(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
