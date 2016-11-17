@@ -1,3 +1,9 @@
+/* Testings the following:
+    - function call
+    - local variables
+    - operators
+    - dereferencing
+*/
 function f(var x) {
     return (*x)*(*x);
 }

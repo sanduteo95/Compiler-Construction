@@ -106,6 +106,18 @@ main:
     pushq $0
     leaq -40(%rbp), %rax
     pushq %rax
+    ## number of arguments 1
+    pushq $2
+    ## arg number 1
+    popq %rdi
+    callq f
+    pushq %rax
+    ##offset 4
+    movq -48(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
     pushq $10
     pushq $20
     ##offset 5
@@ -118,52 +130,18 @@ main:
     popq %rbx
     mulq %rbx
     pushq %rax
-    pushq $3
+    ##offset 2
+    movq -32(%rbp), %rax
+    pushq %rax
+    popq %rax
+    movq (%rax), %rax
+    pushq %rax
     popq %rax
     popq %rbx
     mulq %rbx
     pushq %rax
     ##offset 4
     movq -48(%rbp), %rax
-    pushq %rax
-    popq %rbx
-    popq %rax
-    movq %rax, (%rbx)
-    popq %rax
-    popq %rbx 
-    pushq %rax
-    popq %rax
-    popq %rbx 
-    pushq %rax
-    pushq $0
-    leaq -56(%rbp), %rax
-    pushq %rax
-    pushq $2
-    ## number of arguments 1
-    ##offset 7
-    movq -72(%rbp), %rax
-    pushq %rax
-    ## arg number 1
-    popq %rdi
-    callq f
-    pushq %rax
-    ##offset 6
-    movq -64(%rbp), %rax
-    pushq %rax
-    popq %rbx
-    popq %rax
-    movq %rax, (%rbx)
-    popq %rax
-    popq %rbx 
-    pushq %rax
-    ##offset 4
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    ##offset 6
-    movq -64(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
@@ -172,6 +150,12 @@ main:
     popq %rbx
     addq %rax, %rbx
     pushq %rbx
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
     popq %rdi
     callq print
     movq	$0, %rax

@@ -149,7 +149,6 @@ let rec interp_program symt program = match program with
             if(addr <> -1 && addr <> 2) then (Hashtbl.find ram addr) else addr
         | (s, ps, expression)::program ->
             let saddr = new_stack_addr() in
-            let initial_addr = !stack_addr in
             let haddr = new_heap_addr() in
             load saddr haddr (s, ps, expression);
             interp_program ((s, saddr)::symt) program
@@ -157,4 +156,4 @@ let rec interp_program symt program = match program with
 let interpret program =
     Hashtbl.add ram read_addr 3;
     stack_addr := print_addr + 1;
-    interp_program [] program
+    interp_program [] program 

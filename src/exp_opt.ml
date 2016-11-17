@@ -186,7 +186,7 @@ and opt_exp max_loop is_function store expression = match expression with
 			  	| Identifier(s) ->
 					if(Hashtbl.mem function_store s) then
 				  		(match access function_store s with
-					 		| Fundef(ps, expression) ->
+					 		| (s, ps, expression) ->
 								try opt_exp max_loop true (Hashtbl.create 100) (create_nested_new ps vs expression) with
 									| Exp_errors.FunctionError msg -> Application(Identifier(s), vs)
 					 		| _ -> Application(Identifier(s), vs))
@@ -208,4 +208,4 @@ and opt_exp max_loop is_function store expression = match expression with
 let rec opt = function
   	| [] -> []
   	| (s, ps, expression)::[] -> [(s, ps, opt_exp global_max_loop false (Hashtbl.create 100) expression)]
-  	| (s, ps, expression)::program -> let _ = extend function_store s (Fundef(ps, expression)) in (s, ps, expression) :: opt program
+  	| (s, ps, expression)::program -> let _ = extend function_store s ((s, ps, expression)) in (s, ps, expression) :: opt program

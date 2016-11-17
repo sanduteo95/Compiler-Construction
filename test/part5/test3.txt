@@ -1,3 +1,9 @@
+/* Testing the following:
+    - local variables
+    - if statements
+    - assignments
+    - dereferencing
+*/
 function main() {
     var x = 1;
     if(*x<2) {

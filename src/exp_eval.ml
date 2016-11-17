@@ -72,7 +72,6 @@ eval_exp env store expression = steps := !steps+1;
         (match eval_exp env store e1, eval_exp env store e2 with
           | Integer(i), Integer(j) ->
               if(i <= j) then
-                  let location = newref() in
                   let _ = eval_exp ((s, Integer(i))::env) store e3 in
                   eval_exp env store (For(s, MyInteger(i+1), MyInteger(j), e3))
               else eval_exp env store Nothing
@@ -93,14 +92,14 @@ eval_exp env store expression = steps := !steps+1;
               | _ -> raise (FunctionError "The function you tried to apply to the parameters is not correct."))
           | _ -> raise (FunctionError "The function you tried to apply to the parameters is not correct."))
       | Lambda(p, e) -> Fundef(p, e)
-      | Read -> Integer(3)
-        (* let line  = read_line () in *)
-        (* if (input_is_int line) then Integer(int_of_string line)
+      | Read ->
+        let line  = read_line () in
+        if (input_is_int line) then Integer(int_of_string line)
         else
           if (input_is_float line) then Float(float_of_string line)
           else
             if(line == "true" || line == "false") then Boolean(line == "true")
-            else String(line) *)
+            else String(line)
       | Print(e) -> print_exp (eval_exp env store e); eval_exp env store Nothing
 
 (** Function evaluates each individual function in the program. *)

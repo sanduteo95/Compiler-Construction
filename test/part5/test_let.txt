@@ -1,3 +1,7 @@
+/* Testings the following:
+    - let statements
+    - opertors
+*/
 function main() {
     let x=30+40 in x+x;
 }

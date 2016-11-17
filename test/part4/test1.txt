@@ -7,10 +7,8 @@ function f(var x) {
 }
 function main() {
 	var z = read();
-	var a = 0;
-	let x=10 in let y=20 in a=x*y*3;
 	var b = 0;
-	let y=2 in b=f(y);
-	return *a+*b;
+	b=f(2);
+	let x=10 in let y=20 in (x*y*(*z))+(*b);
 }
 

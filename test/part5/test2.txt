@@ -1,3 +1,8 @@
+/* Testing the following:
+    - local variables
+    - assignments
+    - dereferencing
+*/
 function main () {
     var x = 1;
     x = *x+1;

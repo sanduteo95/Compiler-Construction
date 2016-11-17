@@ -1,3 +1,8 @@
+/* Testing the following:
+    - pointers
+    - local variables
+    - assigning pointers
+*/
 function main() {
     var y = 2;
     var *x = &y;

@@ -121,11 +121,11 @@ main:
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    pushq $0
+    pushq $1
     popq %rax
     popq %rbx
     cmpq %rax, %rbx
-    setne %al
+    setg %al
     pushq %rax
     ##offset 4
     movq -48(%rbp), %rax

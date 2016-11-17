@@ -214,7 +214,6 @@ let rec codegen symt expression = match expression with
     | Application(exp, ps) ->
         let addr = codegen symt exp in
         let _ = List.fold_left (fun a p -> let addr = codegen symt p in let addr' = new_stack_addr() in codegen_ldr addr; codegen_st addr'; a@[addr']) [] ps in
-        let saddr = new_stack_addr() in
         let initial_addr = !stack_addr in
         let saddr = new_stack_addr() in
         codegen_ldip initial_addr;
@@ -246,7 +245,6 @@ let rec gen_prog symt program = match program with
     | (s, ps, expression)::program ->
         let saddr = new_stack_addr() in
         let initial_addr = !stack_addr in
-        let haddr = new_heap_addr() in
         "\n" ^ s ^ ":\n" |> Buffer.add_string functions;
         let addrs = (List.fold_left (fun a p -> let saddr = new_stack_addr() in a@[(p, saddr)] ) [] ps) in
         let addr = codegen addrs expression in

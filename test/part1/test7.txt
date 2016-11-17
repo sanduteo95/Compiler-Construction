@@ -9,7 +9,7 @@ function main() {
 	var m = 2;
 	var x = 12;
 	var y = 4;
-	while(*y!=0 && *x%*y!=*m) {
+	while(*y>1 && *x%*y!=*m) {
 		x=*x*2;
 		y=*y/2;
 	}

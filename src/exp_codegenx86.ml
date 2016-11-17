@@ -76,15 +76,14 @@ let codegenx86_if label =
 let codegenx86_while label =
     tab ^ "popq %rax\n"
     ^ tab ^ "cmpq $0, %rax\n"
-    ^ tab ^ "jnz " ^ label ^ "\n"
-    |> Buffer.add_string code;
+    ^ tab ^ "jnz " ^ label ^ "\n" |> Buffer.add_string code;
     sp := !sp - 1
 
 let codegenx86_asg _ =
     tab ^ "popq %rbx\n"
     ^ tab ^ "popq %rax\n"
     ^ tab ^ "movq %rax, (%rbx)\n"
-    (* ^ tab ^ "pushq %rax\n"  *)
+    (* ^ tab ^ "pushq %rax\n" *)
     |> Buffer.add_string code;
     sp := !sp - 2
 
