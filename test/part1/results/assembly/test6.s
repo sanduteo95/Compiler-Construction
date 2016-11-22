@@ -70,13 +70,11 @@ main:
     pushq $4
     leaq -40(%rbp), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
@@ -89,13 +87,11 @@ main:
     pushq %rax
     leaq -56(%rbp), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
@@ -108,13 +104,11 @@ main:
     pushq %rax
     leaq -72(%rbp), %rax
     pushq %rax
-    ##offset 6
     movq -64(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 8
     movq -80(%rbp), %rax
     pushq %rax
     popq %rax
@@ -127,7 +121,7 @@ main:
     pushq %rax
     popq %rax
     cmpq	$0, %rax
-    sete	%al
+    sete %al
     pushq %rax
     popq %rax
     pushq %rax

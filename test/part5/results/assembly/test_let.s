@@ -70,10 +70,8 @@ main:
     popq %rbx
     addq %rax, %rbx
     pushq %rbx
-    ##offset 1
     movq -24(%rbp), %rax
     pushq %rax
-    ##offset 1
     movq -24(%rbp), %rax
     pushq %rax
     popq %rax

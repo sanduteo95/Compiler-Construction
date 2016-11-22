@@ -72,7 +72,7 @@ main:
     pushq %rbx
     popq %rax
     cmpq	$0, %rax
-    sete	%al
+    sete %al
     pushq %rax
     popq %rax
     pushq %rax

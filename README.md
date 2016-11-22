@@ -252,6 +252,7 @@ For the x86 code generator I have implemented the following:
 - if statements
 - while and for loops
 - functions that can take any number of arguments
+- break and continue statements
 
 ## Tests
 There are fours folders now inside the "test" folder, which contain test cases for each part of the assignment.

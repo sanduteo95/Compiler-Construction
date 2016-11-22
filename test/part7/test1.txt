@@ -1,0 +1,17 @@
+function main() {
+    var x=1;
+    while(*x<4) {
+        var sum=0;
+        for(i=1:3) {
+            sum = *sum+i;
+            if(*sum>0) {
+                break;
+            } else {
+                sum=*sum;
+            }
+        }
+        x=*x+*sum;
+    }
+    return *x;
+}
+

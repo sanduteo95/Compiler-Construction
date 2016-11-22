@@ -1,0 +1,29 @@
+function f_break(var n) {
+    var fact=1;
+    for(i=1:*n) {
+        if(i>2) {
+            break;
+        } else {
+            fact=*fact*i;
+        }
+        fact=*fact/i;
+    }
+    return *fact;
+}
+function f_continue(var x, var y) {
+    while(*x!=*y) {
+        if(*x>*y) {
+            x=*x-1;
+            break;
+        } else {
+            x=*x+1;
+            continue;
+        }
+        y=*y-1;
+    }
+    return *x;
+}
+function main() {
+    return f_continue(5,9);
+}
+

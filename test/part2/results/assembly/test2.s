@@ -67,7 +67,6 @@ main:
     pushq $5
     leaq -24(%rbp), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -93,10 +92,8 @@ main:
     cmpq $0, %rax
     jz .L3
     pushq $1
-    ##offset 3
     movq -40(%rbp), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -111,7 +108,6 @@ main:
     pushq %rax
     jmp .L4
 .L3:
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -127,7 +123,6 @@ main:
     cltd
     divq %rbx
     pushq %rdx
-    ##offset 3
     movq -40(%rbp), %rax
     pushq %rax
     pushq $1

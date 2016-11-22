@@ -72,7 +72,6 @@ main:
     pushq %rax
     jmp .L3
 .L4:
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
@@ -85,18 +84,14 @@ main:
     pushq %rax
     leaq -56(%rbp), %rax
     pushq %rax
-    ## number of arguments 1
-    ##offset 6
     movq -64(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ## arg number 1
     popq %rdi
     callq print
     pushq %rax
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
@@ -107,20 +102,21 @@ main:
     popq %rbx
     addq %rax, %rbx
     pushq %rbx
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
 .L3:
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -134,7 +130,11 @@ main:
     popq %rax
     cmpq $0, %rax
     jnz .L4
+.L5:
     pushq $0
+    popq %rax
+    popq %rbx 
+    pushq %rax
     popq %rdi
     callq print
     movq	$0, %rax

@@ -67,7 +67,6 @@ main:
     pushq $10
     leaq -24(%rbp), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -80,7 +79,6 @@ main:
     pushq %rbx
     leaq -40(%rbp), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -91,19 +89,17 @@ main:
     popq %rbx
     subq %rax, %rbx
     pushq %rbx
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    ##offset 4
+    pushq %rax
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -113,6 +109,9 @@ main:
     popq %rbx
     cmpq %rax, %rbx
     setle %al
+    pushq %rax
+    popq %rax
+    popq %rbx 
     pushq %rax
     popq %rdi
     callq print

@@ -46,7 +46,7 @@ if [ $1 == "-e" ] || [ $1 == "-o" ] ; then
     echo "  Number of steps: ${STEPS} "
     echo "  Result: ${RESULT}"
     EXPECTED="`cat ${3}`"
-    if [ $RESULT == $EXPECTED ] ; then
+    if [ "$RESULT" == "$EXPECTED" ] ; then
         echo -e "  Test: ${GREEN}PASSED${NC}"
     else
         echo -e "  Test: ${RED}FAILED${NC}"

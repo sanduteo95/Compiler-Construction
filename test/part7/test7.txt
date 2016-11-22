@@ -1,0 +1,11 @@
+function main() {
+    var sum = 0;
+    sum = *sum+1;
+    if(*sum>0) {
+        break;
+    } else {
+        sum=*sum;
+    }
+    return *sum;
+}
+

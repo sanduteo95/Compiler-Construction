@@ -12,7 +12,7 @@ if [ $1 == "-s" ] ; then
     fi
 
     OUTPUT=$(./exp_test.native $1 $2)
-    if [[ $OUTPUT != "" ]] ; then
+    if [[ "$OUTPUT" != "error" ]] ; then
         echo "$OUTPUT" >> program.txt
 
         mv program.txt program.s
@@ -23,7 +23,11 @@ if [ $1 == "-s" ] ; then
         rm program.o
         mv program "${2: 0: 11}results/assembly/${2: 11: -4}"
     else
-        echo "NotImplemented"
+        if [[ "$OUTPUT" == "1" ]] ; then
+            echo "ExpectedError"
+        else
+            echo "ExpectedError"
+        fi
     fi
 else
     echo "This script only works for generating x86 code."

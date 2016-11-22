@@ -67,12 +67,10 @@ main:
     pushq $2
     leaq -24(%rbp), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     leaq -40(%rbp), %rax
     pushq %rax
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
@@ -86,7 +84,6 @@ main:
     popq %rbx
     addq %rax, %rbx
     pushq %rbx
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
@@ -95,11 +92,14 @@ main:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    ##offset 2
+    pushq %rax
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
+    pushq %rax
+    popq %rax
+    popq %rbx 
     pushq %rax
     popq %rdi
     callq print

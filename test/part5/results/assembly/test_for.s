@@ -67,17 +67,15 @@ main:
     pushq $1
     jmp .L3
 .L4:
-    ## number of arguments 1
-    ##offset 1
     movq -24(%rbp), %rax
     pushq %rax
-    ## arg number 1
     popq %rdi
     callq print
     pushq %rax
+.L5:
+    popq %rax
     addq $1, -24(%rbp)
 .L3:
-    ##offset 1
     movq -24(%rbp), %rax
     pushq %rax
     pushq $100
@@ -89,7 +87,11 @@ main:
     popq %rax
     cmpq $0, %rax
     jnz .L4
+.L6:
     pushq $0
+    popq %rax
+    popq %rbx 
+    pushq %rax
     popq %rdi
     callq print
     movq	$0, %rax

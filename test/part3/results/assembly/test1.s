@@ -64,12 +64,10 @@ double:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    ## arg number 1
     pushq %rdi
     leaq -24(%rbp), %rax
     pushq %rax
     pushq $2
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -98,24 +96,19 @@ f:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    ## arg number 1
     pushq %rdi
     leaq -24(%rbp), %rax
     pushq %rax
-    ## number of arguments 1
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ## arg number 1
     popq %rdi
     callq double
     pushq %rax
     leaq -40(%rbp), %rax
     pushq %rax
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
@@ -143,7 +136,6 @@ main:
     pushq $2
     leaq -24(%rbp), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -156,23 +148,18 @@ main:
     pushq %rbx
     leaq -40(%rbp), %rax
     pushq %rax
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     leaq -56(%rbp), %rax
     pushq %rax
-    ## number of arguments 1
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ## arg number 1
     popq %rdi
     callq f
     pushq %rax
-    ##offset 6
     movq -64(%rbp), %rax
     pushq %rax
     popq %rax
@@ -181,13 +168,12 @@ main:
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    ##offset 4
+    pushq %rax
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 6
     movq -64(%rbp), %rax
     pushq %rax
     popq %rax
@@ -200,17 +186,22 @@ main:
     popq %rbx
     addq %rax, %rbx
     pushq %rbx
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    ##offset 4
+    pushq %rax
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
     pushq %rax
     popq %rdi
     callq print

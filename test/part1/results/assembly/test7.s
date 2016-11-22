@@ -75,7 +75,6 @@ main:
     pushq %rax
     jmp .L3
 .L4:
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
@@ -86,13 +85,12 @@ main:
     popq %rbx
     mulq %rbx
     pushq %rax
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    ##offset 6
+    pushq %rax
     movq -64(%rbp), %rax
     pushq %rax
     popq %rax
@@ -108,14 +106,16 @@ main:
     cltd
     divq %rbx
     pushq %rax
-    ##offset 6
     movq -64(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
 .L3:
-    ##offset 6
     movq -64(%rbp), %rax
     pushq %rax
     popq %rax
@@ -127,13 +127,11 @@ main:
     cmpq %rax, %rbx
     setg %al
     pushq %rax
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 6
     movq -64(%rbp), %rax
     pushq %rax
     popq %rax
@@ -148,7 +146,6 @@ main:
     cltd
     divq %rbx
     pushq %rdx
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -166,7 +163,11 @@ main:
     popq %rax
     cmpq $0, %rax
     jnz .L4
+.L5:
     pushq $0
+    popq %rax
+    popq %rbx 
+    pushq %rax
     popq %rdi
     callq print
     movq	$0, %rax

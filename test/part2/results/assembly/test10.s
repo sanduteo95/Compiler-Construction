@@ -67,7 +67,6 @@ main:
     pushq $5
     leaq -24(%rbp), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -78,7 +77,6 @@ main:
     popq %rbx
     subq %rax, %rbx
     pushq %rbx
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax

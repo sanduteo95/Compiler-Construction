@@ -1,0 +1,7 @@
+function main() {
+    var sum=0;
+    break;
+    sum=*sum+1;
+    return *sum;
+}
+

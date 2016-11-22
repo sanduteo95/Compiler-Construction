@@ -78,25 +78,24 @@ main:
     cmpq $0, %rax
     jz .L3
     pushq $1
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
+    pushq %rax
     jmp .L4
 .L3:
     pushq $2
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-.L4:
-    leaq -32(%rbp), %rax
     pushq %rax
-    ##offset 2
+.L4:
+    leaq -40(%rbp), %rax
+    pushq %rax
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax

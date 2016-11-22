@@ -64,11 +64,9 @@ f:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    ## arg number 1
     pushq %rdi
     leaq -24(%rbp), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -98,7 +96,6 @@ main:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    ## number of arguments 0
     callq read
     pushq %rax
     leaq -24(%rbp), %rax
@@ -106,31 +103,16 @@ main:
     pushq $0
     leaq -40(%rbp), %rax
     pushq %rax
-    ## number of arguments 1
-    pushq $2
-    ## arg number 1
-    popq %rdi
-    callq f
-    pushq %rax
-    ##offset 4
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rbx
-    popq %rax
-    movq %rax, (%rbx)
     pushq $10
     pushq $20
-    ##offset 5
     movq -56(%rbp), %rax
     pushq %rax
-    ##offset 6
     movq -64(%rbp), %rax
     pushq %rax
     popq %rax
     popq %rbx
     mulq %rbx
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -140,8 +122,42 @@ main:
     popq %rbx
     mulq %rbx
     pushq %rax
-    ##offset 4
     movq -48(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    pushq $0
+    leaq -64(%rbp), %rax
+    pushq %rax
+    pushq $2
+    movq -80(%rbp), %rax
+    pushq %rax
+    popq %rdi
+    callq f
+    pushq %rax
+    movq -72(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    movq -48(%rbp), %rax
+    pushq %rax
+    popq %rax
+    movq (%rax), %rax
+    pushq %rax
+    movq -72(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax

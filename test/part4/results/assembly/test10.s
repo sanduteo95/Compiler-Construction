@@ -70,28 +70,27 @@ main:
     pushq $1
     jmp .L3
 .L4:
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 3
     movq -40(%rbp), %rax
     pushq %rax
     popq %rax
     popq %rbx
     addq %rax, %rbx
     pushq %rbx
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
+    pushq %rax
+.L5:
+    popq %rax
     addq $1, -40(%rbp)
 .L3:
-    ##offset 3
     movq -40(%rbp), %rax
     pushq %rax
     pushq $100
@@ -103,11 +102,14 @@ main:
     popq %rax
     cmpq $0, %rax
     jnz .L4
-    ##offset 2
+.L6:
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
+    pushq %rax
+    popq %rax
+    popq %rbx 
     pushq %rax
     popq %rdi
     callq print

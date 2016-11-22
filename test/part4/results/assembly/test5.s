@@ -64,21 +64,17 @@ modulus:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    ## arg number 2
     pushq %rsi
     leaq -24(%rbp), %rax
     pushq %rax
-    ## arg number 1
     pushq %rdi
     leaq -40(%rbp), %rax
     pushq %rax
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -112,35 +108,27 @@ main:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    ## number of arguments 2
     pushq $3
-    ## arg number 2
     popq %rsi
     pushq $5
-    ## arg number 1
     popq %rdi
     callq modulus
     pushq %rax
     leaq -24(%rbp), %rax
     pushq %rax
-    ## number of arguments 2
     pushq $2
-    ## arg number 2
     popq %rsi
     pushq $6
-    ## arg number 1
     popq %rdi
     callq modulus
     pushq %rax
     leaq -40(%rbp), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax

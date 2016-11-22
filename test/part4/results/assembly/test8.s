@@ -64,7 +64,6 @@ f:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    ## arg number 1
     pushq %rdi
     leaq -24(%rbp), %rax
     pushq %rax
@@ -76,13 +75,11 @@ f:
     pushq %rax
     jmp .L3
 .L4:
-    ##offset 6
     movq -64(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
@@ -97,13 +94,12 @@ f:
     popq %rbx
     addq %rax, %rbx
     pushq %rbx
-    ##offset 6
     movq -64(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    ##offset 4
+    pushq %rax
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
@@ -114,20 +110,21 @@ f:
     popq %rbx
     addq %rax, %rbx
     pushq %rbx
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
 .L3:
-    ##offset 4
     movq -48(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -141,13 +138,12 @@ f:
     popq %rax
     cmpq $0, %rax
     jnz .L4
-    ##offset 6
+.L5:
     movq -64(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -157,6 +153,9 @@ f:
     popq %rbx
     addq %rax, %rbx
     pushq %rbx
+    popq %rax
+    popq %rbx 
+    pushq %rax
     popq %rax
     movq %rbp, %rsp
     popq %rbp
@@ -176,12 +175,10 @@ g:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    ## arg number 1
     pushq %rdi
     leaq -24(%rbp), %rax
     pushq %rax
     pushq $5
-    ##offset 2
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -210,14 +207,10 @@ main:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    ## number of arguments 1
-    ## number of arguments 1
     pushq $1
-    ## arg number 1
     popq %rdi
     callq g
     pushq %rax
-    ## arg number 1
     popq %rdi
     callq f
     pushq %rax
