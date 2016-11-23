@@ -155,6 +155,8 @@ codegenx86 symt expression = match expression with
         label2 ^ ":\n" |> Buffer.add_string code
     | While(e1, e2) ->
         let (label1, label2) = codegenx86_labels() in
+        let cur_break_lb = !break_lb in
+        let cur_cont_lb = !cont_lb in
         break_lb :=  !lb;
         cont_lb := !lb - 2;
         let label3 =  ".L" ^ (string_of_int !break_lb) in lb := !lb + 1;
@@ -163,10 +165,14 @@ codegenx86 symt expression = match expression with
         codegenx86 symt e2;
         label1^ ":\n" |> Buffer.add_string code;
         codegenx86 symt e1;
-        codegenx86_while label2 label3
+        codegenx86_while label2 label3;
+        break_lb := cur_break_lb;
+        cont_lb := cur_cont_lb
     | For(s, e1, e2, e3) ->
         let (label1, label2) = codegenx86_labels() in
         let label3 =  ".L" ^ (string_of_int !lb) in lb := !lb + 1;
+        let cur_break_lb = !break_lb in
+        let cur_cont_lb = !cont_lb in
         cont_lb := !lb-1;
         let label4 =  ".L" ^ (string_of_int !lb) in lb := !lb + 1;
         break_lb :=  !lb-1;
@@ -181,7 +187,9 @@ codegenx86 symt expression = match expression with
         tab ^ "addq $1, " ^ (string_of_int(-16-8*s_sp)) ^ "(%rbp)\n" |> Buffer.add_string code;
         label1^ ":\n" |> Buffer.add_string code;
         codegenx86 ((s, s_sp)::symt) (Operator(Leq, Identifier(s), e2));
-        codegenx86_while label2 label4
+        codegenx86_while label2 label4;
+        break_lb := cur_break_lb;
+        cont_lb := cur_cont_lb
     | Asg(e1, e2) ->
         codegenx86 symt e2;
         codegenx86 symt e1;
@@ -189,7 +197,6 @@ codegenx86 symt expression = match expression with
     | New(s, e1, e2) ->
         codegenx86 symt e1;
         codegenx86_new();
-        let old_sp = !sp in
         codegenx86 ((s, !sp) :: symt) e2
     | Let(s, e1, e2) ->
         codegenx86 symt e1;

@@ -1,0 +1,21 @@
+function f(var n) {
+    var i = 4;
+    while(*i<=*n) {
+        i=*i+1;
+        break;
+    }
+    return *i;
+}
+function main() {
+    var x = f(10);
+    while(*x<10) {
+        while(*x<10) {
+            x=*x+1;
+            break;
+        }
+        continue;
+        x=*x-1;
+    }
+    return *x;
+}
+

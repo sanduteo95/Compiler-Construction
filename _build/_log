@@ -56,13 +56,13 @@ ocamlfind ocamlc -c -package unix -I src -o src/exp_par.cmi src/exp_par.mli # ca
 # Target: src/exp_lex.cmo, tags: { package(unix), byte, compile, extension:cmo, extension:ml, file:src/exp_lex.cmo, file:src/exp_lex.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package unix -I src -o src/exp_lex.cmo src/exp_lex.ml # cached
 # Target: src/exp_opt.ml.depends, tags: { package(unix), extension:ml, file:src/exp_opt.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package unix -modules src/exp_opt.ml > src/exp_opt.ml.depends
+ocamlfind ocamldep -package unix -modules src/exp_opt.ml > src/exp_opt.ml.depends # cached
+# Target: src/exp_opt.cmo, tags: { package(unix), byte, compile, extension:cmo, extension:ml, file:src/exp_opt.cmo, file:src/exp_opt.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package unix -I src -o src/exp_opt.cmo src/exp_opt.ml # cached
 # Target: src/formatter.ml.depends, tags: { package(unix), extension:ml, file:src/formatter.ml, ocaml, ocamldep, quiet, traverse }
 ocamlfind ocamldep -package unix -modules src/formatter.ml > src/formatter.ml.depends # cached
 # Target: src/formatter.cmo, tags: { package(unix), byte, compile, extension:cmo, extension:ml, file:src/formatter.cmo, file:src/formatter.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package unix -I src -o src/formatter.cmo src/formatter.ml # cached
-# Target: src/exp_opt.cmo, tags: { package(unix), byte, compile, extension:cmo, extension:ml, file:src/exp_opt.cmo, file:src/exp_opt.ml, implem, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -package unix -I src -o src/exp_opt.cmo src/exp_opt.ml
 # Target: src/exp_test.cmo, tags: { package(unix), byte, compile, extension:cmo, extension:ml, file:src/exp_test.cmo, file:src/exp_test.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package unix -I src -o src/exp_test.cmo src/exp_test.ml # cached
 # Target: src/exp_errors.cmx, tags: { package(unix), compile, extension:cmx, extension:ml, file:src/exp_errors.cmx, file:src/exp_errors.ml, implem, native, ocaml, quiet, traverse }
@@ -91,12 +91,12 @@ ocamlfind ocamldep -package unix -modules src/exp_par.ml > src/exp_par.ml.depend
 ocamlfind ocamlopt -c -package unix -I src -o src/exp_par.cmx src/exp_par.ml # cached
 # Target: src/exp_lex.cmx, tags: { package(unix), compile, extension:cmx, extension:ml, file:src/exp_lex.cmx, file:src/exp_lex.ml, implem, native, ocaml, quiet, traverse }
 ocamlfind ocamlopt -c -package unix -I src -o src/exp_lex.cmx src/exp_lex.ml # cached
+# Target: src/exp_opt.cmx, tags: { package(unix), compile, extension:cmx, extension:ml, file:src/exp_opt.cmx, file:src/exp_opt.ml, implem, native, ocaml, quiet, traverse }
+ocamlfind ocamlopt -c -package unix -I src -o src/exp_opt.cmx src/exp_opt.ml # cached
 # Target: src/formatter.cmx, tags: { package(unix), compile, extension:cmx, extension:ml, file:src/formatter.cmx, file:src/formatter.ml, implem, native, ocaml, quiet, traverse }
 ocamlfind ocamlopt -c -package unix -I src -o src/formatter.cmx src/formatter.ml # cached
-# Target: src/exp_opt.cmx, tags: { package(unix), compile, extension:cmx, extension:ml, file:src/exp_opt.cmx, file:src/exp_opt.ml, implem, native, ocaml, quiet, traverse }
-ocamlfind ocamlopt -c -package unix -I src -o src/exp_opt.cmx src/exp_opt.ml
 # Target: src/exp_test.cmx, tags: { package(unix), compile, extension:cmx, extension:ml, file:src/exp_test.cmx, file:src/exp_test.ml, implem, native, ocaml, quiet, traverse }
 ocamlfind ocamlopt -c -package unix -I src -o src/exp_test.cmx src/exp_test.ml # cached
 # Target: src/exp_test.native, tags: { package(unix), dont_link_with, extension:native, file:src/exp_test.native, link, native, ocaml, program, quiet, traverse }
-ocamlfind ocamlopt -linkpkg -package unix src/exp_errors.cmx src/syntax.cmx src/exp_store.cmx src/instruction_set.cmx src/exp_codegen.cmx src/x86_code.cmx src/exp_codegenx86.cmx src/type_checking.cmx src/exp_eval.cmx src/exp_interp.cmx src/exp_par.cmx src/exp_lex.cmx src/exp_opt.cmx src/formatter.cmx src/exp_test.cmx -o src/exp_test.native
+ocamlfind ocamlopt -linkpkg -package unix src/exp_errors.cmx src/syntax.cmx src/exp_store.cmx src/instruction_set.cmx src/exp_codegen.cmx src/x86_code.cmx src/exp_codegenx86.cmx src/type_checking.cmx src/exp_eval.cmx src/exp_interp.cmx src/exp_par.cmx src/exp_lex.cmx src/exp_opt.cmx src/formatter.cmx src/exp_test.cmx -o src/exp_test.native # cached
 # Compilation successful.

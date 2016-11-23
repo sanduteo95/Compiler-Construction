@@ -8,7 +8,7 @@
     - prints
 */
 function main() {
-    var x = read();
+    var x = 3;
     x=*x+1;
     var y=3;
     y=*y+5;

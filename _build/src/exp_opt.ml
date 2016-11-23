@@ -149,7 +149,7 @@ and opt_exp max_loop is_function store expression = match expression with
 				if(!break == true || !continue == true) then Nothing
 				else
 					let v = opt_exp max_loop is_function store e2 in
-					if(!break == true && max_loop == global_max_loop) then Break else if(!continue == true && max_loop == global_max_loop) then Continue else v
+					if(!break == true) then Break else if(!continue == true) then Continue else v
 			| v1 ->
 				if(!break == true || !continue == true) then v1
 				else
@@ -212,7 +212,7 @@ and opt_exp max_loop is_function store expression = match expression with
 		  | v1 ->
 		  	let v2 = opt_exp max_loop is_function store e2 in
 			let v3 = opt_exp max_loop is_function store e3 in
-			if(v2 == Nothing && v3 == Nothing) then Nothing
+			if(v2==Nothing && v3==Nothing) then Nothing
 			else If(v1, v2, v3))
   	| Application(e, ps) ->
 		let vs = map (fun p -> let new_p = opt_exp max_loop is_function store p in
@@ -243,8 +243,8 @@ and opt_exp max_loop is_function store expression = match expression with
   	| Lambda(p, e) -> Lambda(p, e)
   	| Read -> Read
   	| Print(e) -> let v = opt_exp max_loop is_function store e in Print(v)
-	| Break -> break := true; Nothing
-	| Continue -> continue := true; Nothing
+	| Break -> break := true; Break
+	| Continue -> continue := true; Continue
 
 (** Function evaluates each individual function in the program. *)
 let rec opt_fundef = function
