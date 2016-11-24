@@ -266,26 +266,6 @@ main:
     popq %rbx
     addq %rax, %rbx
     pushq %rbx
-    popq %rdi
-    callq print
-    pushq %rax
-    movq -80(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    movq -104(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    popq %rax
-    popq %rbx
-    addq %rax, %rbx
-    pushq %rbx
-    popq %rax
-    popq %rbx 
-    pushq %rax
     popq %rax
     popq %rbx 
     pushq %rax
