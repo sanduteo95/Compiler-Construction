@@ -1,0 +1,24 @@
+[("main", [], 
+    New "x",
+        MyInteger 1,
+        Seq(
+            While(
+                Operator(Less, Deref(Identifier "x"), MyInteger 4),
+                New "sum",
+                    MyInteger 0,
+                    Seq(
+                        For(MyInteger 1, MyInteger 3,
+                            Seq(
+                                Asg(
+                                    Identifier "sum", 
+                                    Operator(Plus, Deref(Identifier "sum"), Identifier "i")),
+                                If(
+                                    Operator(Greater, Deref(Identifier "sum"), MyInteger 0),
+                                    Break,
+                                    Asg(
+                                        Identifier "sum", 
+                                        Deref(Identifier "sum"))),
+                        Asg(
+                            Identifier "x", 
+                            Operator(Plus, Deref(Identifier "x"), Deref(Identifier "sum")))))),
+            Deref(Identifier "x"))))]

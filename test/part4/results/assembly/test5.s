@@ -108,36 +108,7 @@ main:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    pushq $3
-    popq %rsi
-    pushq $5
-    popq %rdi
-    callq modulus
-    pushq %rax
-    leaq -24(%rbp), %rax
-    pushq %rax
     pushq $2
-    popq %rsi
-    pushq $6
-    popq %rdi
-    callq modulus
-    pushq %rax
-    leaq -40(%rbp), %rax
-    pushq %rax
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    popq %rax
-    popq %rbx
-    addq %rax, %rbx
-    pushq %rbx
     popq %rdi
     callq print
     movq	$0, %rax

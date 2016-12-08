@@ -1,0 +1,22 @@
+/* Testing:
+    - labelled breaks
+    - blocks
+    - labelled continues
+*/
+function main () {
+    var x = 1;
+    block1 {
+        x = *x+1;
+        block2 {
+            if(*x == 2) {
+                continue block1 { x = *x - 2; }
+            } else {
+                break block2 {x = *x - 1; }
+            }
+            x = *x + 1;
+        }
+        x = *x + 1;
+    }
+    return *x;
+}
+

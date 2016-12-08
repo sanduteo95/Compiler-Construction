@@ -1,0 +1,32 @@
+
+f:
+	ld r6
+	mv r4, r5
+	ld r5
+	ld acc
+	st r6
+	mv r4, r7
+	ld r7
+	ld acc
+	st r8
+	mul r6, r8
+	st r6
+
+main:
+	ld 5
+	st r4
+	ld r4
+	st r5
+	ld bp(5)
+	st r6
+	call f
+	ld acc
+	ld r6
+	ld 1001
+	st r6
+	mv r5, r1001
+	mv r6, r7
+	ld r7
+	ld acc
+	st r8
+	ld r8

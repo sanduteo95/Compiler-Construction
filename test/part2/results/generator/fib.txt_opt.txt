@@ -1,0 +1,140 @@
+
+fib:
+	ld r23
+	ld 0
+	st r5
+	ld 1001
+	st r6
+	mv r5, r1001
+	ld 1
+	st r7
+	ld 1002
+	st r8
+	mv r7, r1002
+	mv r6, r9
+	ld r9
+	ld acc
+	st r10
+	mv r8, r11
+	ld r11
+	ld acc
+	st r12
+	add r10, r12
+	st r10
+	ld 1003
+	st r11
+	mv r10, r1003
+	mv r4, r12
+	ld r12
+	ld acc
+	st r13
+	ld 1
+	st r14
+	seq r13, r14
+	st r13
+	ld r13
+	jmpz L11
+	mv r6, r14
+	ld r14
+	ld acc
+	st r15
+	jmp L31
+
+L11:
+	mv r4, r14
+	ld r14
+	ld acc
+	st r15
+	ld 2
+	st r16
+	seq r15, r16
+	st r15
+	ld r15
+	jmpz L12
+	mv r8, r16
+	ld r16
+	ld acc
+	st r17
+	jmp L32
+
+L12:
+	ld 2
+	st r16
+	ld 1004
+	st r17
+	mv r16, r1004
+
+L13:
+	mv r17, r18
+	ld r18
+	ld acc
+	st r19
+	mv r4, r20
+	ld r20
+	ld acc
+	st r21
+	slt r19, r21
+	st r19
+	jmpz L33
+	mv r11, r18
+	mv r6, r19
+	ld r19
+	ld acc
+	st r20
+	mv r8, r21
+	ld r21
+	ld acc
+	st r22
+	add r20, r22
+	st r20
+	ld r18
+	mv r20, acc
+	ld acc
+	st r20
+	mv r6, r19
+	mv r8, r20
+	ld r20
+	ld acc
+	st r21
+	ld r19
+	mv r21, acc
+	ld acc
+	st r21
+	mv r8, r20
+	mv r11, r21
+	ld r21
+	ld acc
+	st r22
+	ld r20
+	mv r22, acc
+	ld acc
+	st r22
+	mv r17, r21
+	mv r17, r22
+	ld r22
+	ld acc
+	st r23
+	ld 1
+	st r24
+	add r23, r24
+	st r23
+	ld r21
+	mv r23, acc
+	ld acc
+	st r23
+	jmp L13
+
+L33:
+	mv r11, r22
+	ld r22
+	ld acc
+	st r23
+
+L32:
+
+L31:
+
+main:
+	ld 34
+	st r4
+	ld r4

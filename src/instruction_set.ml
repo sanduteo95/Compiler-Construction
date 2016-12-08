@@ -1,3 +1,4 @@
+(** Contains the simple instruction set. *)
 open Hashtbl
 
 let read_addr = 0 (** Register for getting user input. *)

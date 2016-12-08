@@ -1,0 +1,151 @@
+
+main:
+	ld 3
+	st r3
+	ld 1001
+	st r4
+	mv r3, r1001
+	ld 3
+	st r5
+	ld 1002
+	st r6
+	mv r5, r1002
+	ld 0
+	st r7
+	ld 1003
+	st r8
+	mv r7, r1003
+	mv r8, r9
+	ld 1
+	st r10
+	ld r9
+	mv r10, acc
+	ld acc
+	st r10
+	mv r8, r10
+	ld 3
+	st r11
+	ld r10
+	mv r11, acc
+	ld acc
+	st r11
+	mv r8, r11
+	ld 6
+	st r12
+	ld r11
+	mv r12, acc
+	ld acc
+	st r12
+	mv r8, r12
+	ld 10
+	st r13
+	ld r12
+	mv r13, acc
+	ld acc
+	st r13
+	mv r8, r13
+	ld 15
+	st r14
+	ld r13
+	mv r14, acc
+	ld acc
+	st r14
+	mv r8, r14
+	ld 21
+	st r15
+	ld r14
+	mv r15, acc
+	ld acc
+	st r15
+	mv r8, r15
+	ld 28
+	st r16
+	ld r15
+	mv r16, acc
+	ld acc
+	st r16
+	mv r8, r16
+	ld 36
+	st r17
+	ld r16
+	mv r17, acc
+	ld acc
+	st r17
+	mv r8, r17
+	ld 45
+	st r18
+	ld r17
+	mv r18, acc
+	ld acc
+	st r18
+	mv r8, r18
+	ld 55
+	st r19
+	ld r18
+	mv r19, acc
+	ld acc
+	st r19
+	ld 0
+	st r19
+	ld 1004
+	st r20
+	mv r19, r1004
+	mv r20, r21
+	ld 4
+	st r22
+	ld r21
+	mv r22, acc
+	ld acc
+	st r22
+	mv r4, r22
+	ld 5
+	st r23
+	ld r22
+	mv r23, acc
+	ld acc
+	st r23
+	mv r20, r23
+	ld 9
+	st r24
+	ld r23
+	mv r24, acc
+	ld acc
+	st r24
+	mv r6, r24
+	ld 7
+	st r25
+	ld r24
+	mv r25, acc
+	ld acc
+	st r25
+	mv r20, r25
+	ld 14
+	st r26
+	ld r25
+	mv r26, acc
+	ld acc
+	st r26
+	mv r6, r26
+	ld 6
+	st r27
+	ld r26
+	mv r27, acc
+	ld acc
+	st r27
+	mv r20, r27
+	ld 19
+	st r28
+	ld r27
+	mv r28, acc
+	ld acc
+	st r28
+	mv r6, r28
+	ld 5
+	st r29
+	ld r28
+	mv r29, acc
+	ld acc
+	st r29
+	ld 74
+	st r29
+	ld r29

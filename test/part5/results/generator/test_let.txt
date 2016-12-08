@@ -1,0 +1,14 @@
+
+main:
+	ld 30
+	st r3
+	ld 40
+	st r4
+	add r3, r4
+	st r3
+	mv r3, r4
+	mv r3, r5
+	add r4, r5
+	st r4
+	mv r4, r3
+	ld r3

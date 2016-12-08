@@ -1,0 +1,18 @@
+[("main", [], 
+    New "sum",
+        MyInteger 0,
+        New "i",
+            MyInteger 1,
+            Seq(
+                While(
+                    Operator(Leq, Deref(Identifier "i"), MyInteger 10),
+                    Seq(
+                        Asg(
+                            Identifier "sum", 
+                            Operator(Plus, Deref(Identifier "sum"), Deref(Identifier "i"))),
+                        Seq(
+                            Asg(
+                                Identifier "i", 
+                                Operator(Plus, Deref(Identifier "i"), MyInteger 1)),
+                            Break))),
+                Deref(Identifier "sum")))))]

@@ -65,18 +65,99 @@ main:
     .cfi_def_cfa_register 6
     subq	$16, %rsp
     pushq $1
+    movq -24(%rbp), %rax
+    pushq %rax
+    popq %rdi
+    callq print
+    pushq %rax
+    movq -24(%rbp), %rax
+    pushq %rax
+    popq %rdi
+    callq print
+    pushq %rax
+    movq -24(%rbp), %rax
+    pushq %rax
+    popq %rdi
+    callq print
+    pushq %rax
+    movq -24(%rbp), %rax
+    pushq %rax
+    popq %rdi
+    callq print
+    pushq %rax
+    movq -24(%rbp), %rax
+    pushq %rax
+    popq %rdi
+    callq print
+    pushq %rax
+    movq -24(%rbp), %rax
+    pushq %rax
+    popq %rdi
+    callq print
+    pushq %rax
+    movq -24(%rbp), %rax
+    pushq %rax
+    popq %rdi
+    callq print
+    pushq %rax
+    movq -24(%rbp), %rax
+    pushq %rax
+    popq %rdi
+    callq print
+    pushq %rax
+    movq -24(%rbp), %rax
+    pushq %rax
+    popq %rdi
+    callq print
+    pushq %rax
+    movq -24(%rbp), %rax
+    pushq %rax
+    popq %rdi
+    callq print
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    pushq $11
     jmp .L3
 .L4:
-    movq -24(%rbp), %rax
+    movq -32(%rbp), %rax
     pushq %rax
     popq %rdi
     callq print
     pushq %rax
 .L5:
     popq %rax
-    addq $1, -24(%rbp)
+    addq $1, -32(%rbp)
 .L3:
-    movq -24(%rbp), %rax
+    movq -32(%rbp), %rax
     pushq %rax
     pushq $100
     popq %rax
@@ -88,6 +169,9 @@ main:
     cmpq $0, %rax
     jnz .L4
 .L6:
+    popq %rax
+    popq %rbx 
+    pushq %rax
     pushq $0
     popq %rax
     popq %rbx 

@@ -1,0 +1,4 @@
+[("main", [], 
+    Let "x",
+        Operator(Plus, MyInteger 30, MyInteger 40),
+        Operator(Plus, Identifier "x", Identifier "x")))]

@@ -1,0 +1,21 @@
+[("main", [], 
+    New "s1",
+        MyString("string1"),
+        New "s2",
+            MyString("string2"),
+            New "smaller",
+                Application(
+                    Lambda([x, y], 
+                        Operator(Less, Deref(Identifier "x"), Deref(Identifier "y"))),
+                    [Deref(Identifier "s1"), Deref(Identifier "s2")])),
+                New "bigger",
+                    Application(
+                        Lambda([x, y], 
+                            Operator(Greater, Deref(Identifier "x"), Deref(Identifier "y"))),
+                        [Deref(Identifier "s1"), Deref(Identifier "s2")])),
+                    New "equal",
+                        Application(
+                            Lambda([x, y], 
+                                Operator(Eq, Deref(Identifier "x"), Deref(Identifier "y"))),
+                            [Deref(Identifier "s1"), Deref(Identifier "s2")])),
+                        Operator(Or, Deref(Identifier "equal"), Operator(Or, Deref(Identifier "smaller"), Deref(Identifier "bigger")))))))))]

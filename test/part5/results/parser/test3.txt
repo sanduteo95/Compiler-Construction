@@ -1,0 +1,13 @@
+[("main", [], 
+    New "x",
+        MyInteger 1,
+        Seq(
+            If(
+                Operator(Less, Deref(Identifier "x"), MyInteger 2),
+                Asg(
+                    Identifier "x", 
+                    Operator(Plus, Deref(Identifier "x"), MyInteger 2)),
+                Asg(
+                    Identifier "x", 
+                    Operator(Plus, Deref(Identifier "x"), MyInteger 1)),
+            Deref(Identifier "x"))))]

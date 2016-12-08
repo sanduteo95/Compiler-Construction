@@ -1,0 +1,8 @@
+[("create", [x, y], 
+    New "tuple",
+        MyTuple(Deref(Identifier "x"), Deref(Identifier "y")),
+        Deref(Identifier "tuple"))),
+ ("compare", [p, q], 
+    Operator(Less, Deref(Identifier "p"), Deref(Identifier "q"))),
+ ("main", [], 
+    Operator(Less, MyTuple(MyInteger 1, MyInteger 2), MyTuple(MyInteger 2, MyInteger 3)))]

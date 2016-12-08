@@ -1,0 +1,10 @@
+[("main", [], 
+    New "x",
+        MyInteger 4,
+        Application(
+            Lambda([y], 
+                If(
+                    Operator(Eq, Operator(Modulus, Deref(Identifier "y"), MyInteger 2), MyInteger 0),
+                    Deref(Identifier "y"),
+                    Operator(Plus, Deref(Identifier "y"), MyInteger 1)),
+            [Deref(Identifier "x")]))))]

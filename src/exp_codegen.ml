@@ -1,3 +1,4 @@
+(** Generate code based off of a small instruction set. *)
 open Syntax
 open Instruction_set
 open Exp_store
@@ -5,6 +6,9 @@ open Exp_store
 let code = Buffer.create 100
 
 let functions = Buffer.create 100
+
+let break = ref 0
+let cont = ref 0
 
 let string_of_operator = function
     | Plus -> "add"
@@ -29,22 +33,28 @@ let string_of_addr addr =
             else " r"^(string_of_int addr)
     else " r" ^ (string_of_int addr)
 
-let label_name incr name =
-    if(incr) then name ^ string_of_int(new_label())
-    else name ^ string_of_int(!label_addr)
+let label_name name =
+    name ^ string_of_int(!label_addr)
 
 let codegen_label label =
     "\n" ^ label ^ ":\n" |> Buffer.add_string code
 
+let codegen_labels incr =
+    let _ = new_label() in
+    let label1 = label_name "L1" in
+    let label2 = label_name "L2" in
+    let label3 = label_name "L3" in
+    break := !label_addr;
+    cont := !label_addr;
+    (label1, label2, label3)
+
 let codegen_op (op, addr1, addr2) =
-    "\t" ^ (string_of_operator op)
-    ^ (string_of_addr addr1)
+    "\t" ^ (string_of_operator op) ^ (string_of_addr addr1)
     ^ "," ^ (string_of_addr addr2)
     ^ "\n" |> Buffer.add_string code
 
 let codegen_not addr =
-    "\t" ^ "not"  ^ (string_of_addr addr)
-    ^ "\n" |> Buffer.add_string code
+    "\t" ^ "not"  ^ (string_of_addr addr) ^ "\n" |> Buffer.add_string code
 
 let codegen_mv addr1 addr2 =
     "\t" ^ "mv" ^ (string_of_addr addr1)
@@ -160,28 +170,33 @@ let rec codegen symt expression = match expression with
         stack_addr := addr1;
         addr1
     | While(e1, e2) ->
+        let (loop, cont_loop, end_loop) = codegen_labels() in
+        let cur_break = !break in
+        let cur_cont = !cont in
         let initial_addr = !stack_addr in
-        let loop = label_name true "LOOP" in
         codegen_label loop;
         let _ = codegen symt e1 in
-        let end_loop = label_name false "END_LOOP" in
         codegen_jmpz end_loop;
         stack_addr := initial_addr;
         let addr = codegen symt e2 in
         codegen_jmp loop;
         codegen_label end_loop;
+        break := cur_break;
+        cont := cur_cont;
         addr
     | For(s, e1, e2, e3) ->
+        let (loop, cont_loop, end_loop) = codegen_labels() in
+        let cur_break = !break in
+        let cur_cont = !cont in
         let initial_addr = !stack_addr in
         let addr1 = codegen symt e1 in
         let addr2 = codegen symt e2 in
-        let loop = label_name true "LOOP" in
         codegen_label loop;
         codegen_op (Leq, addr1, addr2);
         stack_addr := addr1;
-        let end_loop = label_name false "END_LOOP" in
         codegen_jmpz end_loop;
         let addr = codegen ((s, addr1)::symt) e3 in
+        codegen_label cont_loop;
         stack_addr := initial_addr;
         let addr' = new_stack_addr() in
         codegen_ldc 1;
@@ -190,15 +205,16 @@ let rec codegen symt expression = match expression with
         codegen_st addr';
         codegen_jmp loop;
         codegen_label end_loop;
+        break := cur_break;
+        cont := cur_cont;
         addr
     | If(e1, e2, e3) ->
+        let (branch, _, end_branch) = codegen_labels() in
         let addr1 = codegen symt e1 in
         codegen_ldr addr1;
-        let branch = label_name true "BRANCH" in
         codegen_jmpz branch;
         let initial_addr = !stack_addr in
         let _ = codegen symt e2 in
-        let end_branch = label_name false "END_BRANCH" in
         codegen_jmp end_branch;
         stack_addr := initial_addr;
         codegen_label branch;
@@ -228,7 +244,9 @@ let rec codegen symt expression = match expression with
         stack_addr := addr;
         print_addr
     | Nothing -> -1
-    | _ -> failwith "Not implemented yet."
+    | Break -> if(!break == -1) then failwith "Break outside of a loop" else (codegen_jmp ("end_loop" ^ (string_of_int !break)); -1)
+    | Continue -> if(!cont == -1) then failwith "Continue outside of a loop" else (codegen_jmp ("cont_loop" ^ (string_of_int !break)); -1)
+    | _ -> failwith "Not implemented."
 
 let rec gen_prog symt program = match program with
     | [] ->
@@ -254,6 +272,8 @@ let generate program =
     Buffer.reset code;
     Buffer.reset functions;
     stack_addr := print_addr + 1;
-    gen_prog [] program;
-    Buffer.output_buffer stdout functions;
+    let success = ref true in
+    (try gen_prog [] program with
+        | Failure msg -> success := false; Buffer.reset code; "error" |> Buffer.add_string code);
+    if(!success) then Buffer.output_buffer stdout functions;
     Buffer.output_buffer stdout code;

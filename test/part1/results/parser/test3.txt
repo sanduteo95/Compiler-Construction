@@ -1,0 +1,16 @@
+[("main", [], 
+    New "n",
+        MyInteger 10,
+        New "i",
+            MyInteger 0,
+            Seq(
+                While(
+                    Operator(Leq, Deref(Identifier "i"), Deref(Identifier "n")),
+                    New "j",
+                        Operator(Times, Deref(Identifier "i"), MyInteger 2),
+                        Seq(
+                            Print(Deref(Identifier "j")),
+                            Asg(
+                                Identifier "i", 
+                                Operator(Plus, Deref(Identifier "i"), MyInteger 1))))),
+                MyInteger 0))))]

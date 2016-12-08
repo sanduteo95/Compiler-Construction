@@ -1,0 +1,26 @@
+[("main", [], 
+    New "sum",
+        MyInteger 0,
+        Seq(
+            Seq(
+                Asg(
+                    Identifier "sum", 
+                    MyInteger 1),
+                Seq(
+                    Asg(
+                        Identifier "sum", 
+                        MyInteger 2),
+                    Seq(
+                        Asg(
+                            Identifier "sum", 
+                            MyInteger 3),
+                        Seq(
+                            Asg(
+                                Identifier "sum", 
+                                MyInteger 4),
+                            Seq(
+                                Asg(
+                                    Identifier "sum", 
+                                    MyInteger 5),
+                                Nothing))))),
+            MyInteger 5)))]

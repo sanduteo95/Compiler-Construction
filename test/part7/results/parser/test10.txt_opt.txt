@@ -1,0 +1,38 @@
+[("f", [n], 
+    New "i",
+        MyInteger 4,
+        Seq(
+            While(
+                Operator(Leq, Deref(Identifier "i"), Deref(Identifier "n")),
+                Seq(
+                    Asg(
+                        Identifier "i", 
+                        Operator(Plus, Deref(Identifier "i"), MyInteger 1)),
+                    Break)),
+            Deref(Identifier "i")))),
+ ("main", [], 
+    New "x",
+        MyInteger 5,
+        Seq(
+            Seq(
+                Asg(
+                    Identifier "x", 
+                    MyInteger 6),
+                Seq(
+                    Asg(
+                        Identifier "x", 
+                        MyInteger 7),
+                    Seq(
+                        Asg(
+                            Identifier "x", 
+                            MyInteger 8),
+                        Seq(
+                            Asg(
+                                Identifier "x", 
+                                MyInteger 9),
+                            Seq(
+                                Asg(
+                                    Identifier "x", 
+                                    MyInteger 10),
+                                Nothing))))),
+            MyInteger 10)))]

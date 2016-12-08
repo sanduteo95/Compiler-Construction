@@ -16,10 +16,16 @@ let rec lookup s env = match env with
   	 | [] -> raise (VariableDeclaration ("This variable was not initialised: ", s))
   	 | (var, value)::env -> if (String.equal s var) then value else lookup s env
 
+(** Checks if a value is in the given environment. *)
+let rec is_in s env = match env with
+     | [] -> false
+     | (var, value)::env -> if (String.equal s var) then true else is_in s env
+
 (** Adds a new location to the store. *)
 let extend store location value =
   	add store location value; store
 
+(** Adds a list of locations to the store. *)
 let rec extend_list store lvs = match lvs with
 	| [] -> store
 	| (location, value) :: lvs -> let store = extend store location value in extend_list store lvs
@@ -29,10 +35,11 @@ let access store location =
   	try find store location with
   		| Not_found -> raise (VariableDeclaration ("The variable was not initialised", ""))
 
-(** Deleted the location of the variable. *)
+(** Deletes the location of the variable. *)
 let delete store location =
   	remove store location
 
+(** Deletes a list of locations. *)
 let rec delete_list store ls = match ls with
     | [] -> ()
     |location :: ls -> delete store location; delete_list store ls
@@ -47,7 +54,8 @@ let rec split aux n ls =  match (n, ls) with
     | (0, ls) -> (aux, ls)
     | (n, l::ls) -> split (aux@[l]) (n-1) ls
     | (n, []) -> failwith "Impossible."
-    
+
+(** Functions taks the first n elements of a list. *)
 let rec take aux n ls =
     let (l1, l2) = split aux n ls in l1
 

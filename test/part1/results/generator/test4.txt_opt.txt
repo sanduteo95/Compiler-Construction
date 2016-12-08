@@ -1,0 +1,54 @@
+
+half:
+	ld r9
+	mv r4, r6
+	ld r6
+	ld acc
+	st r7
+	ld 0
+	st r8
+	seq r7, r8
+	st r7
+	ld r7
+	jmpz L11
+	mv r5, r8
+	ld r8
+	ld acc
+	st r9
+	jmp L31
+
+L11:
+	mv r4, r8
+	ld r8
+	ld acc
+	st r9
+	ld 2
+	st r10
+	div r9, r10
+	st r9
+	mv r9, r10
+	ld r10
+	st r11
+	mv r5, r12
+	ld r12
+	ld acc
+	st r13
+	ld 1
+	st r14
+	add r13, r14
+	st r13
+	ld r13
+	st r14
+	ld bp(14)
+	st r15
+	call half
+	ld acc
+	ld r15
+	mv r14, r9
+
+L31:
+
+main:
+	ld 5
+	st r4
+	ld r4

@@ -5,11 +5,11 @@
 	- returning booleans
 */
 function main() {
-	var smaller = (\x, y-> return *x<*y;)();
-	var bigger = (\x, y-> return *x>*y;)();
-	var equal = (\x, y-> return *x==*y;)();
 	var s1 = "string1";
 	var s2 = "string2";
-	return equal(*s1, *s2) || (smaller(*s1, *s2) || bigger(*s1, *s2));
+	var smaller = (\x, y-> return *x<*y;)(*s1, *s2);
+	var bigger = (\x, y-> return *x>*y;)(*s1, *s2);
+	var equal = (\x, y-> return *x==*y;)(*s1, *s2);
+	return *equal || (*smaller || *bigger);
 }
 

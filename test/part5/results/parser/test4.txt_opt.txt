@@ -1,0 +1,48 @@
+[("main", [], 
+    New "i",
+        MyInteger 1,
+        New "sum",
+            MyInteger 0,
+            Seq(
+                Seq(
+                    Seq(
+                        Asg(
+                            Identifier "sum", 
+                            MyInteger 1),
+                        Asg(
+                            Identifier "i", 
+                            MyInteger 2)),
+                    Seq(
+                        Seq(
+                            Asg(
+                                Identifier "sum", 
+                                MyInteger 3),
+                            Asg(
+                                Identifier "i", 
+                                MyInteger 3)),
+                        Seq(
+                            Seq(
+                                Asg(
+                                    Identifier "sum", 
+                                    MyInteger 6),
+                                Asg(
+                                    Identifier "i", 
+                                    MyInteger 4)),
+                            Seq(
+                                Seq(
+                                    Asg(
+                                        Identifier "sum", 
+                                        MyInteger 10),
+                                    Asg(
+                                        Identifier "i", 
+                                        MyInteger 5)),
+                                Seq(
+                                    Seq(
+                                        Asg(
+                                            Identifier "sum", 
+                                            MyInteger 15),
+                                        Asg(
+                                            Identifier "i", 
+                                            MyInteger 6)),
+                                    Nothing))))),
+                MyInteger 15))))]

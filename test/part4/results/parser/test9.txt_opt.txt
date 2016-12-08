@@ -1,0 +1,6 @@
+[("f", [x], 
+    Asg(
+        Identifier "x", 
+        Operator(Plus, Deref(Identifier "x"), MyInteger 1))),
+ ("main", [], 
+    MyInteger 1)]

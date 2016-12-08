@@ -1,0 +1,8 @@
+[("f", [x, y], 
+    Operator(Times, Operator(Times, Deref(Identifier "x"), Deref(Identifier "y")), MyInteger 1)),
+ ("main", [], 
+    New "x",
+        Read(),
+        Application(
+            Identifier "f",
+            [Deref(Identifier "x"), MyInteger 2]))))]

@@ -1,0 +1,16 @@
+[("main", [], 
+    New "sum",
+        MyInteger 0,
+        Seq(
+            Seq(
+                Asg(
+                    Identifier "sum", 
+                    MyInteger 1),
+                Seq(
+                    Asg(
+                        Identifier "sum", 
+                        MyInteger 3),
+                    Asg(
+                        Identifier "sum", 
+                        MyInteger 6))),
+            MyInteger 6)))]

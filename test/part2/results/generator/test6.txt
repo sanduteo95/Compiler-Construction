@@ -1,0 +1,35 @@
+
+main:
+	ld 1
+	st r3
+	ld 1001
+	st r4
+	mv r3, r1001
+	ld 0
+	st r5
+	ld 1002
+	st r6
+	mv r5, r1002
+	mv r4, r7
+	ld r7
+	ld acc
+	st r8
+	mv r6, r9
+	ld r9
+	ld acc
+	st r10
+	seq r8, r10
+	st r8
+	mv r4, r9
+	ld r9
+	ld acc
+	st r10
+	mv r6, r11
+	ld r11
+	ld acc
+	st r12
+	sne r10, r12
+	st r10
+	or r8, r10
+	st r8
+	ld r8

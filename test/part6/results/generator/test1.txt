@@ -1,0 +1,96 @@
+
+sum:
+	ld r13
+	mv r4, r12
+	ld r12
+	ld acc
+	st r13
+	mv r5, r14
+	ld r14
+	ld acc
+	st r15
+	add r13, r15
+	st r13
+	mv r6, r14
+	ld r14
+	ld acc
+	st r15
+	add r13, r15
+	st r13
+	mv r7, r14
+	ld r14
+	ld acc
+	st r15
+	add r13, r15
+	st r13
+	mv r8, r14
+	ld r14
+	ld acc
+	st r15
+	add r13, r15
+	st r13
+	mv r9, r14
+	ld r14
+	ld acc
+	st r15
+	add r13, r15
+	st r13
+	mv r10, r14
+	ld r14
+	ld acc
+	st r15
+	add r13, r15
+	st r13
+	mv r11, r14
+	ld r14
+	ld acc
+	st r15
+	add r13, r15
+	st r13
+
+main:
+	ld 1
+	st r4
+	ld r4
+	st r5
+	ld 2
+	st r6
+	ld r6
+	st r7
+	ld 3
+	st r8
+	ld r8
+	st r9
+	ld 4
+	st r10
+	ld r10
+	st r11
+	ld 5
+	st r12
+	ld r12
+	st r13
+	ld 6
+	st r14
+	ld r14
+	st r15
+	ld 7
+	st r16
+	ld r16
+	st r17
+	ld 8
+	st r18
+	ld r18
+	st r19
+	ld bp(19)
+	st r20
+	call sum
+	ld acc
+	ld r20
+	ld 1001
+	st r20
+	mv r19, r1001
+	mv r20, r21
+	ld r21
+	ld acc
+	st r22
+	ld r22

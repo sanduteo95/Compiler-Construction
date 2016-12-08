@@ -1,0 +1,9 @@
+[("f", [n], 
+    If(
+        Operator(Noteq, Deref(Identifier "n"), MyInteger 1),
+        Operator(Times, Deref(Identifier "n"), Application(
+    Identifier "f",
+    [Operator(Minus, Deref(Identifier "n"), MyInteger 1)]))),
+        MyInteger 1),
+ ("main", [], 
+    MyBoolean(false))]

@@ -1,0 +1,36 @@
+[("fib", [n], 
+    New "a",
+        MyInteger 0,
+        New "b",
+            MyInteger 1,
+            New "c",
+                Operator(Plus, Deref(Identifier "a"), Deref(Identifier "b")),
+                If(
+                    Operator(Eq, Deref(Identifier "n"), MyInteger 1),
+                    Deref(Identifier "a"),
+                    If(
+                        Operator(Eq, Deref(Identifier "n"), MyInteger 2),
+                        Deref(Identifier "b"),
+                        New "i",
+                            MyInteger 2,
+                            Seq(
+                                While(
+                                    Operator(Less, Deref(Identifier "i"), Deref(Identifier "n")),
+                                    Seq(
+                                        Asg(
+                                            Identifier "c", 
+                                            Operator(Plus, Deref(Identifier "a"), Deref(Identifier "b"))),
+                                        Seq(
+                                            Asg(
+                                                Identifier "a", 
+                                                Deref(Identifier "b")),
+                                            Seq(
+                                                Asg(
+                                                    Identifier "b", 
+                                                    Deref(Identifier "c")),
+                                                Asg(
+                                                    Identifier "i", 
+                                                    Operator(Plus, Deref(Identifier "i"), MyInteger 1)))))),
+                                Deref(Identifier "c"))))))),
+ ("main", [], 
+    MyInteger 34)]

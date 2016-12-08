@@ -1,0 +1,25 @@
+
+main:
+	ld 1
+	st r3
+	ld 1001
+	st r4
+	mv r3, r1001
+	mv r4, r5
+	mv r4, r6
+	ld r6
+	ld acc
+	st r7
+	ld 1
+	st r8
+	add r7, r8
+	st r7
+	ld r5
+	mv r7, acc
+	ld acc
+	st r7
+	mv r4, r6
+	ld r6
+	ld acc
+	st r7
+	ld r7

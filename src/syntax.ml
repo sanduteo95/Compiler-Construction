@@ -8,7 +8,6 @@ type opcode =
 
 (** Type used to define an expression, which is just the behaviour of the program. *)
 type expression =
-    | MyNull
     | Nothing (** Only used when the program doesn't have any code inside. *)
     | Seq of expression * expression (** Representation of a sequence of lines of code. *)
     | While of expression * expression (** Representation of a while loop. *)
@@ -20,6 +19,7 @@ type expression =
     | Operator of opcode * expression * expression (** Representation of an expression containing an operator. *)
     | Application of expression * expression list (** Representation of a function application. *)
     | Lambda of string list * expression (**Representation of a lambda function. *)
+    | MyNull (** Representation of a null pointer. *)
     | MyString of string (** Representation of a piece of text. *)
     | MyInteger of int (** Representation of an integer. *)
     | MyFloat of float (** Representation of a float. *)
@@ -32,6 +32,9 @@ type expression =
     | New of string * expression * expression (** Representation of an initialisation. *)
     | Break (** Representation of a break statement. *)
     | Continue (** Representation of a continue statement. *)
+    | Block of string * expression
+    | BreakBlock of string * expression
+    | ContinueBlock of string * expression
 
 (** Type used to define a function, consisting of a function name, a parameter list and an exprresion - the code inside the function, represented in ocaml. *)
 type fundef = string * string list * expression

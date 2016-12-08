@@ -203,6 +203,7 @@ fib:
     popq %rax
     popq %rbx 
     pushq %rax
+    popq %rax
 .L7:
     movq -96(%rbp), %rax
     pushq %rax
@@ -231,8 +232,24 @@ fib:
     popq %rax
     popq %rbx 
     pushq %rax
+    popq %rax
+    popq %rbx
+    popq %rbx
+    pushq %rax
 .L6:
 .L4:
+    popq %rax
+    popq %rbx
+    popq %rbx
+    pushq %rax
+    popq %rax
+    popq %rbx
+    popq %rbx
+    pushq %rax
+    popq %rax
+    popq %rbx
+    popq %rbx
+    pushq %rax
     popq %rax
     movq %rbp, %rsp
     popq %rbp
@@ -252,10 +269,7 @@ main:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    pushq $10
-    popq %rdi
-    callq fib
-    pushq %rax
+    pushq $34
     popq %rdi
     callq print
     movq	$0, %rax

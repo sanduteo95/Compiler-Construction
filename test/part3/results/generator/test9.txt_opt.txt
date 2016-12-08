@@ -1,0 +1,69 @@
+
+g:
+	ld r7
+
+f:
+	ld r8
+	mv r4, r5
+	ld r5
+	ld acc
+	st r6
+	ld 0
+	st r7
+	sne r6, r7
+	st r6
+	ld r6
+	jmpz L11
+	mv r4, r7
+	ld r7
+	ld acc
+	st r8
+	mv r4, r9
+	ld r9
+	ld acc
+	st r10
+	ld 1
+	st r11
+	sub r10, r11
+	st r10
+	ld r10
+	st r11
+	ld bp(11)
+	st r12
+	call g
+	ld acc
+	ld r12
+	add r8, r11
+	st r8
+	jmp L31
+
+L11:
+	ld 0
+	st r7
+
+L31:
+	mv r5, r6
+	mv r5, r7
+	ld r7
+	ld acc
+	st r8
+	ld r8
+	st r9
+	ld bp(9)
+	st r10
+	call g
+	ld acc
+	ld r10
+	ld r6
+	mv r9, acc
+	ld acc
+	st r9
+	mv r5, r7
+	ld r7
+	ld acc
+	st r8
+
+main:
+	ld 20
+	st r5
+	ld r5

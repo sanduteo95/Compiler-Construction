@@ -70,6 +70,146 @@ main:
     pushq $0
     leaq -40(%rbp), %rax
     pushq %rax
+    pushq $0
+    popq %rdi
+    callq print
+    pushq %rax
+    pushq $1
+    movq -48(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    pushq $2
+    popq %rdi
+    callq print
+    pushq %rax
+    pushq $2
+    movq -48(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    pushq $4
+    popq %rdi
+    callq print
+    pushq %rax
+    pushq $3
+    movq -48(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    pushq $6
+    popq %rdi
+    callq print
+    pushq %rax
+    pushq $4
+    movq -48(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    pushq $8
+    popq %rdi
+    callq print
+    pushq %rax
+    pushq $5
+    movq -48(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    pushq $10
+    popq %rdi
+    callq print
+    pushq %rax
+    pushq $6
+    movq -48(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    pushq $12
+    popq %rdi
+    callq print
+    pushq %rax
+    pushq $7
+    movq -48(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    pushq $14
+    popq %rdi
+    callq print
+    pushq %rax
+    pushq $8
+    movq -48(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    pushq $16
+    popq %rdi
+    callq print
+    pushq %rax
+    pushq $9
+    movq -48(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    pushq $18
+    popq %rdi
+    callq print
+    pushq %rax
+    pushq $10
+    movq -48(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
     jmp .L3
 .L4:
     movq -48(%rbp), %rax
@@ -82,9 +222,9 @@ main:
     popq %rbx
     mulq %rbx
     pushq %rax
-    leaq -56(%rbp), %rax
+    leaq -136(%rbp), %rax
     pushq %rax
-    movq -64(%rbp), %rax
+    movq -144(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
@@ -111,6 +251,11 @@ main:
     popq %rax
     popq %rbx 
     pushq %rax
+    popq %rax
+    popq %rbx
+    popq %rbx
+    pushq %rax
+    popq %rax
 .L3:
     movq -48(%rbp), %rax
     pushq %rax
@@ -131,9 +276,47 @@ main:
     cmpq $0, %rax
     jnz .L4
 .L5:
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
     pushq $0
     popq %rax
     popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx
+    popq %rbx
+    pushq %rax
+    popq %rax
+    popq %rbx
+    popq %rbx
     pushq %rax
     popq %rdi
     callq print

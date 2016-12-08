@@ -1,0 +1,14 @@
+[("main", [], 
+    New "n",
+        MyInteger 5,
+        If(
+            Operator(Eq, Operator(Modulus, Deref(Identifier "n"), MyInteger 3), MyInteger 0),
+            Let "x",
+                MyInteger 1,
+                Operator(Times, Identifier "x", Deref(Identifier "n"))),
+            Let "x",
+                Operator(Modulus, Deref(Identifier "n"), MyInteger 3),
+                If(
+                    Operator(Eq, Identifier "x", MyInteger 1),
+                    MyInteger 1,
+                    MyInteger 2)))]

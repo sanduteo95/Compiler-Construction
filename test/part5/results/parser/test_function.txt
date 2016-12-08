@@ -1,0 +1,8 @@
+[("f", [x], 
+    Operator(Times, Deref(Identifier "x"), Deref(Identifier "x"))),
+ ("main", [], 
+    New "sum",
+        Application(
+            Identifier "f",
+            [MyInteger 5])),
+        Deref(Identifier "sum")))]

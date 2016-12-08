@@ -1,17 +1,17 @@
+(** Contains the lexer. *)
 {
-open Exp_par
-open Lexing
-exception SyntaxError of string
+    open Exp_par
+    open Lexing
+    exception SyntaxError of string
 
-(** Makes sure the number of lines in the lexbuf is correct. *)
-let next_line lexbuf =
-  let pos = lexbuf.lex_curr_p in
-  lexbuf.lex_curr_p <-
-    { pos with pos_bol = lexbuf.lex_curr_pos;
-               pos_lnum = pos.pos_lnum + 1
-    }
+    (** Makes sure the number of lines in the lexbuf is correct. *)
+    let next_line lexbuf =
+      let pos = lexbuf.lex_curr_p in
+      lexbuf.lex_curr_p <-
+        { pos with pos_bol = lexbuf.lex_curr_pos;
+                   pos_lnum = pos.pos_lnum + 1
+        }
 }
-
 
 let type = "var"
 let int = ['0'-'9'] ['0'-'9']*

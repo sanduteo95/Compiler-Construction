@@ -1,0 +1,12 @@
+/* Testing:
+    - sub-expression elimination
+*/
+function main() {
+    var a = 1;
+    var b = read();
+    var c = read();
+    var d = 4;
+    var e = 5;
+    let x = *a + (*b) * (*c) in let y = *e + (*b) * (*c) in x+y;
+}
+

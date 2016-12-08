@@ -1,0 +1,42 @@
+
+main:
+	ld 10
+	st r3
+	ld 1001
+	st r4
+	mv r3, r1001
+	mv r4, r5
+	ld r5
+	ld acc
+	st r6
+	ld 4
+	st r7
+	add r6, r7
+	st r6
+	ld 1002
+	st r7
+	mv r6, r1002
+	mv r4, r8
+	mv r4, r9
+	ld r9
+	ld acc
+	st r10
+	ld 4
+	st r11
+	sub r10, r11
+	st r10
+	ld r8
+	mv r10, acc
+	ld acc
+	st r10
+	mv r7, r9
+	ld r9
+	ld acc
+	st r10
+	mv r4, r11
+	ld r11
+	ld acc
+	st r12
+	sle r10, r12
+	st r10
+	ld r10

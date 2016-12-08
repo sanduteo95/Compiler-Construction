@@ -1,0 +1,12 @@
+
+f:
+	ld r6
+	mv r4, r5
+	ld r5
+	ld acc
+	st r6
+
+main:
+	ld 2
+	st r4
+	ld r4

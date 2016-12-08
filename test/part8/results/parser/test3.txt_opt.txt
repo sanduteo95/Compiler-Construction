@@ -1,0 +1,8 @@
+[("main", [], 
+    New "b",
+        Read(),
+        New "c",
+            Read(),
+            Let "temp",
+                Operator(Times, Deref(Identifier "b"), Deref(Identifier "c")),
+                Operator(Plus, Operator(Plus, MyInteger 1, Identifier "temp"), Operator(Plus, MyInteger 5, Identifier "temp"))))))]

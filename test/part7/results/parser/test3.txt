@@ -1,0 +1,11 @@
+[("main", [], 
+    New "sum",
+        MyInteger 0,
+        Seq(
+            For(MyInteger 1, MyInteger 10,
+                Seq(
+                    Asg(
+                        Identifier "sum", 
+                        Operator(Plus, Deref(Identifier "sum"), Identifier "i")),
+                    Break),
+            Deref(Identifier "sum"))))]

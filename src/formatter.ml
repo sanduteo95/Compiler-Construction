@@ -60,7 +60,10 @@ print_content content tab =
   	| Let(s, e1, e2) -> printf "Let \"%s\",\n" s; print_content e1 (tab^t); printf ",\n"; print_content e2 (tab^t); printf ")"
   	| New(s, e1, e2) -> printf "New \"%s\",\n" s; print_content e1 (tab^t); printf ",\n"; print_content e2 (tab^t); printf ")"
 	| Break -> printf "Break"
-	| Continue -> printf "Continue")
+	| Continue -> printf "Continue"
+	| Block(s, e) -> printf "Block(%s, )" s; print_content e (tab^t); printf ")"
+	| BreakBlock(s, e) -> printf "BreakBlock(%s, )" s; print_content e (tab^t); printf ")"
+	| ContinueBlock(s, e) -> printf "ContinueBlock(%s, )" s; print_content e (tab^t); printf ")")
 
 (** Prints the name of the function, parameters it takes and its content in the syntax format. *)
 let print_function (name, parameters, content) =

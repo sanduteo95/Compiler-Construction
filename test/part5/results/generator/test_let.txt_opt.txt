@@ -1,0 +1,9 @@
+
+main:
+	ld 70
+	st r3
+	ld 70
+	st r4
+	add r3, r4
+	st r3
+	ld r3

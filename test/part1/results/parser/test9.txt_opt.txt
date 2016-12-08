@@ -1,0 +1,4 @@
+[("main", [], 
+    Seq(
+        Print(MyString("Equal")),
+        MyInteger 0))]

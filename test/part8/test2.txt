@@ -1,0 +1,14 @@
+/* Testing:
+    - function pointers
+    - passing a function to another function
+*/
+function g(var x) {
+    return *x+1;
+}
+function apply(var f) {
+    return f(3);
+}
+function main() {
+    return apply(*g);
+}
+

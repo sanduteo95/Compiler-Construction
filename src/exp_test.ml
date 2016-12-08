@@ -12,9 +12,10 @@ open Exp_codegenx86
 open Formatter
 
 (** The argument for optimisation, which is optional. *)
-let flag = Sys.argv.(1)
+let flag1 = Sys.argv.(1)
+let flag2 = if(Array.length Sys.argv == 4) then Sys.argv.(2) else "-"
 (** The name of the file. *)
-let filename = Sys.argv.(2)
+let filename = if(Array.length Sys.argv == 4) then Sys.argv.(3) else Sys.argv.(2)
 (** The start and end time of the evaluator. *)
 let start_time = ref 0.0
 let end_time = ref 0.0
@@ -32,13 +33,13 @@ let rec read_to_empty ic buf =
 (** Helper function to print file name, line and character position, as well as problem character. *)
 let print_error lexbuf =
     let pos = lexbuf.lex_curr_p in
-    eprintf "File \"%s\", line %d, character %d: %s\n" filename pos.pos_lnum (pos.pos_cnum - pos.pos_bol + 1) (lexeme lexbuf)
+    eprintf "File \"%s\", line %d, character %d: %s .\n" filename pos.pos_lnum (pos.pos_cnum - pos.pos_bol + 1) (lexeme lexbuf)
 
 (** Calls the lexer and parser and prints errors. *)
 let parse_with_error lexbuf =
     try parse read lexbuf with
         | SyntaxError msg -> prerr_string (msg ^ "\n"); exit (-1)
-        | Error -> prerr_string ("Parse error: "); print_error lexbuf; exit (-1)
+        | Error -> print_error lexbuf; exit (-1)
 
 (** Function checks if there were any errors thrown.  *)
 let eval_with_error program =
@@ -64,17 +65,22 @@ let test_result (steps, result) =
     in printf "%s, %d, %f" string_of_result steps (!end_time -. !start_time)
 
 (** The function chooses what to do. *)
-let run expression = match flag with
-        | "-o" -> opt expression |> print_program
-        | "-p" -> print_program expression
-        | "-e" -> eval_with_error expression |> test_result
-        | "-i" -> interpret expression |> printf "%d\n"
-        | "-g" -> generate expression
-        | "-s" -> generatex86 expression
-        | _ -> failwith "Not yet."
+let run expression = match (flag1, flag2) with
+    | ("-e", "-") -> eval_with_error expression |> test_result
+    | ("-e", "-o") -> opt expression |> eval_with_error |> test_result
+    | ("-p", "-") -> print_program expression
+    | ("-p", "-o") -> opt expression |> print_program
+    | ("-i", "-") -> interpret expression |> printf "%d\n"
+    | ("-i", "-o") -> opt expression |> interpret |> printf "%d\n"
+    | ("-g", "-") -> generate expression
+    | ("-g", "-o") -> opt expression |> generate
+    | ("-s", "-") -> generatex86 expression
+    | ("-s", "-o") -> opt expression |> generatex86
+    | _ -> failwith "Not yet."
 
 (** Function reads the file and prints the resulting parse tree.  *)
 let read_file_and_print_tree =
+    (* Printf.printf "%d %s %s %s" (Array.length Sys.argv ) flag1 flag2 filename; *)
     let ic = open_in filename in
     read_to_empty ic (Buffer.create 1)
     |> Buffer.contents

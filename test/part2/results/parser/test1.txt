@@ -1,0 +1,21 @@
+[("main", [], 
+    New "m",
+        MyInteger 2,
+        New "x",
+            MyInteger 10,
+            New "y",
+                MyInteger 4,
+                Seq(
+                    While(
+                        Operator(And, Operator(Noteq, Deref(Identifier "y"), MyInteger 0), Operator(Noteq, Operator(Modulus, Deref(Identifier "x"), Deref(Identifier "y")), Deref(Identifier "m"))),
+                        Seq(
+                            Asg(
+                                Identifier "x", 
+                                Operator(Times, Deref(Identifier "x"), MyInteger 2)),
+                            Asg(
+                                Identifier "y", 
+                                Operator(Divide, Deref(Identifier "y"), MyInteger 2)))),
+                    If(
+                        Operator(Noteq, Deref(Identifier "y"), MyInteger 0),
+                        Deref(Identifier "y"),
+                        Deref(Identifier "x"))))))]

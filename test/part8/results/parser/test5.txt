@@ -1,0 +1,8 @@
+[("f", [x, y], 
+    Operator(Plus, Deref(Identifier "x"), Deref(Identifier "y"))),
+ ("main", [], 
+    New "func",
+        Deref(Identifier "f"),
+        Application(
+            Identifier "func",
+            [MyInteger 1, MyInteger 2]))))]

@@ -1,0 +1,2 @@
+[("main", [], 
+    Negate(Operator(And, MyBoolean(true), MyBoolean(false))))]

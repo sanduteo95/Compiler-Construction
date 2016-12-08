@@ -1,0 +1,84 @@
+[("main", [], 
+    New "x",
+        MyInteger 3,
+        New "y",
+            MyInteger 3,
+            New "sum1",
+                MyInteger 0,
+                Seq(
+                    Seq(
+                        Asg(
+                            Identifier "sum1", 
+                            MyInteger 1),
+                        Seq(
+                            Asg(
+                                Identifier "sum1", 
+                                MyInteger 3),
+                            Seq(
+                                Asg(
+                                    Identifier "sum1", 
+                                    MyInteger 6),
+                                Seq(
+                                    Asg(
+                                        Identifier "sum1", 
+                                        MyInteger 10),
+                                    Seq(
+                                        Asg(
+                                            Identifier "sum1", 
+                                            MyInteger 15),
+                                        Seq(
+                                            Asg(
+                                                Identifier "sum1", 
+                                                MyInteger 21),
+                                            Seq(
+                                                Asg(
+                                                    Identifier "sum1", 
+                                                    MyInteger 28),
+                                                Seq(
+                                                    Asg(
+                                                        Identifier "sum1", 
+                                                        MyInteger 36),
+                                                    Seq(
+                                                        Asg(
+                                                            Identifier "sum1", 
+                                                            MyInteger 45),
+                                                        Asg(
+                                                            Identifier "sum1", 
+                                                            MyInteger 55)))))))))),
+                    New "sum2",
+                        MyInteger 0,
+                        Seq(
+                            Seq(
+                                Seq(
+                                    Asg(
+                                        Identifier "sum2", 
+                                        MyInteger 4),
+                                    Asg(
+                                        Identifier "x", 
+                                        MyInteger 5)),
+                                Seq(
+                                    Seq(
+                                        Asg(
+                                            Identifier "sum2", 
+                                            MyInteger 9),
+                                        Asg(
+                                            Identifier "y", 
+                                            MyInteger 7)),
+                                    Seq(
+                                        Seq(
+                                            Asg(
+                                                Identifier "sum2", 
+                                                MyInteger 14),
+                                            Asg(
+                                                Identifier "y", 
+                                                MyInteger 6)),
+                                        Seq(
+                                            Seq(
+                                                Asg(
+                                                    Identifier "sum2", 
+                                                    MyInteger 19),
+                                                Asg(
+                                                    Identifier "y", 
+                                                    MyInteger 5)),
+                                            Nothing)))),
+                            MyInteger 74)))))))]

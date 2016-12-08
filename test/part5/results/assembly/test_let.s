@@ -64,23 +64,7 @@ main:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    pushq $30
-    pushq $40
-    popq %rax
-    popq %rbx
-    addq %rax, %rbx
-    pushq %rbx
-    movq -24(%rbp), %rax
-    pushq %rax
-    movq -24(%rbp), %rax
-    pushq %rax
-    popq %rax
-    popq %rbx
-    addq %rax, %rbx
-    pushq %rbx
-    popq %rax
-    popq %rbx 
-    pushq %rax
+    pushq $140
     popq %rdi
     callq print
     movq	$0, %rax

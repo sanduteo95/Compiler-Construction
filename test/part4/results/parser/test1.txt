@@ -1,0 +1,26 @@
+[("f", [x], 
+    Operator(Plus, Deref(Identifier "x"), MyInteger 1)),
+ ("main", [], 
+    New "z",
+        Read(),
+        New "a",
+            MyInteger 0,
+            Seq(
+                Let "x",
+                    MyInteger 10,
+                    Let "y",
+                        MyInteger 20,
+                        Asg(
+                            Identifier "a", 
+                            Operator(Times, Operator(Times, Identifier "x", Identifier "y"), Deref(Identifier "z"))))),
+                New "b",
+                    MyInteger 0,
+                    Seq(
+                        Let "y",
+                            MyInteger 2,
+                            Asg(
+                                Identifier "b", 
+                                Application(
+                                    Identifier "f",
+                                    [Identifier "y"])))),
+                        Operator(Plus, Deref(Identifier "a"), Deref(Identifier "b"))))))))]

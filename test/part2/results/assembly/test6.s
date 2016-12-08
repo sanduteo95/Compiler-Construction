@@ -65,45 +65,6 @@ main:
     .cfi_def_cfa_register 6
     subq	$16, %rsp
     pushq $1
-    leaq -24(%rbp), %rax
-    pushq %rax
-    pushq $0
-    leaq -40(%rbp), %rax
-    pushq %rax
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    popq %rax
-    popq %rbx
-    cmpq %rax, %rbx
-    sete %al
-    pushq %rax
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    popq %rax
-    popq %rbx
-    cmpq %rax, %rbx
-    setne %al
-    pushq %rax
-    popq %rax
-    popq %rbx
-    orq %rax, %rbx
-    pushq %rbx
     popq %rdi
     callq print
     movq	$0, %rax

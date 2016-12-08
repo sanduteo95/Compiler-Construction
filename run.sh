@@ -1,35 +1,33 @@
 #!/bin/bash
 
 if [[ $# -eq 0 ]] ; then
-    echo "You need to add a flag: <-i> to interpret, <-g> to generate."
+    echo "You need to add a flag: <-s> to generate x86 code, <-o -s> to generate x86 after program was optimised."
     exit 0
 fi
 
-if [ $1 == "-s" ] ; then
-    if [[ $# -eq 1 ]] ; then
-        echo "You need to give the path to the file in the test folder."
-        exit 0
-    fi
+OUTPUT=""
+if [[ $# -eq 2 ]] ; then
+    OUTPUT=$(./exp_test.native $1 $2 2> /dev/null)
+else
+    OUTPUT=$(./exp_test.native $1 $2 $3 2> /dev/null)
+fi
 
-    OUTPUT=$(./exp_test.native $1 $2)
-    if [[ "$OUTPUT" != "error" ]] ; then
-        echo "$OUTPUT" >> program.txt
+if [[ $OUTPUT != "" ]] ; then
+     echo "$OUTPUT" >> program.txt
 
-        mv program.txt program.s
-        gcc -c program.s -o program.o
-        gcc program.o -o program
-        ./program
+    mv program.txt program.s
+    gcc -c program.s -o program.o
+    gcc program.o -o program
+    ./program
+    if [[ $# -eq 2 ]] ; then
         mv program.s "${2: 0: 11}results/assembly/${2: 11: -4}.s"
         rm program.o
         mv program "${2: 0: 11}results/assembly/${2: 11: -4}"
     else
-        if [[ "$OUTPUT" == "1" ]] ; then
-            echo "ExpectedError"
-        else
-            echo "ExpectedError"
-        fi
+        mv program.s "${3: 0: 11}results/assembly/${3: 11: -4}.s"
+        rm program.o
+        mv program "${3: 0: 11}results/assembly/${3: 11: -4}"
     fi
 else
-    echo "This script only works for generating x86 code."
-    exit 0
+    echo ""
 fi

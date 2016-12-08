@@ -1,0 +1,46 @@
+[("calculate", [n], 
+    New "sum",
+        MyInteger 0,
+        New "i",
+            MyInteger 0,
+            Seq(
+                While(
+                    Operator(Leq, Deref(Identifier "i"), Deref(Identifier "n")),
+                    Seq(
+                        Asg(
+                            Identifier "sum", 
+                            Operator(Plus, Deref(Identifier "sum"), Deref(Identifier "i"))),
+                        Asg(
+                            Identifier "i", 
+                            Operator(Plus, Deref(Identifier "i"), MyInteger 1)))),
+                Deref(Identifier "sum"))))),
+ ("main", [], 
+    New "n",
+        MyInteger 5,
+        New "sum",
+            Application(
+                Identifier "calculate",
+                [Deref(Identifier "n")])),
+            New "b1",
+                MyBoolean(false),
+                New "b2",
+                    MyBoolean(false),
+                    Seq(
+                        Asg(
+                            Let "x",
+                                MyInteger 0,
+                                If(
+                                    Operator(Eq, Identifier "x", MyInteger 0),
+                                    Identifier "b1",
+                                    Identifier "b2"), 
+                            Application(
+                                Lambda([y], 
+                                    If(
+                                        Operator(Eq, Deref(Identifier "y"), MyInteger 15),
+                                        MyBoolean(true),
+                                        MyBoolean(false)),
+                                [Deref(Identifier "sum")]))),
+                        If(
+                            Operator(Eq, Deref(Identifier "b1"), MyBoolean(true)),
+                            Deref(Identifier "b1"),
+                            Deref(Identifier "b2")))))))]

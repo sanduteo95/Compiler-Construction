@@ -1,0 +1,58 @@
+
+modulus:
+	ld r7
+	mv r4, r6
+	ld r6
+	ld acc
+	st r7
+	mv r5, r8
+	ld r8
+	ld acc
+	st r9
+	mod r7, r9
+	st r7
+
+main:
+	ld 5
+	st r4
+	ld r4
+	st r5
+	ld 3
+	st r6
+	ld r6
+	st r7
+	ld bp(7)
+	st r8
+	call modulus
+	ld acc
+	ld r8
+	ld 1001
+	st r8
+	mv r7, r1001
+	ld 6
+	st r9
+	ld r9
+	st r10
+	ld 2
+	st r11
+	ld r11
+	st r12
+	ld bp(12)
+	st r13
+	call modulus
+	ld acc
+	ld r13
+	ld 1002
+	st r13
+	mv r12, r1002
+	mv r8, r14
+	ld r14
+	ld acc
+	st r15
+	mv r13, r16
+	ld r16
+	ld acc
+	st r17
+	add r15, r17
+	st r15
+	ld r15

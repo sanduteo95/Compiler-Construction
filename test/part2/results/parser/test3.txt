@@ -1,0 +1,10 @@
+[("main", [], 
+    New "x",
+        MyInteger 10,
+        Seq(
+            While(
+                Operator(Geq, Deref(Identifier "x"), MyInteger 0),
+                Asg(
+                    Identifier "x", 
+                    Operator(Minus, Deref(Identifier "x"), MyInteger 1))),
+            MyInteger 0)))]

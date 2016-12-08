@@ -1,0 +1,18 @@
+[("main", [], 
+    New "g",
+        Application(
+            Lambda([x], 
+                Let "y",
+                    Application(
+                        Lambda([x], 
+                            If(
+                                Operator(Eq, Operator(Modulus, Deref(Identifier "x"), MyInteger 2), MyInteger 0),
+                                MyBoolean(true),
+                                MyBoolean(false)),
+                        [Deref(Identifier "x")])),
+                    If(
+                        Operator(Eq, Identifier "y", MyBoolean(true)),
+                        MyString("true"),
+                        MyString("false"))),
+            [MyInteger 3])),
+        Deref(Identifier "g")))]

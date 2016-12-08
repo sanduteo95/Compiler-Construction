@@ -68,76 +68,19 @@ main:
     leaq -24(%rbp), %rax
     pushq %rax
     pushq $1
-    leaq -40(%rbp), %rax
-    pushq %rax
-    jmp .L3
-.L4:
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    popq %rax
-    popq %rbx
-    addq %rax, %rbx
-    pushq %rbx
     movq -32(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
     pushq %rax
     pushq $1
     popq %rax
-    popq %rbx
-    addq %rax, %rbx
-    pushq %rbx
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rbx
-    popq %rax
-    movq %rax, (%rbx)
-    pushq %rax
-    jmp .L5
-    popq %rax
     popq %rbx 
     pushq %rax
     popq %rax
-    popq %rbx 
-    pushq %rax
-.L3:
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    pushq $10
-    popq %rax
     popq %rbx
-    cmpq %rax, %rbx
-    setle %al
-    pushq %rax
-    popq %rax
-    cmpq $0, %rax
-    jnz .L4
-.L5:
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    popq %rax
-    popq %rbx 
+    popq %rbx
     pushq %rax
     popq %rdi
     callq print

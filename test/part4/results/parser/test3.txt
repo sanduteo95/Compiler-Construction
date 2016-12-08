@@ -1,0 +1,5 @@
+[("main", [], 
+    Application(
+        Lambda([x, y], 
+            Operator(Plus, Deref(Identifier "x"), Deref(Identifier "y"))),
+        [MyInteger 1, MyInteger 2])))]

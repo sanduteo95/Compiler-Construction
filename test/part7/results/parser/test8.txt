@@ -1,0 +1,41 @@
+[("f_break", [n], 
+    New "fact",
+        MyInteger 1,
+        Seq(
+            For(MyInteger 1, Deref(Identifier "n"),
+                Seq(
+                    If(
+                        Operator(Greater, Identifier "i", MyInteger 2),
+                        Break,
+                        Asg(
+                            Identifier "fact", 
+                            Operator(Times, Deref(Identifier "fact"), Identifier "i")),
+                    Asg(
+                        Identifier "fact", 
+                        Operator(Divide, Deref(Identifier "fact"), Identifier "i"))),
+            Deref(Identifier "fact")))),
+ ("f_continue", [x, y], 
+    Seq(
+        While(
+            Operator(Noteq, Deref(Identifier "x"), Deref(Identifier "y")),
+            Seq(
+                If(
+                    Operator(Greater, Deref(Identifier "x"), Deref(Identifier "y")),
+                    Seq(
+                        Asg(
+                            Identifier "x", 
+                            Operator(Minus, Deref(Identifier "x"), MyInteger 1)),
+                        Break),
+                    Seq(
+                        Asg(
+                            Identifier "x", 
+                            Operator(Plus, Deref(Identifier "x"), MyInteger 1)),
+                        Continue),
+                Asg(
+                    Identifier "y", 
+                    Operator(Minus, Deref(Identifier "y"), MyInteger 1)))),
+        Deref(Identifier "x"))),
+ ("main", [], 
+    Application(
+        Identifier "f_continue",
+        [MyInteger 5, MyInteger 9])))]

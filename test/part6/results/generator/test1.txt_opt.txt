@@ -1,0 +1,54 @@
+
+sum:
+	ld r13
+	mv r4, r12
+	ld r12
+	ld acc
+	st r13
+	mv r5, r14
+	ld r14
+	ld acc
+	st r15
+	add r13, r15
+	st r13
+	mv r6, r14
+	ld r14
+	ld acc
+	st r15
+	add r13, r15
+	st r13
+	mv r7, r14
+	ld r14
+	ld acc
+	st r15
+	add r13, r15
+	st r13
+	mv r8, r14
+	ld r14
+	ld acc
+	st r15
+	add r13, r15
+	st r13
+	mv r9, r14
+	ld r14
+	ld acc
+	st r15
+	add r13, r15
+	st r13
+	mv r10, r14
+	ld r14
+	ld acc
+	st r15
+	add r13, r15
+	st r13
+	mv r11, r14
+	ld r14
+	ld acc
+	st r15
+	add r13, r15
+	st r13
+
+main:
+	ld 36
+	st r4
+	ld r4

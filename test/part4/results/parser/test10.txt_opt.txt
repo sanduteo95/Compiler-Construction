@@ -1,0 +1,51 @@
+[("main", [], 
+    New "x",
+        MyInteger 0,
+        Seq(
+            Seq(
+                Let "i",
+                    MyInteger 1,
+                    Seq(
+                        Asg(
+                            Identifier "x", 
+                            MyInteger 1),
+                        Seq(
+                            Asg(
+                                Identifier "x", 
+                                MyInteger 3),
+                            Seq(
+                                Asg(
+                                    Identifier "x", 
+                                    MyInteger 6),
+                                Seq(
+                                    Asg(
+                                        Identifier "x", 
+                                        MyInteger 10),
+                                    Seq(
+                                        Asg(
+                                            Identifier "x", 
+                                            MyInteger 15),
+                                        Seq(
+                                            Asg(
+                                                Identifier "x", 
+                                                MyInteger 21),
+                                            Seq(
+                                                Asg(
+                                                    Identifier "x", 
+                                                    MyInteger 28),
+                                                Seq(
+                                                    Asg(
+                                                        Identifier "x", 
+                                                        MyInteger 36),
+                                                    Seq(
+                                                        Asg(
+                                                            Identifier "x", 
+                                                            MyInteger 45),
+                                                        Asg(
+                                                            Identifier "x", 
+                                                            MyInteger 55))))))))))),
+                For(MyInteger 11, MyInteger 100,
+                    Asg(
+                        Identifier "x", 
+                        Operator(Plus, Deref(Identifier "x"), Identifier "i"))),
+            Deref(Identifier "x"))))]

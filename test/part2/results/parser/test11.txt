@@ -1,0 +1,13 @@
+[("main", [], 
+    New "y",
+        MyInteger 0,
+        New "x",
+            If(
+                Operator(Eq, MyInteger 1, MyInteger 1),
+                Asg(
+                    Identifier "y", 
+                    MyInteger 1),
+                Asg(
+                    Identifier "y", 
+                    MyInteger 2),
+            Deref(Identifier "y"))))]

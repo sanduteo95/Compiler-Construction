@@ -1,0 +1,57 @@
+function f1(var n) {
+    if(*n==0) {
+        return 1;
+    } else {
+        if(*n==1) {
+            return 1;
+        } else {
+            if(*n==2) {
+                return 1;
+            } else {
+                if(*n==3) {
+                    return 1;
+                } else {
+                    return 1;
+                }
+            }
+        }
+    }
+}
+function f2(var n) {
+    if(*n==0) {
+        return 1;
+    } else {
+        if(*n==1) {
+            return 1;
+        } else {
+            if(*n==2) {
+                return 1;
+            } else {
+                if(*n==3) {
+                    return 1;
+                } else {
+                    return 1;
+                }
+            }
+        }
+    }
+}
+function conv(var signal, var signalLen, var kernel, var kernelLen) {
+    for(n=0: *signalLen+*kernelLen-2) {
+        var r = 0;
+        var kmin = (if(n=>*kernelLen-1) { return n-(*kernelLen-1); } else { return 0;});
+        var kmax = (if(n<*signalLen-1) { return n; } else { return *signalLen-1; });
+        for(k=*kmin: *kmax) {
+            r = *r + signal(k) * kernel(n-k);
+        }
+        print(*r);
+    }
+}
+function main() {
+    conv(*f1, 5, *f2, 5);
+    return 0;
+}
+
+
+
+

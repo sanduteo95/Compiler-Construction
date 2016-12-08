@@ -1,0 +1,11 @@
+[("f", [n], 
+    If(
+        Operator(Eq, Operator(Modulus, Deref(Identifier "n"), MyInteger 2), MyInteger 0),
+        Let "x",
+            Operator(Divide, Deref(Identifier "n"), MyInteger 2),
+            Operator(Plus, Deref(Identifier "n"), Application(
+    Identifier "f",
+    [Identifier "x"])))),
+        Deref(Identifier "n")),
+ ("main", [], 
+    MyInteger 21)]

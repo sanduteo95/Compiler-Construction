@@ -1,0 +1,23 @@
+[("increment", [x], 
+    Application(
+        Lambda([y], 
+            Operator(Plus, Deref(Identifier "y"), MyInteger 1)),
+        [Deref(Identifier "x")]))),
+ ("main", [], 
+    New "i",
+        MyInteger 1,
+        New "fact",
+            MyInteger 1,
+            Seq(
+                While(
+                    Operator(Less, Deref(Identifier "i"), MyInteger 10),
+                    Seq(
+                        Asg(
+                            Identifier "fact", 
+                            Operator(Times, Deref(Identifier "fact"), Deref(Identifier "i"))),
+                        Asg(
+                            Identifier "i", 
+                            Application(
+                                Identifier "increment",
+                                [Deref(Identifier "i")]))))),
+                Deref(Identifier "fact")))))]

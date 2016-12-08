@@ -122,6 +122,10 @@ main:
     popq %rax
     popq %rbx 
     pushq %rax
+    popq %rax
+    popq %rbx
+    popq %rbx
+    pushq %rax
     popq %rdi
     callq print
     movq	$0, %rax

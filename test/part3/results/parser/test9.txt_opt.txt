@@ -1,0 +1,17 @@
+[("g", [x], 
+    If(
+        Operator(Noteq, Deref(Identifier "x"), MyInteger 0),
+        Operator(Plus, Deref(Identifier "x"), Application(
+    Identifier "g",
+    [Operator(Minus, Deref(Identifier "x"), MyInteger 1)]))),
+        MyInteger 0),
+ ("f", [x], 
+    Seq(
+        Asg(
+            Identifier "x", 
+            Application(
+                Identifier "g",
+                [Deref(Identifier "x")]))),
+        Deref(Identifier "x"))),
+ ("main", [], 
+    MyInteger 20)]

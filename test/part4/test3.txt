@@ -3,6 +3,6 @@
 	- constant folding
 */
 function main() {
-	return (\x,y -> return *x+*y;)(1,2);
+	return (\x,y -> return *x+*y;)(1, 2);
 }
 

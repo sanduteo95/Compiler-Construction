@@ -1,0 +1,7 @@
+[("f", [a, b], 
+    Application(
+        Lambda([x, y], 
+            Operator(Plus, Deref(Identifier "x"), Deref(Identifier "y"))),
+        [Deref(Identifier "a"), Deref(Identifier "b")]))),
+ ("main", [], 
+    MyInteger 8)]

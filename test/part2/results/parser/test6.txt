@@ -1,0 +1,6 @@
+[("main", [], 
+    New "x",
+        MyBoolean(true),
+        New "y",
+            MyBoolean(false),
+            Operator(Or, Operator(Eq, Deref(Identifier "x"), Deref(Identifier "y")), Operator(Noteq, Deref(Identifier "x"), Deref(Identifier "y"))))))]

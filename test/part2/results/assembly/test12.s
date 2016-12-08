@@ -69,12 +69,9 @@ main:
     pushq %rax
     movq -32(%rbp), %rax
     pushq %rax
-    leaq -40(%rbp), %rax
-    pushq %rax
-    movq -48(%rbp), %rax
-    pushq %rax
     popq %rax
-    movq (%rax), %rax
+    popq %rbx
+    popq %rbx
     pushq %rax
     popq %rdi
     callq print

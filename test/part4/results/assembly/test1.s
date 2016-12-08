@@ -100,19 +100,7 @@ main:
     pushq %rax
     leaq -24(%rbp), %rax
     pushq %rax
-    pushq $0
-    leaq -40(%rbp), %rax
-    pushq %rax
-    pushq $10
-    pushq $20
-    movq -56(%rbp), %rax
-    pushq %rax
-    movq -64(%rbp), %rax
-    pushq %rax
-    popq %rax
-    popq %rbx
-    mulq %rbx
-    pushq %rax
+    pushq $200
     movq -32(%rbp), %rax
     pushq %rax
     popq %rax
@@ -122,55 +110,14 @@ main:
     popq %rbx
     mulq %rbx
     pushq %rax
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rbx
-    popq %rax
-    movq %rax, (%rbx)
-    pushq %rax
-    popq %rax
-    popq %rbx 
-    pushq %rax
-    popq %rax
-    popq %rbx 
-    pushq %rax
-    pushq $0
-    leaq -64(%rbp), %rax
-    pushq %rax
-    pushq $2
-    movq -80(%rbp), %rax
-    pushq %rax
-    popq %rdi
-    callq f
-    pushq %rax
-    movq -72(%rbp), %rax
-    pushq %rax
-    popq %rbx
-    popq %rax
-    movq %rax, (%rbx)
-    pushq %rax
-    popq %rax
-    popq %rbx 
-    pushq %rax
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    movq -72(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
+    pushq $3
     popq %rax
     popq %rbx
     addq %rax, %rbx
     pushq %rbx
     popq %rax
-    popq %rbx 
-    pushq %rax
-    popq %rax
-    popq %rbx 
+    popq %rbx
+    popq %rbx
     pushq %rax
     popq %rdi
     callq print

@@ -1,0 +1,19 @@
+[("double", [x], 
+    New "y",
+        MyInteger 13,
+        If(
+            Operator(Greater, Deref(Identifier "x"), Deref(Identifier "y")),
+            Operator(Times, MyInteger 2, Deref(Identifier "x")),
+            Deref(Identifier "y"))),
+ ("main", [], 
+    New "x",
+        MyInteger 1,
+        Seq(
+            While(
+                Operator(Eq, Application(
+    Identifier "double",
+    [Deref(Identifier "x")])), Operator(Times, MyInteger 2, Deref(Identifier "x"))),
+                Asg(
+                    Identifier "x", 
+                    Operator(Plus, Deref(Identifier "x"), MyInteger 1))),
+            Deref(Identifier "x"))))]

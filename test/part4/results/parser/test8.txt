@@ -1,0 +1,24 @@
+[("f", [x], 
+    New "i",
+        MyInteger 1,
+        New "sum",
+            MyInteger 0,
+            Seq(
+                While(
+                    Operator(Leq, Deref(Identifier "i"), Deref(Identifier "x")),
+                    Seq(
+                        Asg(
+                            Identifier "sum", 
+                            Operator(Plus, Deref(Identifier "sum"), Operator(Times, Deref(Identifier "i"), MyInteger 10))),
+                        Asg(
+                            Identifier "i", 
+                            Operator(Plus, Deref(Identifier "i"), MyInteger 1)))),
+                Operator(Plus, Deref(Identifier "sum"), Deref(Identifier "x")))))),
+ ("g", [x], 
+    Operator(Times, MyInteger 5, Deref(Identifier "x"))),
+ ("main", [], 
+    Application(
+        Identifier "f",
+        [Application(
+    Identifier "g",
+    [MyInteger 1]))])))]

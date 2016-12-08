@@ -1,0 +1,23 @@
+[("f", [x, y], 
+    Operator(Leq, Deref(Identifier "x"), Deref(Identifier "y"))),
+ ("g", [x, y], 
+    Operator(Geq, Deref(Identifier "x"), Deref(Identifier "y"))),
+ ("apply", [f, x, y], 
+    Application(
+        Identifier "f",
+        [Deref(Identifier "x"), Deref(Identifier "y")]))),
+ ("main", [], 
+    New "x",
+        MyInteger 5,
+        New "y",
+            MyInteger 3,
+            Seq(
+                If(
+                    Operator(And, Application(
+    Identifier "apply",
+    [Deref(Identifier "f"), Deref(Identifier "x"), Deref(Identifier "y")])), Application(
+    Identifier "apply",
+    [Deref(Identifier "g"), Deref(Identifier "x"), Deref(Identifier "y")]))),
+                    Print(MyString("Equal")),
+                    Print(MyString("Not equal")),
+                MyInteger 0))))]

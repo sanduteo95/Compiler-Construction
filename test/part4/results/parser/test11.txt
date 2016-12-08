@@ -1,0 +1,14 @@
+[("f", [x, y], 
+    Asg(
+        Deref(Identifier "x"), 
+        Operator(Plus, Deref(Deref(Identifier "x")), Deref(Identifier "y")))),
+ ("main", [], 
+    New "y",
+        Read(),
+        New "x",
+            Identifier "y",
+            Seq(
+                Application(
+                    Identifier "f",
+                    [Deref(Identifier "x"), Deref(Identifier "y")])),
+                Operator(Plus, Deref(Deref(Identifier "x")), Deref(Identifier "y"))))))]

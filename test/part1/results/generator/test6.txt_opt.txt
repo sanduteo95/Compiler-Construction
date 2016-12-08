@@ -1,0 +1,5 @@
+
+main:
+	ld 1
+	st r3
+	ld r3

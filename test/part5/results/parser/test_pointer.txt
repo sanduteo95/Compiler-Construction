@@ -1,0 +1,10 @@
+[("main", [], 
+    New "y",
+        MyInteger 2,
+        New "x",
+            Identifier "y",
+            Seq(
+                Asg(
+                    Deref(Identifier "x"), 
+                    Operator(Plus, Deref(Deref(Identifier "x")), MyInteger 1)),
+                Deref(Identifier "y")))))]

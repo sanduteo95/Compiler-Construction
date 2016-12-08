@@ -1,0 +1,4 @@
+[("main", [], 
+    New "x",
+        MyInteger 5,
+        Operator(Times, Operator(Minus, Deref(Identifier "x"), MyInteger 2), Operator(Plus, Deref(Identifier "x"), MyInteger 2))))]

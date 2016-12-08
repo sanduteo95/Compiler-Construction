@@ -1,5 +1,9 @@
+(** Contains the prefizes *)
+
+(** The tabbing. *)
 let tab = "    "
 
+(** The prefix of the program. *)
 let prefix_program =
     tab ^ ".file	\"program.c\"\n"
     ^ tab ^ ".section	.rodata\n"
@@ -57,6 +61,7 @@ let prefix_program =
     ^ ".LFE3:\n"
     ^ tab ^ ".size	read, .-read"
 
+(** The prefix for each function. *)
 let prefix_function name id =
     "\n" ^ tab ^ ".globl	" ^ name ^ "\n"
     ^ tab ^ ".type	" ^ name ^ ", @function\n"
@@ -69,6 +74,7 @@ let prefix_function name id =
     ^ tab ^ ".cfi_def_cfa_register 6\n"
     ^ tab ^ "subq	$16, %rsp\n"
 
+(** The suffix for each function. *)
 let suffix_function name addr =
     tab ^ "popq %rax\n"
     ^ tab ^ "movq %rbp, %rsp\n"
@@ -79,9 +85,11 @@ let suffix_function name addr =
     ^ ".LFE" ^ (string_of_int addr) ^ ":\n"
     ^ tab ^ ".size	" ^ name ^ ", .-" ^ name
 
+(** THe prefix for the main function. *)
 let prefix_main id =
     prefix_function "main" id
 
+(** The suffix for the main function, *)
 let suffix_main id =
     tab ^ "popq %rdi\n"
     ^ tab ^ "callq print\n"

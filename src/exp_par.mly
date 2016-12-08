@@ -98,12 +98,12 @@ statement:
 	| f = function_expression; LEFT_ROUND_BRACKET; a = separated_list(COMMA, expression); RIGHT_ROUND_BRACKET; SEMI_COLLON  { Application(f, a)}
 	| BREAK; SEMI_COLLON  { Break }
 	| CONTINUE; SEMI_COLLON  { Continue }
-	
+	| b = ID; LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { Block(b, s) }
+	| BREAK; b = ID;  LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { BreakBlock(b, s) }
+	| CONTINUE; b = ID;  LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { ContinueBlock(b, s) }
+
 for_loop:
-	| FOR; LEFT_ROUND_BRACKET id = ID; ASSIGN; TIMES; id1 = ID; TO; TIMES; id2 = ID; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { For(id, Deref(Identifier(id1)), Deref(Identifier(id2)), s) }
-	| FOR; LEFT_ROUND_BRACKET; id = ID; ASSIGN; i = INT; TO; TIMES; id1 = ID; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { For(id, MyInteger(i), Deref(Identifier(id1)), s) }
-	| FOR; LEFT_ROUND_BRACKET; id = ID; ASSIGN; TIMES; id1 = ID; TO; i = INT; RIGHT_ROUND_BRACKET LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { For(id, Deref(Identifier(id1)), MyInteger(i), s) }
-	| FOR; LEFT_ROUND_BRACKET; id = ID; ASSIGN; i1 = INT; TO; i2 = INT; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { For(id, MyInteger(i1), MyInteger(i2), s) }
+	| FOR; LEFT_ROUND_BRACKET id = ID; ASSIGN; e1 = expression; TO; e2 = expression; RIGHT_ROUND_BRACKET; LEFT_CURLY_BRACKET; s = statements; RIGHT_CURLY_BRACKET  { For(id, e1, e2, s) }
 
 new_declaration:
 	| TYPE; TIMES; id = ID; ASSIGN; r = right_assignment; SEMI_COLLON; s = statements  { New(id, r, s) }
@@ -173,7 +173,7 @@ operator_expression:
 
 function_expression:
 	| id = ID  { Identifier(id) }
-	| LEFT_ROUND_BRACKET; FUN; ids = separated_list(COMMA, ID); LAMBDA; s = statement; RIGHT_ROUND_BRACKET { Lambda(ids, s) }
+	| LEFT_ROUND_BRACKET; FUN; ids = separated_list(COMMA, ID); LAMBDA; s = statements; RIGHT_ROUND_BRACKET { Lambda(ids, s) }
 
 ids:
 	| id = ID  { Deref(Identifier(id)) }

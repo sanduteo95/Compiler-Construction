@@ -1,0 +1,31 @@
+[("f", [x], 
+    Operator(Minus, Operator(Minus, Operator(Times, Operator(Times, Deref(Identifier "x"), Deref(Identifier "x")), Deref(Identifier "x")), Deref(Identifier "x")), MyFloat 2.000000)),
+ ("bisection_recursive", [f, a, b, TOL, NMAX], 
+    If(
+        Operator(Less, Deref(Identifier "NMAX"), MyInteger 0),
+        Print(MyString("Method failed.")),
+        New "c",
+            Operator(Divide, Operator(Plus, Deref(Identifier "a"), Deref(Identifier "b")), MyFloat 2.000000),
+            If(
+                Operator(Or, Operator(Eq, Application(
+    Identifier "f",
+    [Deref(Identifier "c")])), MyFloat 0.000000), Operator(Less, Operator(Divide, Operator(Minus, Deref(Identifier "b"), Deref(Identifier "a")), MyFloat 2.000000), Deref(Identifier "TOL"))),
+                Deref(Identifier "c"),
+                Seq(
+                    If(
+                        Operator(Geq, Operator(Times, Application(
+    Identifier "f",
+    [Deref(Identifier "c")])), Application(
+    Identifier "f",
+    [Deref(Identifier "a")]))), MyFloat 0.000000),
+                        Asg(
+                            Identifier "a", 
+                            Deref(Identifier "c")),
+                        Asg(
+                            Identifier "b", 
+                            Deref(Identifier "c")),
+                    Application(
+                        Identifier "bisection_recursive",
+                        [Deref(Identifier "f"), Deref(Identifier "a"), Deref(Identifier "b"), Deref(Identifier "TOL"), Operator(Minus, Deref(Identifier "NMAX"), MyInteger 1)]))))),
+ ("main", [], 
+    MyFloat 1.500000)]

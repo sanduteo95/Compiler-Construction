@@ -67,216 +67,214 @@ main:
     pushq $3
     leaq -24(%rbp), %rax
     pushq %rax
-    movq -32(%rbp), %rax
+    pushq $3
+    leaq -40(%rbp), %rax
     pushq %rax
-    popq %rax
-    movq (%rax), %rax
+    pushq $0
+    leaq -56(%rbp), %rax
     pushq %rax
     pushq $1
-    popq %rax
-    popq %rbx
-    addq %rax, %rbx
-    pushq %rbx
-    movq -32(%rbp), %rax
+    movq -64(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
     pushq %rax
     pushq $3
-    leaq -48(%rbp), %rax
-    pushq %rax
-    movq -56(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    pushq $5
-    popq %rax
-    popq %rbx
-    addq %rax, %rbx
-    pushq %rbx
-    movq -56(%rbp), %rax
+    movq -64(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
     pushq %rax
-    pushq $0
-    leaq -72(%rbp), %rax
-    pushq %rax
-    pushq $1
-    jmp .L3
-.L4:
-    movq -80(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    movq -88(%rbp), %rax
-    pushq %rax
-    popq %rax
-    popq %rbx
-    addq %rax, %rbx
-    pushq %rbx
-    movq -80(%rbp), %rax
+    pushq $6
+    movq -64(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
-    pushq %rax
-.L5:
-    popq %rax
-    addq $1, -88(%rbp)
-.L3:
-    movq -88(%rbp), %rax
     pushq %rax
     pushq $10
-    popq %rax
+    movq -64(%rbp), %rax
+    pushq %rax
     popq %rbx
-    cmpq %rax, %rbx
-    setle %al
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    pushq $15
+    movq -64(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    pushq $21
+    movq -64(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    pushq $28
+    movq -64(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    pushq $36
+    movq -64(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    pushq $45
+    movq -64(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    pushq $55
+    movq -64(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
     pushq %rax
     popq %rax
-    cmpq $0, %rax
-    jnz .L4
-.L6:
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
     pushq $0
-    leaq -96(%rbp), %rax
+    leaq -80(%rbp), %rax
     pushq %rax
-    jmp .L7
-.L8:
-    movq -104(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    popq %rax
-    popq %rbx
-    addq %rax, %rbx
-    pushq %rbx
-    movq -104(%rbp), %rax
+    pushq $4
+    movq -88(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
     pushq %rax
-    movq -56(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    popq %rax
-    popq %rbx
-    push %rax
-    push %rbx
-    pop %rax
-    pop %rbx
-    cltd
-    divq %rbx
-    pushq %rdx
-    pushq $0
-    popq %rax
-    popq %rbx
-    cmpq %rax, %rbx
-    sete %al
-    pushq %rax
-    popq %rax
-    cmpq $0, %rax
-    jz .L10
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    pushq $1
-    popq %rax
-    popq %rbx
-    addq %rax, %rbx
-    pushq %rbx
+    pushq $5
     movq -32(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
     pushq %rax
-    jmp .L11
-.L10:
-    movq -56(%rbp), %rax
-    pushq %rax
     popq %rax
-    movq (%rax), %rax
+    popq %rbx 
     pushq %rax
-    pushq $1
-    popq %rax
-    popq %rbx
-    subq %rax, %rbx
-    pushq %rbx
-    movq -56(%rbp), %rax
+    pushq $9
+    movq -88(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
     pushq %rax
-.L11:
+    pushq $7
+    movq -48(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
     popq %rax
     popq %rbx 
     pushq %rax
-.L7:
-    movq -32(%rbp), %rax
+    pushq $14
+    movq -88(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    pushq $6
+    movq -48(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
     pushq %rax
     popq %rax
-    movq (%rax), %rax
+    popq %rbx 
     pushq %rax
-    movq -56(%rbp), %rax
+    pushq $19
+    movq -88(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    pushq $5
+    movq -48(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
     pushq %rax
     popq %rax
-    movq (%rax), %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    pushq $74
+    popq %rax
+    popq %rbx 
     pushq %rax
     popq %rax
     popq %rbx
-    cmpq %rax, %rbx
-    setl %al
+    popq %rbx
     pushq %rax
     popq %rax
-    cmpq $0, %rax
-    jnz .L8
-.L9:
-    movq -80(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    movq -104(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
+    popq %rbx 
     pushq %rax
     popq %rax
     popq %rbx
-    addq %rax, %rbx
-    pushq %rbx
-    popq %rax
-    popq %rbx 
+    popq %rbx
     pushq %rax
     popq %rax
-    popq %rbx 
+    popq %rbx
+    popq %rbx
     pushq %rax
     popq %rax
-    popq %rbx 
-    pushq %rax
-    popq %rax
-    popq %rbx 
+    popq %rbx
+    popq %rbx
     pushq %rax
     popq %rdi
     callq print

@@ -1,0 +1,10 @@
+[("double", [b], 
+    Operator(Times, MyInteger 2, Deref(Identifier "b"))),
+ ("f", [c], 
+    New "c",
+        Application(
+            Identifier "double",
+            [Deref(Identifier "c")])),
+        Deref(Identifier "c"))),
+ ("main", [], 
+    MyInteger 8)]

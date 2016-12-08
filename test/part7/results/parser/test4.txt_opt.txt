@@ -1,0 +1,8 @@
+[("main", [], 
+    New "sum",
+        MyInteger 0,
+        Seq(
+            Asg(
+                Identifier "sum", 
+                MyInteger 1),
+            MyInteger 1)))]

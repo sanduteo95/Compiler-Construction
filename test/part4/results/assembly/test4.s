@@ -64,66 +64,7 @@ main:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    pushq $10
-    leaq -24(%rbp), %rax
-    pushq %rax
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    pushq $10
-    popq %rax
-    popq %rbx
-    cmpq %rax, %rbx
-    sete %al
-    pushq %rax
-    popq %rax
-    cmpq $0, %rax
-    jz .L3
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    pushq $1
-    popq %rax
-    popq %rbx
-    addq %rax, %rbx
-    pushq %rbx
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rbx
-    popq %rax
-    movq %rax, (%rbx)
-    pushq %rax
-    jmp .L4
-.L3:
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    pushq $1
-    popq %rax
-    popq %rbx
-    subq %rax, %rbx
-    pushq %rbx
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rbx
-    popq %rax
-    movq %rax, (%rbx)
-    pushq %rax
-.L4:
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    popq %rax
-    popq %rbx 
-    pushq %rax
+    pushq $11
     popq %rdi
     callq print
     movq	$0, %rax

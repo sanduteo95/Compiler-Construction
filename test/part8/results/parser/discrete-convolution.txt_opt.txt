@@ -1,0 +1,72 @@
+[("f1", [n], 
+    If(
+        Operator(Eq, Deref(Identifier "n"), MyInteger 0),
+        MyInteger 1,
+        If(
+            Operator(Eq, Deref(Identifier "n"), MyInteger 1),
+            MyInteger 1,
+            If(
+                Operator(Eq, Deref(Identifier "n"), MyInteger 2),
+                MyInteger 1,
+                If(
+                    Operator(Eq, Deref(Identifier "n"), MyInteger 3),
+                    MyInteger 1,
+                    MyInteger 1),
+ ("f2", [n], 
+    If(
+        Operator(Eq, Deref(Identifier "n"), MyInteger 0),
+        MyInteger 1,
+        If(
+            Operator(Eq, Deref(Identifier "n"), MyInteger 1),
+            MyInteger 1,
+            If(
+                Operator(Eq, Deref(Identifier "n"), MyInteger 2),
+                MyInteger 1,
+                If(
+                    Operator(Eq, Deref(Identifier "n"), MyInteger 3),
+                    MyInteger 1,
+                    MyInteger 1),
+ ("conv", [signal, signalLen, kernel, kernelLen], 
+    For(MyInteger 0, Operator(Minus, Operator(Plus, Deref(Identifier "signalLen"), Deref(Identifier "kernelLen")), MyInteger 2),
+        New "r",
+            MyInteger 0,
+            New "kmin",
+                If(
+                    Operator(Geq, Identifier "n", Operator(Minus, Deref(Identifier "kernelLen"), MyInteger 1)),
+                    Operator(Minus, Identifier "n", Operator(Minus, Deref(Identifier "kernelLen"), MyInteger 1)),
+                    MyInteger 0,
+                New "kmax",
+                    If(
+                        Operator(Less, Identifier "n", Operator(Minus, Deref(Identifier "signalLen"), MyInteger 1)),
+                        Identifier "n",
+                        Operator(Minus, Deref(Identifier "signalLen"), MyInteger 1),
+                    Seq(
+                        For(Deref(Identifier "kmin"), Deref(Identifier "kmax"),
+                            Asg(
+                                Identifier "r", 
+                                Operator(Plus, Deref(Identifier "r"), Operator(Times, Application(
+    Identifier "signal",
+    [Identifier "k"])), Application(
+    Identifier "kernel",
+    [Operator(Minus, Identifier "n", Identifier "k")]))))),
+                        Print(Deref(Identifier "r"))))))),
+ ("main", [], 
+    Seq(
+        Seq(
+            Print(MyInteger 0),
+            Seq(
+                Print(MyInteger 0),
+                Seq(
+                    Print(MyInteger 0),
+                    Seq(
+                        Print(MyInteger 0),
+                        Seq(
+                            Print(MyInteger 5),
+                            Seq(
+                                Print(MyInteger 4),
+                                Seq(
+                                    Print(MyInteger 3),
+                                    Seq(
+                                        Print(MyInteger 2),
+                                        Print(MyInteger 1))))))))),
+        MyInteger 0))]

@@ -84,6 +84,7 @@ f_break:
     popq %rax
     cmpq $0, %rax
     jz .L7
+    popq %rax
     jmp .L6
     jmp .L8
 .L7:
@@ -159,6 +160,10 @@ f_break:
     popq %rbx 
     pushq %rax
     popq %rax
+    popq %rbx
+    popq %rbx
+    pushq %rax
+    popq %rax
     movq %rbp, %rsp
     popq %rbp
     .cfi_def_cfa 7, 8
@@ -219,6 +224,7 @@ f_continue:
     popq %rax
     movq %rax, (%rbx)
     pushq %rax
+    popq %rax
     jmp .L11
     popq %rax
     popq %rbx 
@@ -265,6 +271,7 @@ f_continue:
     popq %rax
     popq %rbx 
     pushq %rax
+    popq %rax
 .L9:
     movq -48(%rbp), %rax
     pushq %rax
@@ -313,11 +320,6 @@ main:
     .cfi_def_cfa_register 6
     subq	$16, %rsp
     pushq $9
-    popq %rsi
-    pushq $5
-    popq %rdi
-    callq f_continue
-    pushq %rax
     popq %rdi
     callq print
     movq	$0, %rax

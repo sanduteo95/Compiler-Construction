@@ -1,0 +1,14 @@
+[("f", [x], 
+    Operator(Times, Deref(Identifier "x"), Deref(Identifier "x"))),
+ ("g", [x], 
+    Seq(
+        Print(MyString("Something")),
+        Operator(Times, MyInteger 2, Deref(Identifier "x")))),
+ ("main", [], 
+    New "x",
+        MyInteger 1,
+        Application(
+            Identifier "f",
+            [Application(
+    Identifier "g",
+    [Deref(Identifier "x")]))]))))]

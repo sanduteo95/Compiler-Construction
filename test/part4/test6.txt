@@ -1,8 +1,10 @@
 /* Testing:
 	- function inlining with a curried lambda
 */
+function f(var a, var b) {
+	return (\x,y -> return *x+*y;)(*a, *b);
+}
 function main(){
-	var f = (\x,y -> return *x+*y;)();
 	return f(1, 2) + f(1, 4);
 }
 

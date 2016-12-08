@@ -47,12 +47,24 @@ let get_float_operator op = match op with
 	| Modulus -> raise (TypeError ("There is no modulus operator for floats", ""))
 	| _ -> failwith "This case is never reached."
 
-(** Applies prefix operators of the form int->int->bool or tuple->tuple->bool*)
+(** Applies prefix operators of the form tuple->tuple->bool*)
 let rec tuple_mix_operator op v1 v2 = match v1, v2 with
 	| Tuple([]), Tuple([]) -> true
 	| Tuple(e1::es1), Tuple(e2::es2) ->
 		let operator = get_mix_operator op in
 		(operator v1 v2) && tuple_mix_operator op (Tuple(es1)) (Tuple(es2))
+	| Tuple([]), Tuple(_) | Tuple(_), Tuple([]) -> raise (TypeError ("The two tuples have different sizes", ""))
+	| _ -> failwith "This case is never reached."
+
+(** Applies prefix operators of the form tuple->tuple->tuple*)
+let rec tuple_operator aux op v1 v2 = match v1, v2 with
+	| Tuple([]), Tuple([]) -> aux
+	| Tuple(e1::es1), Tuple(e2::es2) ->
+		let res = (match e1, e2 with
+			| Integer v1, Integer v2 -> let operator = get_int_operator op in Integer(operator v1 v2)
+			| Float v1, Float v2 -> let operator = get_float_operator op in Float(operator v1 v2)
+			| _ -> raise (TypeError ("This operator requires either two integers or two floats: ", Formatter.string_of_operator op))) in
+		tuple_operator (aux@[res]) op (Tuple(es1)) (Tuple(es2))
 	| Tuple([]), Tuple(_) | Tuple(_), Tuple([]) -> raise (TypeError ("The two tuples have different sizes", ""))
 	| _ -> failwith "This case is never reached."
 

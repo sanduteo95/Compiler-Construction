@@ -1,0 +1,12 @@
+[("f", [x], 
+    Asg(
+        Identifier "x", 
+        Operator(Plus, Deref(Identifier "x"), MyInteger 1))),
+ ("main", [], 
+    New "x",
+        MyInteger 1,
+        Seq(
+            Application(
+                Identifier "f",
+                [Deref(Identifier "x")])),
+            Deref(Identifier "x"))))]

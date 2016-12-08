@@ -145,12 +145,7 @@ main:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    pushq $2
-    popq %rsi
     pushq $5
-    popq %rdi
-    callq half
-    pushq %rax
     popq %rdi
     callq print
     movq	$0, %rax

@@ -1,0 +1,6 @@
+[("f", [x], 
+    Operator(Plus, Deref(Identifier "x"), MyInteger 1)),
+ ("main", [], 
+    New "z",
+        Read(),
+        Operator(Plus, Operator(Times, MyInteger 200, Deref(Identifier "z")), MyInteger 3)))]

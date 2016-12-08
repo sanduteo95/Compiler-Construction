@@ -1,0 +1,9 @@
+[("main", [], 
+    New "x",
+        MyInteger 0,
+        Seq(
+            For(MyInteger 1, MyInteger 100,
+                Asg(
+                    Identifier "x", 
+                    Operator(Plus, Deref(Identifier "x"), Identifier "i")),
+            Deref(Identifier "x"))))]

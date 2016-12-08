@@ -1,0 +1,11 @@
+
+main:
+	ld 1
+	st r3
+	ld 0
+	st r4
+	and r3, r4
+	st r3
+	not r3
+	st r3
+	ld r3

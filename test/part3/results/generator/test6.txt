@@ -1,0 +1,56 @@
+
+new:
+	ld r6
+	mv r4, r5
+	ld r5
+	ld acc
+	st r6
+
+main:
+	ld 2
+	st r4
+	ld 1001
+	st r5
+	mv r4, r1001
+	mv r5, r6
+	ld 1002
+	st r7
+	mv r6, r1002
+	mv r7, r8
+	ld r8
+	ld acc
+	st r9
+	ld r9
+	st r10
+	ld bp(10)
+	st r11
+	call new
+	ld acc
+	ld r11
+	ld 8
+	st r11
+	ld r10
+	mv r11, acc
+	ld acc
+	st r11
+	mv r5, r11
+	ld r11
+	ld acc
+	st r12
+	mv r7, r13
+	ld r13
+	ld acc
+	st r14
+	ld r14
+	ld acc
+	st r15
+	ld r15
+	st r16
+	ld bp(16)
+	st r17
+	call new
+	ld acc
+	ld r17
+	add r12, r16
+	st r12
+	ld r12

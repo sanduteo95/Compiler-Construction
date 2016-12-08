@@ -1,0 +1,117 @@
+
+f:
+	ld r9
+	ld 4
+	st r5
+	ld 1001
+	st r6
+	mv r5, r1001
+
+L11:
+	mv r6, r7
+	ld r7
+	ld acc
+	st r8
+	mv r4, r9
+	ld r9
+	ld acc
+	st r10
+	sle r8, r10
+	st r8
+	jmpz L31
+	mv r6, r7
+	mv r6, r8
+	ld r8
+	ld acc
+	st r9
+	ld 1
+	st r10
+	add r9, r10
+	st r9
+	ld r7
+	mv r9, acc
+	ld acc
+	st r9
+	jmp end_loop1
+	jmp L11
+
+L31:
+	mv r6, r8
+	ld r8
+	ld acc
+	st r9
+
+main:
+	ld 10
+	st r4
+	ld r4
+	st r5
+	ld bp(5)
+	st r6
+	call f
+	ld acc
+	ld r6
+	ld 1002
+	st r6
+	mv r5, r1002
+
+L12:
+	mv r6, r7
+	ld r7
+	ld acc
+	st r8
+	ld 10
+	st r9
+	slt r8, r9
+	st r8
+	jmpz L32
+
+L13:
+	mv r6, r7
+	ld r7
+	ld acc
+	st r8
+	ld 10
+	st r9
+	slt r8, r9
+	st r8
+	jmpz L33
+	mv r6, r7
+	mv r6, r8
+	ld r8
+	ld acc
+	st r9
+	ld 1
+	st r10
+	add r9, r10
+	st r9
+	ld r7
+	mv r9, acc
+	ld acc
+	st r9
+	jmp end_loop3
+	jmp L13
+
+L33:
+	jmp cont_loop3
+	mv r6, r8
+	mv r6, r9
+	ld r9
+	ld acc
+	st r10
+	ld 1
+	st r11
+	sub r10, r11
+	st r10
+	ld r8
+	mv r10, acc
+	ld acc
+	st r10
+	jmp L12
+
+L32:
+	mv r6, r9
+	ld r9
+	ld acc
+	st r10
+	ld r10

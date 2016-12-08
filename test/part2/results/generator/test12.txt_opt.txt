@@ -1,0 +1,9 @@
+
+main:
+	ld 5
+	st r3
+	ld 1001
+	st r4
+	mv r3, r1001
+	mv r4, r5
+	ld r5

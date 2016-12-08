@@ -88,10 +88,12 @@ f:
     popq %rax
     movq %rax, (%rbx)
     pushq %rax
+    popq %rax
     jmp .L5
     popq %rax
     popq %rbx 
     pushq %rax
+    popq %rax
 .L3:
     movq -48(%rbp), %rax
     pushq %rax
@@ -121,6 +123,10 @@ f:
     popq %rbx 
     pushq %rax
     popq %rax
+    popq %rbx
+    popq %rbx
+    pushq %rax
+    popq %rax
     movq %rbp, %rsp
     popq %rbp
     .cfi_def_cfa 7, 8
@@ -139,63 +145,38 @@ main:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    pushq $10
-    popq %rdi
-    callq f
-    pushq %rax
+    pushq $5
     leaq -24(%rbp), %rax
     pushq %rax
-    jmp .L6
-.L7:
-    jmp .L9
-.L10:
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    pushq $1
-    popq %rax
-    popq %rbx
-    addq %rax, %rbx
-    pushq %rbx
+    pushq $6
     movq -32(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
     pushq %rax
-    jmp .L11
-    popq %rax
-    popq %rbx 
-    pushq %rax
-.L9:
+    pushq $7
     movq -32(%rbp), %rax
     pushq %rax
+    popq %rbx
     popq %rax
-    movq (%rax), %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    pushq $8
+    movq -32(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    pushq $9
+    movq -32(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
     pushq %rax
     pushq $10
-    popq %rax
-    popq %rbx
-    cmpq %rax, %rbx
-    setl %al
-    pushq %rax
-    popq %rax
-    cmpq $0, %rax
-    jnz .L10
-.L11:
-    jmp .L6
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    pushq $1
-    popq %rax
-    popq %rbx
-    subq %rax, %rbx
-    pushq %rbx
     movq -32(%rbp), %rax
     pushq %rax
     popq %rbx
@@ -208,29 +189,22 @@ main:
     popq %rax
     popq %rbx 
     pushq %rax
-.L6:
-    movq -32(%rbp), %rax
-    pushq %rax
     popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    pushq $10
-    popq %rax
-    popq %rbx
-    cmpq %rax, %rbx
-    setl %al
-    pushq %rax
-    popq %rax
-    cmpq $0, %rax
-    jnz .L7
-.L8:
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
+    popq %rbx 
     pushq %rax
     popq %rax
     popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    pushq $10
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx
+    popq %rbx
     pushq %rax
     popq %rdi
     callq print

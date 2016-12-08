@@ -1,0 +1,11 @@
+[("main", [], 
+    New "a",
+        MyInteger 2,
+        New "b",
+            MyInteger 2,
+            Seq(
+                If(
+                    Operator(Or, Operator(Less, Deref(Identifier "a"), Deref(Identifier "b")), Operator(Greater, Deref(Identifier "b"), Deref(Identifier "a"))),
+                    Print(MyString("Not equal")),
+                    Print(MyString("Equal")),
+                MyInteger 0))))]

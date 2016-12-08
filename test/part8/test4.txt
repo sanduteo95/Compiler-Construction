@@ -1,0 +1,23 @@
+/* Testing:
+    - functions returned from another function
+    - applying a function returned from another function
+*/
+function f() {
+    return 1;
+}
+function g() {
+    return 2;
+}
+function getFunction(var n) {
+    if(*n%2==0) {
+        return *f;
+    } else {
+        return *g;
+    }
+}
+function main() {
+    var *func1 = getFunction(1);
+    var *func2 = getFunction(2);
+    return func1() + func2();
+}
+

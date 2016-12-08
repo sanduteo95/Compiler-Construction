@@ -1,0 +1,38 @@
+[("main", [], 
+    New "x",
+        MyInteger 3,
+        Seq(
+            Asg(
+                Identifier "x", 
+                Operator(Plus, Deref(Identifier "x"), MyInteger 1)),
+            New "y",
+                MyInteger 3,
+                Seq(
+                    Asg(
+                        Identifier "y", 
+                        Operator(Plus, Deref(Identifier "y"), MyInteger 5)),
+                    New "sum1",
+                        MyInteger 0,
+                        Seq(
+                            For(MyInteger 1, MyInteger 10,
+                                Asg(
+                                    Identifier "sum1", 
+                                    Operator(Plus, Deref(Identifier "sum1"), Identifier "i")),
+                            New "sum2",
+                                MyInteger 0,
+                                Seq(
+                                    While(
+                                        Operator(Less, Deref(Identifier "x"), Deref(Identifier "y")),
+                                        Seq(
+                                            Asg(
+                                                Identifier "sum2", 
+                                                Operator(Plus, Deref(Identifier "sum2"), Deref(Identifier "x"))),
+                                            If(
+                                                Operator(Eq, Operator(Modulus, Deref(Identifier "y"), Deref(Identifier "x")), MyInteger 0),
+                                                Asg(
+                                                    Identifier "x", 
+                                                    Operator(Plus, Deref(Identifier "x"), MyInteger 1)),
+                                                Asg(
+                                                    Identifier "y", 
+                                                    Operator(Minus, Deref(Identifier "y"), MyInteger 1)))),
+                                    Operator(Plus, Deref(Identifier "sum1"), Deref(Identifier "sum2")))))))))))]

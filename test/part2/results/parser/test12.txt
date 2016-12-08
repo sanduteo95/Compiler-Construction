@@ -1,0 +1,6 @@
+[("main", [], 
+    New "y",
+        MyInteger 5,
+        New "x",
+            Identifier "y",
+            Deref(Identifier "x"))))]

@@ -1,0 +1,5 @@
+[("main", [], 
+    Seq(
+        For(MyInteger 1, MyInteger 100,
+            Print(Identifier "i"),
+        MyInteger 0))]

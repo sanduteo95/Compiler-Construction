@@ -150,10 +150,7 @@ main:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    pushq $14
-    popq %rdi
-    callq f
-    pushq %rax
+    pushq $21
     popq %rdi
     callq print
     movq	$0, %rax

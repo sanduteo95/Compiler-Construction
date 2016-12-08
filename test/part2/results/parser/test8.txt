@@ -1,0 +1,18 @@
+[("main", [], 
+    New "x",
+        MyInteger 5,
+        New "y",
+            MyInteger 0,
+            New "z",
+                MyInteger 0,
+                Seq(
+                    Asg(
+                        If(
+                            Operator(Eq, Operator(Modulus, Deref(Identifier "x"), MyInteger 2), MyInteger 0),
+                            Identifier "y",
+                            Identifier "z", 
+                        Deref(Identifier "x")),
+                    If(
+                        Operator(Noteq, Deref(Identifier "y"), MyInteger 0),
+                        MyString("y"),
+                        MyString("z"))))))]

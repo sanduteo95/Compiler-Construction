@@ -1,0 +1,15 @@
+[("f", [], 
+    MyInteger 1),
+ ("g", [], 
+    MyInteger 2),
+ ("getFunction", [n], 
+    If(
+        Operator(Eq, Operator(Modulus, Deref(Identifier "n"), MyInteger 2), MyInteger 0),
+        Deref(Identifier "f"),
+        Deref(Identifier "g")),
+ ("main", [], 
+    Operator(Plus, Application(
+    Identifier "g",
+    [])), Application(
+    Identifier "f",
+    []))))]

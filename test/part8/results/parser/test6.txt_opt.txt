@@ -1,0 +1,85 @@
+[("increment", [x], 
+    Application(
+        Lambda([y], 
+            Operator(Plus, Deref(Identifier "y"), MyInteger 1)),
+        [Deref(Identifier "x")]))),
+ ("main", [], 
+    New "i",
+        MyInteger 1,
+        New "fact",
+            MyInteger 1,
+            Seq(
+                Seq(
+                    Seq(
+                        Asg(
+                            Identifier "fact", 
+                            MyInteger 1),
+                        Asg(
+                            Identifier "i", 
+                            MyInteger 2)),
+                    Seq(
+                        Seq(
+                            Asg(
+                                Identifier "fact", 
+                                MyInteger 2),
+                            Asg(
+                                Identifier "i", 
+                                MyInteger 3)),
+                        Seq(
+                            Seq(
+                                Asg(
+                                    Identifier "fact", 
+                                    MyInteger 6),
+                                Asg(
+                                    Identifier "i", 
+                                    MyInteger 4)),
+                            Seq(
+                                Seq(
+                                    Asg(
+                                        Identifier "fact", 
+                                        MyInteger 24),
+                                    Asg(
+                                        Identifier "i", 
+                                        MyInteger 5)),
+                                Seq(
+                                    Seq(
+                                        Asg(
+                                            Identifier "fact", 
+                                            MyInteger 120),
+                                        Asg(
+                                            Identifier "i", 
+                                            MyInteger 6)),
+                                    Seq(
+                                        Seq(
+                                            Asg(
+                                                Identifier "fact", 
+                                                MyInteger 720),
+                                            Asg(
+                                                Identifier "i", 
+                                                MyInteger 7)),
+                                        Seq(
+                                            Seq(
+                                                Asg(
+                                                    Identifier "fact", 
+                                                    MyInteger 5040),
+                                                Asg(
+                                                    Identifier "i", 
+                                                    MyInteger 8)),
+                                            Seq(
+                                                Seq(
+                                                    Asg(
+                                                        Identifier "fact", 
+                                                        MyInteger 40320),
+                                                    Asg(
+                                                        Identifier "i", 
+                                                        MyInteger 9)),
+                                                Seq(
+                                                    Seq(
+                                                        Asg(
+                                                            Identifier "fact", 
+                                                            MyInteger 362880),
+                                                        Asg(
+                                                            Identifier "i", 
+                                                            MyInteger 10)),
+                                                    Nothing))))))))),
+                MyInteger 362880))))]

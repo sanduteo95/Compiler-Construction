@@ -65,17 +65,6 @@ main:
     .cfi_def_cfa_register 6
     subq	$16, %rsp
     pushq $1
-    pushq $0
-    popq %rax
-    popq %rbx
-    andq %rax, %rbx
-    pushq %rbx
-    popq %rax
-    cmpq	$0, %rax
-    sete %al
-    pushq %rax
-    popq %rax
-    pushq %rax
     popq %rdi
     callq print
     movq	$0, %rax

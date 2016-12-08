@@ -1,0 +1,4 @@
+[("sum", [a, b, c, d, e, f, g, h], 
+    Operator(Plus, Operator(Plus, Operator(Plus, Operator(Plus, Operator(Plus, Operator(Plus, Operator(Plus, Deref(Identifier "a"), Deref(Identifier "b")), Deref(Identifier "c")), Deref(Identifier "d")), Deref(Identifier "e")), Deref(Identifier "f")), Deref(Identifier "g")), Deref(Identifier "h"))),
+ ("main", [], 
+    MyInteger 36)]

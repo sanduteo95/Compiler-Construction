@@ -1,0 +1,4 @@
+[("modulus", [x, y], 
+    Operator(Modulus, Deref(Identifier "x"), Deref(Identifier "y"))),
+ ("main", [], 
+    MyInteger 2)]

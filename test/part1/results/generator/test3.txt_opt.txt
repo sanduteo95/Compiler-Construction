@@ -1,0 +1,160 @@
+
+main:
+	ld 10
+	st r3
+	ld 1001
+	st r4
+	mv r3, r1001
+	ld 0
+	st r5
+	ld 1002
+	st r6
+	mv r5, r1002
+	ld 0
+	st r7
+	mv r7, r1 # REGISTER FOR PRINTING
+	mv r6, r8
+	ld 1
+	st r9
+	ld r8
+	mv r9, acc
+	ld acc
+	st r9
+	ld 2
+	st r9
+	mv r9, r1 # REGISTER FOR PRINTING
+	mv r6, r10
+	ld 2
+	st r11
+	ld r10
+	mv r11, acc
+	ld acc
+	st r11
+	ld 4
+	st r11
+	mv r11, r1 # REGISTER FOR PRINTING
+	mv r6, r12
+	ld 3
+	st r13
+	ld r12
+	mv r13, acc
+	ld acc
+	st r13
+	ld 6
+	st r13
+	mv r13, r1 # REGISTER FOR PRINTING
+	mv r6, r14
+	ld 4
+	st r15
+	ld r14
+	mv r15, acc
+	ld acc
+	st r15
+	ld 8
+	st r15
+	mv r15, r1 # REGISTER FOR PRINTING
+	mv r6, r16
+	ld 5
+	st r17
+	ld r16
+	mv r17, acc
+	ld acc
+	st r17
+	ld 10
+	st r17
+	mv r17, r1 # REGISTER FOR PRINTING
+	mv r6, r18
+	ld 6
+	st r19
+	ld r18
+	mv r19, acc
+	ld acc
+	st r19
+	ld 12
+	st r19
+	mv r19, r1 # REGISTER FOR PRINTING
+	mv r6, r20
+	ld 7
+	st r21
+	ld r20
+	mv r21, acc
+	ld acc
+	st r21
+	ld 14
+	st r21
+	mv r21, r1 # REGISTER FOR PRINTING
+	mv r6, r22
+	ld 8
+	st r23
+	ld r22
+	mv r23, acc
+	ld acc
+	st r23
+	ld 16
+	st r23
+	mv r23, r1 # REGISTER FOR PRINTING
+	mv r6, r24
+	ld 9
+	st r25
+	ld r24
+	mv r25, acc
+	ld acc
+	st r25
+	ld 18
+	st r25
+	mv r25, r1 # REGISTER FOR PRINTING
+	mv r6, r26
+	ld 10
+	st r27
+	ld r26
+	mv r27, acc
+	ld acc
+	st r27
+
+L11:
+	mv r6, r27
+	ld r27
+	ld acc
+	st r28
+	mv r4, r29
+	ld r29
+	ld acc
+	st r30
+	sle r28, r30
+	st r28
+	jmpz L31
+	mv r6, r27
+	ld r27
+	ld acc
+	st r28
+	ld 2
+	st r29
+	mul r28, r29
+	st r28
+	ld 1003
+	st r29
+	mv r28, r1003
+	mv r29, r30
+	ld r30
+	ld acc
+	st r31
+	mv r31, r1 # REGISTER FOR PRINTING
+	mv r6, r32
+	mv r6, r33
+	ld r33
+	ld acc
+	st r34
+	ld 1
+	st r35
+	add r34, r35
+	st r34
+	ld r32
+	mv r34, acc
+	ld acc
+	st r34
+	jmp L11
+
+L31:
+	ld 0
+	st r33
+	ld r33

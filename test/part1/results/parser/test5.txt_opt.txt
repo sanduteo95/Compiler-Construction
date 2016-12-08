@@ -1,0 +1,16 @@
+[("sum", [x, y], 
+    Operator(Plus, Deref(Identifier "x"), Deref(Identifier "y"))),
+ ("f", [x, y], 
+    New "c",
+        Operator(Divide, Application(
+    Identifier "sum",
+    [Deref(Identifier "x"), Deref(Identifier "y")])), MyInteger 2),
+        Deref(Identifier "c"))),
+ ("main", [], 
+    Seq(
+        Print(MyString("Input x")),
+        Seq(
+            Print(MyString("Input y")),
+            Seq(
+                Print(MyInteger 1),
+                MyInteger 0))))]

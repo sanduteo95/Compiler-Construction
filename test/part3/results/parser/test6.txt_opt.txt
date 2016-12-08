@@ -1,0 +1,4 @@
+[("new", [z], 
+    Deref(Identifier "z")),
+ ("main", [], 
+    MyInteger 16)]

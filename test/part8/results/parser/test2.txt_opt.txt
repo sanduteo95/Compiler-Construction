@@ -1,0 +1,8 @@
+[("g", [x], 
+    Operator(Plus, Deref(Identifier "x"), MyInteger 1)),
+ ("apply", [f], 
+    Application(
+        Identifier "f",
+        [MyInteger 3]))),
+ ("main", [], 
+    MyInteger 4)]

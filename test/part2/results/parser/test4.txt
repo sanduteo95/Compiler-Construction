@@ -1,0 +1,9 @@
+[("main", [], 
+    New "x",
+        MyInteger 5,
+        New "y",
+            MyInteger 3,
+            If(
+                Operator(Greater, Deref(Identifier "x"), Deref(Identifier "y")),
+                Deref(Identifier "x"),
+                Deref(Identifier "y"))))]

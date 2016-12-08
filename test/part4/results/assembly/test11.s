@@ -121,26 +121,16 @@ main:
     pushq %rax
     movq -32(%rbp), %rax
     pushq %rax
-    leaq -40(%rbp), %rax
-    pushq %rax
-    movq -32(%rbp), %rax
-    pushq %rax
     popq %rax
     movq (%rax), %rax
     pushq %rax
     popq %rsi
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
+    movq -32(%rbp), %rax
     pushq %rax
     popq %rdi
     callq f
     pushq %rax
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
+    movq -32(%rbp), %rax
     pushq %rax
     popq %rax
     movq (%rax), %rax
@@ -156,6 +146,10 @@ main:
     pushq %rbx
     popq %rax
     popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx
+    popq %rbx
     pushq %rax
     popq %rdi
     callq print

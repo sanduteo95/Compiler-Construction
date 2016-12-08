@@ -1,0 +1,24 @@
+[("main", [], 
+    New "x",
+        MyInteger 12,
+        New "y",
+            MyInteger 4,
+            Seq(
+                Seq(
+                    Seq(
+                        Asg(
+                            Identifier "x", 
+                            MyInteger 24),
+                        Asg(
+                            Identifier "y", 
+                            MyInteger 2)),
+                    Seq(
+                        Seq(
+                            Asg(
+                                Identifier "x", 
+                                MyInteger 48),
+                            Asg(
+                                Identifier "y", 
+                                MyInteger 1)),
+                        Nothing)),
+                MyInteger 0))))]

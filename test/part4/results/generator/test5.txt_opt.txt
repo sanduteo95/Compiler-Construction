@@ -1,0 +1,18 @@
+
+modulus:
+	ld r7
+	mv r4, r6
+	ld r6
+	ld acc
+	st r7
+	mv r5, r8
+	ld r8
+	ld acc
+	st r9
+	mod r7, r9
+	st r7
+
+main:
+	ld 2
+	st r4
+	ld r4

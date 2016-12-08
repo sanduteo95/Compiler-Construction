@@ -1,0 +1,23 @@
+[("main", [], 
+    New "x",
+        MyInteger 5,
+        New "y",
+            MyInteger 9,
+            Seq(
+                While(
+                    Operator(Noteq, Deref(Identifier "x"), Deref(Identifier "y")),
+                    Seq(
+                        If(
+                            Operator(Greater, Deref(Identifier "x"), Deref(Identifier "y")),
+                            Seq(
+                                Asg(
+                                    Identifier "x", 
+                                    Operator(Minus, Deref(Identifier "x"), MyInteger 1)),
+                                Break),
+                            Asg(
+                                Identifier "x", 
+                                Operator(Plus, Deref(Identifier "x"), MyInteger 1)),
+                        Asg(
+                            Identifier "y", 
+                            Operator(Minus, Deref(Identifier "y"), MyInteger 1)))),
+                Deref(Identifier "x")))))]

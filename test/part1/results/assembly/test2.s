@@ -107,6 +107,10 @@ double:
     pushq %rax
 .L4:
     popq %rax
+    popq %rbx
+    popq %rbx
+    pushq %rax
+    popq %rax
     movq %rbp, %rsp
     popq %rbp
     .cfi_def_cfa 7, 8
@@ -126,62 +130,6 @@ main:
     .cfi_def_cfa_register 6
     subq	$16, %rsp
     pushq $1
-    leaq -24(%rbp), %rax
-    pushq %rax
-    jmp .L5
-.L6:
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    pushq $1
-    popq %rax
-    popq %rbx
-    addq %rax, %rbx
-    pushq %rbx
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rbx
-    popq %rax
-    movq %rax, (%rbx)
-    pushq %rax
-.L5:
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    popq %rdi
-    callq double
-    pushq %rax
-    pushq $2
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    popq %rax
-    popq %rbx
-    mulq %rbx
-    pushq %rax
-    popq %rax
-    popq %rbx
-    cmpq %rax, %rbx
-    sete %al
-    pushq %rax
-    popq %rax
-    cmpq $0, %rax
-    jnz .L6
-.L7:
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    popq %rax
-    popq %rbx 
-    pushq %rax
     popq %rdi
     callq print
     movq	$0, %rax

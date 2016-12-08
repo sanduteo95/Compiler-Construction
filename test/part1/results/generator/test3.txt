@@ -1,0 +1,60 @@
+
+main:
+	ld 10
+	st r3
+	ld 1001
+	st r4
+	mv r3, r1001
+	ld 0
+	st r5
+	ld 1002
+	st r6
+	mv r5, r1002
+
+L11:
+	mv r6, r7
+	ld r7
+	ld acc
+	st r8
+	mv r4, r9
+	ld r9
+	ld acc
+	st r10
+	sle r8, r10
+	st r8
+	jmpz L31
+	mv r6, r7
+	ld r7
+	ld acc
+	st r8
+	ld 2
+	st r9
+	mul r8, r9
+	st r8
+	ld 1003
+	st r9
+	mv r8, r1003
+	mv r9, r10
+	ld r10
+	ld acc
+	st r11
+	mv r11, r1 # REGISTER FOR PRINTING
+	mv r6, r12
+	mv r6, r13
+	ld r13
+	ld acc
+	st r14
+	ld 1
+	st r15
+	add r14, r15
+	st r14
+	ld r12
+	mv r14, acc
+	ld acc
+	st r14
+	jmp L11
+
+L31:
+	ld 0
+	st r13
+	ld r13

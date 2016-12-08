@@ -1,11 +1,10 @@
 /* Testing:
 	- lambda function as a variable
-	- lambda function as an argument for another lambda function
+	- lambda function inside another lambda function
 	- returning a string
 */
 function main() {
-	var f = (\x -> if(*x%2==0) { return true; } else { return false; })();
-	var g = (\g, x -> let y = g(*x) in if(y==true) { return "true"; } else { return "false"; })(*f, 3);
+	var g = (\x -> let y = (\x -> if(*x%2==0) { return true; } else { return false; })(*x) in if(y==true) { return "true"; } else { return "false"; })(3);
 	return *g;
 }
 

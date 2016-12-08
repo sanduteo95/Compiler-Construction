@@ -1,0 +1,19 @@
+[("f", [n], 
+    If(
+        Operator(Noteq, Deref(Identifier "n"), MyInteger 1),
+        Operator(Times, Deref(Identifier "n"), Application(
+    Identifier "f",
+    [Operator(Minus, Deref(Identifier "n"), MyInteger 1)]))),
+        MyInteger 1),
+ ("main", [], 
+    New "n",
+        MyInteger 0,
+        New "m",
+            Identifier "n",
+            Seq(
+                Asg(
+                    Deref(Identifier "m"), 
+                    Application(
+                        Identifier "f",
+                        [MyInteger 3]))),
+                Operator(Noteq, Deref(Identifier "n"), Deref(Deref(Identifier "m")))))))]

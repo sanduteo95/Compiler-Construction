@@ -1,0 +1,49 @@
+
+main:
+	ld 0
+	st r3
+	ld 1001
+	st r4
+	mv r3, r1001
+	ld 0
+	st r5
+	ld 1002
+	st r6
+	mv r5, r1002
+	ld 4
+	st r7
+	ld 1003
+	st r8
+	mv r7, r1003
+	mv r8, r9
+	ld r9
+	ld acc
+	st r10
+	ld 2
+	st r11
+	mod r10, r11
+	st r10
+	ld 0
+	st r11
+	seq r10, r11
+	st r10
+	ld r10
+	jmpz L11
+	mv r4, r11
+	jmp L31
+
+L11:
+	mv r6, r11
+
+L31:
+	ld 5
+	st r12
+	ld r11
+	mv r12, acc
+	ld acc
+	st r12
+	mv r4, r12
+	ld r12
+	ld acc
+	st r13
+	ld r13

@@ -1,0 +1,11 @@
+/* Testing:
+    - function pointer as local variable
+*/
+function f(var x, var y) {
+    return *x+*y;
+}
+function main() {
+    var *func = *f;
+    return func(1, 2);
+}
+

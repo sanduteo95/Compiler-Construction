@@ -64,49 +64,21 @@ main:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    pushq $2
+    pushq $12
     leaq -24(%rbp), %rax
     pushq %rax
-    pushq $12
+    pushq $4
     leaq -40(%rbp), %rax
     pushq %rax
-    pushq $4
-    leaq -56(%rbp), %rax
-    pushq %rax
-    jmp .L3
-.L4:
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    pushq $2
-    popq %rax
-    popq %rbx
-    mulq %rbx
-    pushq %rax
-    movq -48(%rbp), %rax
+    pushq $24
+    movq -32(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
     pushq %rax
-    movq -64(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
     pushq $2
-    popq %rax
-    popq %rbx
-    push %rax
-    push %rbx
-    pop %rax
-    pop %rbx
-    cltd
-    divq %rbx
-    pushq %rax
-    movq -64(%rbp), %rax
+    movq -48(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
@@ -115,58 +87,40 @@ main:
     popq %rax
     popq %rbx 
     pushq %rax
-.L3:
-    movq -64(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    pushq $1
-    popq %rax
-    popq %rbx
-    cmpq %rax, %rbx
-    setg %al
-    pushq %rax
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    movq -64(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    popq %rax
-    popq %rbx
-    push %rax
-    push %rbx
-    pop %rax
-    pop %rbx
-    cltd
-    divq %rbx
-    pushq %rdx
+    pushq $48
     movq -32(%rbp), %rax
     pushq %rax
+    popq %rbx
     popq %rax
-    movq (%rax), %rax
+    movq %rax, (%rbx)
+    pushq %rax
+    pushq $1
+    movq -48(%rbp), %rax
+    pushq %rax
+    popq %rbx
+    popq %rax
+    movq %rax, (%rbx)
     pushq %rax
     popq %rax
-    popq %rbx
-    cmpq %rax, %rbx
-    setne %al
+    popq %rbx 
     pushq %rax
     popq %rax
-    popq %rbx
-    andq %rax, %rbx
-    pushq %rbx
+    popq %rbx 
+    pushq %rax
     popq %rax
-    cmpq $0, %rax
-    jnz .L4
-.L5:
+    popq %rbx 
+    pushq %rax
     pushq $0
     popq %rax
     popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx
+    popq %rbx
+    pushq %rax
+    popq %rax
+    popq %rbx
+    popq %rbx
     pushq %rax
     popq %rdi
     callq print

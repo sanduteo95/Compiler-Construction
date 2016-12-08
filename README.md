@@ -15,12 +15,14 @@ The chosen programming language is JavaScript-like, having found it the easiest 
 
 	The expressions admitted by the type have been tweaked, as now an expression could do "Nothing".
 
-	An output string can now be admitted as an expression too, in the form of Text(...) for Prin.
+	Strings, floats and tuples can be used in the evaluator as well, although the x86 code generator doesn't support them.
 
-	Thee "Application" expression has been modified to be able to be applied to multiple expressions .
+	Thee "Application" expression has been modified to be able to be applied to multiple expressions.
+
+	Moreover, for-loops have been added, as well as break and continue statements, and lambda calculus (although this latter one is not compatible with the x86 code generator).
 
 ## Installation and Build
-To extract the code from GIT you can either use the command line as explainged bellow or, by clicking on the "Clone or download" button, choose "Download Zip" to download a zip of the project in your preferred location.
+To extract the code from GIT you can either use the command line as explained bellow or, by clicking on the "Clone or download" button, choose "Download Zip" to download a zip of the project in your preferred location.
 
 If command line is preferred, follow these steps:
 
@@ -37,21 +39,22 @@ After you have downloaded everything, you can run the program by doing the follo
 		- evaluate the expression after it was optimised, run "make optimise"
 		- interpret the expression, run "make interpret"
 		- generate machine code for the expression, run "make generate"
+		- compile the code in x86 assembly code, run "make x86"
 	3. If you want to clean up the project, run "make clean".
-	!!! Make sure if you're testing the evaluator that you create another .txt file with the same name, inside a "results" folder,
-	that contains the expected result.
 
-If you want to run your own test, type in "./exp_test.native <flags> <path to file>", where:
-	- <flags>:
-		- "-o -p": print the optimised parse tree
+If you want to run your own test, type in "./exp_test.native <flag> <path to file>", where:
+	- <flag>:
+		- "-o": evaluate the optimised parse tree
 		- "-p": print the non-optimised parse tree
-		- "-o -e": evaluate the optimised parse tree
 		- "-e": evaluate the non-optimised parse tree
+		- "-i": interpret the parse tree
+		- "-g": generate code using a small instruction set
+		- "-s": generate x86 code
 	- <path to file>: e.g. test/part4/test1.txt
 
 
 ## Syntax
-Here are a few examples of the types of syntax it likes.
+Here are a few examples of the types of syntax it allows.
 
 Seq of expression * expression
 
@@ -60,7 +63,7 @@ Seq of expression * expression
 
 If of expression * expression * expression
 
-	e.g. if (expression) {
+	e.g. if (boolean expression) {
 			 expression;
 		 }
 		 else {
@@ -69,18 +72,17 @@ If of expression * expression * expression
 
 While of expression * expression
 
-	e.g. while (expression) {
+	e.g. while (boolean expression) {
 			 expression;
 		 }
 
 Asg of expression * expression
 
-	e.g. x = expression;
-	!!! Now the left-handside of an assignment can also be a "let" or an "if-else"
+	e.g. x = 2;
 
 Deref of expression
 
-	e.g. x = x + 1; (the x in right-hand side of the equation needs to be dereferenced)
+	e.g. *x
 
 Negate of expression (used to replace the NOT operator, as it is applied to two operations and I couldn't make sense of that)
 
@@ -99,12 +101,9 @@ Application of expression * expression (* e(e) *)
 	...
 	x = f(expression);
 
-	However, there are no check as of now to see if the function exists.
-	!!! Also, the function can be a lambda function.
+Lambda of string list * expression
 
-Const of int
-
-	e.g. 7
+	e.g (\y -> return y+1;)
 
 Readint
 
@@ -113,7 +112,6 @@ Readint
 Printint of expression
 
 	e.g. print(expression)
-	!!! Expressions can be anything that represents a value (so not another print, or a return, if-else statement or while statement), as well as a string. (e.g. print("Hey."))
 
 Identifier of string
 
@@ -135,7 +133,6 @@ New of string * expression * expression
 It is sensible to point out that the language also contains multiline comments of the form:
 
 	\* Comment *\
-	!!! Comments are sentences using sensible punctuation marks, but no characters such as: @, #, %, $, ^ etc.
 
 ## Parser and Lexer
 For example, a program such as:

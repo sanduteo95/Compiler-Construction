@@ -1,0 +1,87 @@
+
+f:
+	ld r9
+	ld 4
+	st r5
+	ld 1001
+	st r6
+	mv r5, r1001
+
+L11:
+	mv r6, r7
+	ld r7
+	ld acc
+	st r8
+	mv r4, r9
+	ld r9
+	ld acc
+	st r10
+	sle r8, r10
+	st r8
+	jmpz L31
+	mv r6, r7
+	mv r6, r8
+	ld r8
+	ld acc
+	st r9
+	ld 1
+	st r10
+	add r9, r10
+	st r9
+	ld r7
+	mv r9, acc
+	ld acc
+	st r9
+	jmp end_loop1
+	jmp L11
+
+L31:
+	mv r6, r8
+	ld r8
+	ld acc
+	st r9
+
+main:
+	ld 5
+	st r4
+	ld 1002
+	st r5
+	mv r4, r1002
+	mv r5, r6
+	ld 6
+	st r7
+	ld r6
+	mv r7, acc
+	ld acc
+	st r7
+	mv r5, r7
+	ld 7
+	st r8
+	ld r7
+	mv r8, acc
+	ld acc
+	st r8
+	mv r5, r8
+	ld 8
+	st r9
+	ld r8
+	mv r9, acc
+	ld acc
+	st r9
+	mv r5, r9
+	ld 9
+	st r10
+	ld r9
+	mv r10, acc
+	ld acc
+	st r10
+	mv r5, r10
+	ld 10
+	st r11
+	ld r10
+	mv r11, acc
+	ld acc
+	st r11
+	ld 10
+	st r11
+	ld r11

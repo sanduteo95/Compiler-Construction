@@ -1,0 +1,26 @@
+[("double", [b], 
+    Operator(Times, MyInteger 2, Deref(Identifier "b"))),
+ ("f", [c], 
+    New "c",
+        Application(
+            Identifier "double",
+            [Deref(Identifier "c")])),
+        Deref(Identifier "c"))),
+ ("main", [], 
+    New "a",
+        MyInteger 2,
+        New "c",
+            Operator(Plus, Deref(Identifier "a"), MyInteger 1),
+            New "b",
+                Identifier "c",
+                Seq(
+                    Asg(
+                        Deref(Identifier "b"), 
+                        Application(
+                            Identifier "f",
+                            [Deref(Identifier "a")]))),
+                    Seq(
+                        Asg(
+                            Identifier "c", 
+                            Operator(Plus, Deref(Identifier "c"), Deref(Deref(Identifier "b")))),
+                        Deref(Identifier "c")))))))]

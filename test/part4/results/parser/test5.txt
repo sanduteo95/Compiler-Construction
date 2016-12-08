@@ -1,0 +1,12 @@
+[("modulus", [x, y], 
+    Operator(Modulus, Deref(Identifier "x"), Deref(Identifier "y"))),
+ ("main", [], 
+    New "a",
+        Application(
+            Identifier "modulus",
+            [MyInteger 5, MyInteger 3])),
+        New "b",
+            Application(
+                Identifier "modulus",
+                [MyInteger 6, MyInteger 2])),
+            Operator(Plus, Deref(Identifier "a"), Deref(Identifier "b")))))]

@@ -1,0 +1,9 @@
+[("double", [x], 
+    New "y",
+        MyInteger 13,
+        If(
+            Operator(Greater, Deref(Identifier "x"), Deref(Identifier "y")),
+            Operator(Times, MyInteger 2, Deref(Identifier "x")),
+            Deref(Identifier "y"))),
+ ("main", [], 
+    MyInteger 1)]

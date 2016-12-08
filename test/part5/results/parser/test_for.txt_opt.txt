@@ -1,0 +1,27 @@
+[("main", [], 
+    Seq(
+        Seq(
+            Let "i",
+                MyInteger 1,
+                Seq(
+                    Print(Identifier "i"),
+                    Seq(
+                        Print(Identifier "i"),
+                        Seq(
+                            Print(Identifier "i"),
+                            Seq(
+                                Print(Identifier "i"),
+                                Seq(
+                                    Print(Identifier "i"),
+                                    Seq(
+                                        Print(Identifier "i"),
+                                        Seq(
+                                            Print(Identifier "i"),
+                                            Seq(
+                                                Print(Identifier "i"),
+                                                Seq(
+                                                    Print(Identifier "i"),
+                                                    Print(Identifier "i"))))))))))),
+            For(MyInteger 11, MyInteger 100,
+                Print(Identifier "i")),
+        MyInteger 0))]

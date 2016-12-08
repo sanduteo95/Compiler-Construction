@@ -1,0 +1,10 @@
+[("main", [], 
+    New "x",
+        MyInteger 5,
+        New "y",
+            MyInteger 4,
+            New "eq",
+                Operator(Eq, Deref(Identifier "x"), Deref(Identifier "y")),
+                New "noteq",
+                    Operator(Noteq, Deref(Identifier "x"), Deref(Identifier "y")),
+                    Negate(Operator(Eq, Deref(Identifier "eq"), Deref(Identifier "noteq"))))))))]

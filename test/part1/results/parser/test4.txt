@@ -1,0 +1,13 @@
+[("half", [x, n], 
+    If(
+        Operator(Eq, Deref(Identifier "x"), MyInteger 0),
+        Deref(Identifier "n"),
+        Let "y",
+            Operator(Divide, Deref(Identifier "x"), MyInteger 2),
+            Application(
+                Identifier "half",
+                [Identifier "y", Operator(Plus, Deref(Identifier "n"), MyInteger 1)])))),
+ ("main", [], 
+    Application(
+        Identifier "half",
+        [MyInteger 5, MyInteger 2])))]

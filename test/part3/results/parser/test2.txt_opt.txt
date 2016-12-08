@@ -1,0 +1,18 @@
+[("calculate", [n], 
+    New "sum",
+        MyInteger 0,
+        New "i",
+            MyInteger 0,
+            Seq(
+                While(
+                    Operator(Leq, Deref(Identifier "i"), Deref(Identifier "n")),
+                    Seq(
+                        Asg(
+                            Identifier "sum", 
+                            Operator(Plus, Deref(Identifier "sum"), Deref(Identifier "i"))),
+                        Asg(
+                            Identifier "i", 
+                            Operator(Plus, Deref(Identifier "i"), MyInteger 1)))),
+                Deref(Identifier "sum"))))),
+ ("main", [], 
+    MyBoolean(true))]

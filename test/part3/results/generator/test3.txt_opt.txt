@@ -1,0 +1,46 @@
+
+f:
+	ld r7
+	mv r4, r5
+	ld r5
+	ld acc
+	st r6
+	ld 1
+	st r7
+	sne r6, r7
+	st r6
+	ld r6
+	jmpz L11
+	mv r4, r7
+	ld r7
+	ld acc
+	st r8
+	mv r4, r9
+	ld r9
+	ld acc
+	st r10
+	ld 1
+	st r11
+	sub r10, r11
+	st r10
+	ld r10
+	st r11
+	ld bp(11)
+	st r12
+	call f
+	ld acc
+	ld r12
+	mul r8, r11
+	st r8
+	jmp L31
+
+L11:
+	ld 1
+	st r7
+
+L31:
+
+main:
+	ld 0
+	st r4
+	ld r4

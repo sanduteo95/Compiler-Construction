@@ -1,0 +1,4 @@
+[("main", [], 
+    New "y",
+        MyInteger 5,
+        Identifier "y"))]

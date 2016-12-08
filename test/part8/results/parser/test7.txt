@@ -1,0 +1,25 @@
+[("main", [], 
+    New "x",
+        MyInteger 1,
+        Seq(
+            Block(block1, )                Seq(
+                    Asg(
+                        Identifier "x", 
+                        Operator(Plus, Deref(Identifier "x"), MyInteger 1)),
+                    Seq(
+                        Block(block2, )                            Seq(
+                                If(
+                                    Operator(Eq, Deref(Identifier "x"), MyInteger 2),
+                                    ContinueBlock(block1, )                                        Asg(
+                                            Identifier "x", 
+                                            Operator(Minus, Deref(Identifier "x"), MyInteger 2))),
+                                    BreakBlock(block2, )                                        Asg(
+                                            Identifier "x", 
+                                            Operator(Minus, Deref(Identifier "x"), MyInteger 1))),
+                                Asg(
+                                    Identifier "x", 
+                                    Operator(Plus, Deref(Identifier "x"), MyInteger 1)))),
+                        Asg(
+                            Identifier "x", 
+                            Operator(Plus, Deref(Identifier "x"), MyInteger 1))))),
+            Deref(Identifier "x"))))]

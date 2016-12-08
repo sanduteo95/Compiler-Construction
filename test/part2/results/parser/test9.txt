@@ -1,0 +1,15 @@
+[("main", [], 
+    New "x",
+        MyInteger 0,
+        New "z",
+            MyInteger 0,
+            New "y",
+                MyInteger 4,
+                Seq(
+                    Asg(
+                        If(
+                            Operator(Eq, Operator(Modulus, Deref(Identifier "y"), MyInteger 2), MyInteger 0),
+                            Identifier "x",
+                            Identifier "z", 
+                        MyInteger 5),
+                    Deref(Identifier "x"))))))]

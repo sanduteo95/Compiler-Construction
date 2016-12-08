@@ -1,0 +1,8 @@
+[("sum", [a, b, c, d, e, f, g, h], 
+    Operator(Plus, Operator(Plus, Operator(Plus, Operator(Plus, Operator(Plus, Operator(Plus, Operator(Plus, Deref(Identifier "a"), Deref(Identifier "b")), Deref(Identifier "c")), Deref(Identifier "d")), Deref(Identifier "e")), Deref(Identifier "f")), Deref(Identifier "g")), Deref(Identifier "h"))),
+ ("main", [], 
+    New "x",
+        Application(
+            Identifier "sum",
+            [MyInteger 1, MyInteger 2, MyInteger 3, MyInteger 4, MyInteger 5, MyInteger 6, MyInteger 7, MyInteger 8])),
+        Deref(Identifier "x")))]

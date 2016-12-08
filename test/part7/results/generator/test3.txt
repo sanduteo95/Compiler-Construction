@@ -1,0 +1,42 @@
+
+main:
+	ld 0
+	st r3
+	ld 1001
+	st r4
+	mv r3, r1001
+	ld 1
+	st r5
+	ld 10
+	st r6
+
+L11:
+	sle r5, r6
+	jmpz L31
+	mv r4, r6
+	mv r4, r7
+	ld r7
+	ld acc
+	st r8
+	mv r5, r9
+	add r8, r9
+	st r8
+	ld r6
+	mv r8, acc
+	ld acc
+	st r8
+	jmp end_loop1
+
+L21:
+	ld 1
+	st r5
+	add r5, r5
+	st r5
+	jmp L11
+
+L31:
+	mv r4, r6
+	ld r6
+	ld acc
+	st r7
+	ld r7

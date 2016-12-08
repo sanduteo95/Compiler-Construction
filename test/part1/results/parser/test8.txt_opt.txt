@@ -1,0 +1,12 @@
+[("f", [x, y], 
+    Operator(Leq, Deref(Identifier "x"), Deref(Identifier "y"))),
+ ("g", [x, y], 
+    Operator(Geq, Deref(Identifier "x"), Deref(Identifier "y"))),
+ ("apply", [f, x, y], 
+    Application(
+        Identifier "f",
+        [Deref(Identifier "x"), Deref(Identifier "y")]))),
+ ("main", [], 
+    Seq(
+        Print(MyString("Not equal")),
+        MyInteger 0))]

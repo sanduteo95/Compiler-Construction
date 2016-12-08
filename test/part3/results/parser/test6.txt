@@ -1,0 +1,16 @@
+[("new", [z], 
+    Deref(Identifier "z")),
+ ("main", [], 
+    New "x",
+        MyInteger 2,
+        New "y",
+            Identifier "x",
+            Seq(
+                Asg(
+                    Application(
+                        Identifier "new",
+                        [Deref(Identifier "y")])), 
+                    MyInteger 8),
+                Operator(Plus, Deref(Identifier "x"), Application(
+    Identifier "new",
+    [Deref(Deref(Identifier "y"))])))))))]

@@ -1,0 +1,76 @@
+
+f:
+	ld r6
+	mv r4, r5
+	ld r5
+	ld acc
+	st r6
+	ld 1
+	st r7
+	add r6, r7
+	st r6
+
+main:
+	ld r0 # REGISTER FOR READING
+	st r4
+	ld 1001
+	st r5
+	mv r4, r1001
+	ld 0
+	st r6
+	ld 1002
+	st r7
+	mv r6, r1002
+	ld 10
+	st r8
+	ld 20
+	st r9
+	mv r7, r10
+	mv r8, r11
+	mv r9, r12
+	mul r11, r12
+	st r11
+	mv r5, r12
+	ld r12
+	ld acc
+	st r13
+	mul r11, r13
+	st r11
+	ld r10
+	mv r11, acc
+	ld acc
+	st r11
+	mv r11, r9
+	mv r9, r8
+	ld 0
+	st r9
+	ld 1003
+	st r10
+	mv r9, r1003
+	ld 2
+	st r11
+	mv r10, r12
+	mv r11, r13
+	ld r13
+	st r14
+	ld bp(14)
+	st r15
+	call f
+	ld acc
+	ld r15
+	ld r12
+	mv r14, acc
+	ld acc
+	st r14
+	mv r14, r11
+	mv r7, r12
+	ld r12
+	ld acc
+	st r13
+	mv r10, r14
+	ld r14
+	ld acc
+	st r15
+	add r13, r15
+	st r13
+	ld r13

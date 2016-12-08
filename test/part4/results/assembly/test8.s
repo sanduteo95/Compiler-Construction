@@ -119,6 +119,7 @@ f:
     popq %rax
     popq %rbx 
     pushq %rax
+    popq %rax
 .L3:
     movq -48(%rbp), %rax
     pushq %rax
@@ -155,6 +156,14 @@ f:
     pushq %rbx
     popq %rax
     popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx
+    popq %rbx
+    pushq %rax
+    popq %rax
+    popq %rbx
+    popq %rbx
     pushq %rax
     popq %rax
     movq %rbp, %rsp
@@ -207,13 +216,7 @@ main:
     movq	%rsp, %rbp
     .cfi_def_cfa_register 6
     subq	$16, %rsp
-    pushq $1
-    popq %rdi
-    callq g
-    pushq %rax
-    popq %rdi
-    callq f
-    pushq %rax
+    pushq $155
     popq %rdi
     callq print
     movq	$0, %rax

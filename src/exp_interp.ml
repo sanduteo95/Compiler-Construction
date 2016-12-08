@@ -1,7 +1,12 @@
+(** Contains the interpreter for the simpler instruction set. *)
 open Syntax
 open Instruction_set
 open Exp_store
 
+let break = ref false
+let continue = ref false
+
+(** Converts our ocaml operator to its actual functionality. *)
 let convert_operator operator = match operator with
     | Plus -> (+)
     | Minus -> (-)
@@ -17,6 +22,7 @@ let convert_operator operator = match operator with
     | Eq -> (fun a -> fun b -> if a==b then 1 else 0)
     | Noteq -> (fun a -> fun b -> if a<>b then 1 else 0)
 
+(** Interprets an expression. *)
 let rec interp_exp symt expression =
     if(!stack_addr > stack_overflow) then
         failwith "Stackoverflow."
@@ -66,8 +72,11 @@ let rec interp_exp symt expression =
             st addr;
             addr
         | Seq(e1, e2) ->
-            let _ = interp_exp symt e1 in
-            interp_exp symt e2
+            let addr1 = interp_exp symt e1 in
+            if(!break == true || !continue == true) then addr1
+            else
+                let addr2 = interp_exp symt e2 in
+                if(!break == true || !continue == true) then addr1 else addr2
         | Asg(e1, e2) ->
             let addr1 = interp_exp symt e1 in
             let addr2 = interp_exp symt e2 in
@@ -92,8 +101,10 @@ let rec interp_exp symt expression =
             let e = jmpz e2 Nothing in
             let addr = interp_exp symt e in
             stack_addr := initial_addr;
-            if(addr <> -1) then interp_exp symt (While(e1, e2))
-            else addr
+            if(!break == true) then (break := false; addr)
+            else (continue := false;
+                if(addr <> -1) then interp_exp symt (While(e1, e2))
+                else addr)
         | For(s, e1, e2, e3) ->
             let initial_addr = !stack_addr in
             let addr1 = interp_exp symt e1 in
@@ -102,14 +113,15 @@ let rec interp_exp symt expression =
             stack_addr := addr1;
             let e = jmpz e3 Nothing in
             let addr = interp_exp ((s, addr1)::symt) e in
-            let addr' = new_stack_addr() in
-            ldc 1;
-            st addr';
-            op (convert_operator Plus, addr1, addr');
-            st addr';
-            stack_addr := initial_addr;
-            if(addr <> -1) then interp_exp symt (For(s, MyInteger(Hashtbl.find ram addr'), e2, e3))
-            else addr
+            if(!break) then (break := false; addr)
+            else (continue := false;
+                let addr' = new_stack_addr() in
+                ldc 1;
+                st addr';
+                op (convert_operator Plus, addr1, addr');
+                stack_addr := initial_addr;
+                if(addr <> -1) then interp_exp symt (For(s, MyInteger(!acc), e2, e3))
+                else addr)
         | If(e1, e2, e3) ->
             let addr1 = interp_exp symt e1 in
             ldr addr1;
@@ -132,16 +144,24 @@ let rec interp_exp symt expression =
             let saddr = new_stack_addr() in
             ldc initial_addr;
             st saddr;
-            let (s, pps, e) = call addr in
+            let (_, pps, e) = call addr in
             let addr' = interp_exp ((List.combine pps addrs)@symt) e in
             ldr saddr;
             stack_addr := !acc;
             ldr addr';
             st !stack_addr;
             !stack_addr
+        | Lambda(ps, e) ->
+            let saddr = new_stack_addr() in
+            let haddr = new_heap_addr() in
+            load saddr haddr ("lambda", ps, e);
+            saddr
         | Nothing -> -1
-        | _ -> failwith "Not implemented yet.")
+        | Break -> break := true; -1
+        | Continue -> continue := true; -1
+        | _ -> failwith "Not implemented.")
 
+(** Interprets the entire program. *)
 let rec interp_program symt program = match program with
         | [] -> 0
         | ("main", [], expression)::[] ->
@@ -153,7 +173,10 @@ let rec interp_program symt program = match program with
             load saddr haddr (s, ps, expression);
             interp_program ((s, saddr)::symt) program
 
+(** The main function. *)
 let interpret program =
+    break := false;
+    continue := false;
     Hashtbl.add ram read_addr 3;
     stack_addr := print_addr + 1;
-    interp_program [] program 
+    interp_program [] program

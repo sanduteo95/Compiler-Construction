@@ -1,0 +1,42 @@
+
+double:
+	ld r10
+	ld 13
+	st r5
+	ld 1001
+	st r6
+	mv r5, r1001
+	mv r4, r7
+	ld r7
+	ld acc
+	st r8
+	mv r6, r9
+	ld r9
+	ld acc
+	st r10
+	sgt r8, r10
+	st r8
+	ld r8
+	jmpz L11
+	ld 2
+	st r9
+	mv r4, r10
+	ld r10
+	ld acc
+	st r11
+	mul r9, r11
+	st r9
+	jmp L31
+
+L11:
+	mv r6, r9
+	ld r9
+	ld acc
+	st r10
+
+L31:
+
+main:
+	ld 1
+	st r4
+	ld r4

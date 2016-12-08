@@ -1,0 +1,76 @@
+[("main", [], 
+    New "n",
+        MyInteger 10,
+        New "i",
+            MyInteger 0,
+            Seq(
+                Seq(
+                    Seq(
+                        Print(MyInteger 0),
+                        Asg(
+                            Identifier "i", 
+                            MyInteger 1)),
+                    Seq(
+                        Seq(
+                            Print(MyInteger 2),
+                            Asg(
+                                Identifier "i", 
+                                MyInteger 2)),
+                        Seq(
+                            Seq(
+                                Print(MyInteger 4),
+                                Asg(
+                                    Identifier "i", 
+                                    MyInteger 3)),
+                            Seq(
+                                Seq(
+                                    Print(MyInteger 6),
+                                    Asg(
+                                        Identifier "i", 
+                                        MyInteger 4)),
+                                Seq(
+                                    Seq(
+                                        Print(MyInteger 8),
+                                        Asg(
+                                            Identifier "i", 
+                                            MyInteger 5)),
+                                    Seq(
+                                        Seq(
+                                            Print(MyInteger 10),
+                                            Asg(
+                                                Identifier "i", 
+                                                MyInteger 6)),
+                                        Seq(
+                                            Seq(
+                                                Print(MyInteger 12),
+                                                Asg(
+                                                    Identifier "i", 
+                                                    MyInteger 7)),
+                                            Seq(
+                                                Seq(
+                                                    Print(MyInteger 14),
+                                                    Asg(
+                                                        Identifier "i", 
+                                                        MyInteger 8)),
+                                                Seq(
+                                                    Seq(
+                                                        Print(MyInteger 16),
+                                                        Asg(
+                                                            Identifier "i", 
+                                                            MyInteger 9)),
+                                                    Seq(
+                                                        Seq(
+                                                            Print(MyInteger 18),
+                                                            Asg(
+                                                                Identifier "i", 
+                                                                MyInteger 10)),
+                                                        While(
+                                                            Operator(Leq, Deref(Identifier "i"), Deref(Identifier "n")),
+                                                            New "j",
+                                                                Operator(Times, Deref(Identifier "i"), MyInteger 2),
+                                                                Seq(
+                                                                    Print(Deref(Identifier "j")),
+                                                                    Asg(
+                                                                        Identifier "i", 
+                                                                        Operator(Plus, Deref(Identifier "i"), MyInteger 1))))))))))))))),
+                MyInteger 0))))]

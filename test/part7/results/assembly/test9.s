@@ -70,75 +70,14 @@ main:
     pushq $9
     leaq -40(%rbp), %rax
     pushq %rax
-    jmp .L3
-.L4:
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    popq %rax
-    popq %rbx
-    cmpq %rax, %rbx
-    setg %al
-    pushq %rax
-    popq %rax
-    cmpq $0, %rax
-    jz .L6
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    pushq $1
-    popq %rax
-    popq %rbx
-    subq %rax, %rbx
-    pushq %rbx
+    pushq $6
     movq -32(%rbp), %rax
     pushq %rax
     popq %rbx
     popq %rax
     movq %rax, (%rbx)
     pushq %rax
-    jmp .L5
-    popq %rax
-    popq %rbx 
-    pushq %rax
-    jmp .L7
-.L6:
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    pushq $1
-    popq %rax
-    popq %rbx
-    addq %rax, %rbx
-    pushq %rbx
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rbx
-    popq %rax
-    movq %rax, (%rbx)
-    pushq %rax
-.L7:
-    movq -48(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    pushq $1
-    popq %rax
-    popq %rbx
-    subq %rax, %rbx
-    pushq %rbx
+    pushq $8
     movq -48(%rbp), %rax
     pushq %rax
     popq %rbx
@@ -148,33 +87,40 @@ main:
     popq %rax
     popq %rbx 
     pushq %rax
-.L3:
+    pushq $7
     movq -32(%rbp), %rax
     pushq %rax
+    popq %rbx
     popq %rax
-    movq (%rax), %rax
+    movq %rax, (%rbx)
     pushq %rax
+    pushq $7
     movq -48(%rbp), %rax
     pushq %rax
-    popq %rax
-    movq (%rax), %rax
-    pushq %rax
-    popq %rax
     popq %rbx
-    cmpq %rax, %rbx
-    setne %al
-    pushq %rax
     popq %rax
-    cmpq $0, %rax
-    jnz .L4
-.L5:
-    movq -32(%rbp), %rax
-    pushq %rax
-    popq %rax
-    movq (%rax), %rax
+    movq %rax, (%rbx)
     pushq %rax
     popq %rax
     popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    pushq $7
+    popq %rax
+    popq %rbx 
+    pushq %rax
+    popq %rax
+    popq %rbx
+    popq %rbx
+    pushq %rax
+    popq %rax
+    popq %rbx
+    popq %rbx
     pushq %rax
     popq %rdi
     callq print
