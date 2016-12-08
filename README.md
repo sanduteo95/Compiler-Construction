@@ -1,136 +1,144 @@
 ## Description
-The chosen programming language is JavaScript-like, having found it the easiest to accommodate the needs of the syntax I have gone with. The initial syntax that was given to us has been extended:
-
-	Function definitions now consist of:
-		- a function name
-		- a list of parameters (which have been defined as a new type)
-		- an expression
-
-	The operations permitted on expressions have been extended too:
-	 	- "modulus"
-	 	- "less"
-	 	- "greater"
-
-	And the "not" operator has been removed, as it was replaced by the expression: Negate of expression.
-
-	The expressions admitted by the type have been tweaked, as now an expression could do "Nothing".
-
-	Strings, floats and tuples can be used in the evaluator as well, although the x86 code generator doesn't support them.
-
-	Thee "Application" expression has been modified to be able to be applied to multiple expressions.
-
-	Moreover, for-loops have been added, as well as break and continue statements, and lambda calculus (although this latter one is not compatible with the x86 code generator).
+I have chosen JavaScript-like programming language, with pointers, function pointers, lambdas, for loops and control structures. The syntax has been extended to include a few extra operators (modulus, less, greater), as well as floating points, strings and tuples, although these last three features are not available in the compiler.
 
 ## Installation and Build
-To extract the code from GIT you can either use the command line as explained bellow or, by clicking on the "Clone or download" button, choose "Download Zip" to download a zip of the project in your preferred location.
+To extract the code from GIT:
 
-If command line is preferred, follow these steps:
+	1. Open terminal and run:
+		git clone https://github.com/sanduteo95/Compiler-Construction.git
+	2. Type in your username and password if asked for them
+	3. Then, go to the directory named "Compiler-Construction"
 
-	1. Open up a terminal and run: "git clone https://github.com/sanduteo95/Compiler-Construction.git".
-	2. Type in your username and password if asked for them.
-	3. Then, to open the directory, type in "cd Compiler-Construction/".
+To run the program:
 
-After you have downloaded everything, you can run the program by doing the following:
-
-	1. While in the same directory, type in "make" to build the project.
-	2. Now, if you want to:
-		- see the parse tree, run "make parse"
-		- evaluate the expression, run "make evaluate"
-		- evaluate the expression after it was optimised, run "make optimise"
-		- interpret the expression, run "make interpret"
-		- generate machine code for the expression, run "make generate"
-		- compile the code in x86 assembly code, run "make x86"
-	3. If you want to clean up the project, run "make clean".
+	1. Type in "make" to build the project
+	2. The command will show you what to do next (test the parser, evaluator, interpreter and assembler)
+	3. If you want to clean up the project, run "make clean"
 
 If you want to run your own test, type in "./exp_test.native <flag> <path to file>", where:
+
 	- <flag>:
-		- "-o": evaluate the optimised parse tree
 		- "-p": print the non-optimised parse tree
+		-  "-p -o": print the optimised parse tree
 		- "-e": evaluate the non-optimised parse tree
-		- "-i": interpret the parse tree
-		- "-g": generate code using a small instruction set
-		- "-s": generate x86 code
+		- "-e": evaluate the optimised parse tree
+		- "-i": interpret the non-optimised parse tree
+		- "-i": interpret the optimised parse tree
+		- "-s": generate the non-optimised x86 code
+		- "-s -o": generate the optimised x86 code
 	- <path to file>: e.g. test/part4/test1.txt
 
 
 ## Syntax
-Here are a few examples of the types of syntax it allows.
+The syntax allowed by the language is:
 
-Seq of expression * expression
+1. Seq of expression * expression
 
-	e.g. expression;
-		 expression;
-
-If of expression * expression * expression
-
-	e.g. if (boolean expression) {
+		e.g. expression;
 			 expression;
-		 }
-		 else {
-			 expression;
-		 }
 
-While of expression * expression
+2. If of expression * expression * expression
+
+		e.g. if (boolean expression) {
+				 expression;
+			 }
+			 else {
+				 expression;
+			 }
+
+3. While of expression * expression
 
 	e.g. while (boolean expression) {
 			 expression;
 		 }
 
-Asg of expression * expression
+3. For of string * expression * expression * expression
 
-	e.g. x = 2;
+		e.g. for (variable=expression:expression) {
+				 expression;
+			 }
 
-Deref of expression
+4. Asg of expression * expression
 
-	e.g. *x
+		e.g. x = 2;
 
-Negate of expression (used to replace the NOT operator, as it is applied to two operations and I couldn't make sense of that)
+5. Deref of expression
 
-	e.g. !expression
+		e.g. *x
 
-Operator of opcode * expression * expression
+6. Negate of expression
 
-	e.g. expression _ expression (so far type checking isn't implemented)
+		e.g. !expression
 
-Application of expression * expression (* e(e) *)
+7. Operator of opcode * expression * expression
 
-	e.g. Used when a function is applied to an expression, given that the function was already defined:
-	function f {
+		e.g. expression _ expression (so far type checking isn't implemented)
+
+8. Application of expression * expression (* e(e) *)
+
+		e.g. Used when a function is applied to an expression, given that the function was already defined:
+		function f {
+			...
+		}
 		...
-	}
-	...
-	x = f(expression);
+		x = f(expression);
 
-Lambda of string list * expression
+9. Lambda of string list * expression
 
-	e.g (\y -> return y+1;)
+		e.g (\y -> return y+1;)
 
-Readint
+10. Readint
 
-	e.g. x = read() (no type checking as of now)
+		e.g. x = read() (no type checking as of now)
 
-Printint of expression
+11. Printint of expression
 
-	e.g. print(expression)
+		e.g. print(expression)
 
-Identifier of string
+12. Identifier of string
 
-	e.g. x
-	!!! Variable names can only consist of:
-		- lower and upper case letters
-		- _ (not accepted at the start of the variable)
-		- digits (not accepted at the start of the variable)
+		e.g. x
+		!!! Variable names can only consist of:
+			- lower and upper case letters
+			- _ (not accepted at the start of the variable)
+			- digits (not accepted at the start of the variable)
 
-Let of string * expression * expression
+13. Let of string * expression * expression
 
-	e.g. let x = expression in expression;
+		e.g. let x = expression in expression;
 
-New of string * expression * expression
+14. New of string * expression * expression
 
-	e.g. var x = expression;
-		 expression;
+		e.g. var x = expression;
+			 expression;
 
-It is sensible to point out that the language also contains multiline comments of the form:
+15. Block of string * expression
+
+		block_name {
+			...
+		}
+
+16. BreakBlock of string * expression
+
+		break block_name { expression }
+
+17. ContinueBlock of string * expression
+
+		continue block_name { expression }
+
+18. Break
+
+		break;
+
+19. Continue
+
+		continue;
+
+20. Return statements
+
+		e.g. return 1;
+
+It is worth pointing that the language also contains multiline comments of the form:
 
 	\* Comment *\
 
@@ -185,13 +193,14 @@ would have the parse tree:
 	 			Deref(Identifier "x"))))]
 
 ## Evaluator (phase 1)
-As of now, the evaluator cannot evaluate any function applications and files containing more than one function definitions in them.
+For now, the evaluator cannot evaluate any function applications and files containing more than one function definitions in them.
 
 I have decided to implement "Let" (call-by-value, the slow version) and "New", although I am aware at least that "New" would not be correct if there were more than one functions so that will need to be reimplemented (moreover, if we try to define a variable inside a while loop, it will not be happy). I only left them in so that I can use more of the syntax and in the hope of being able to evaluate tests from the previous part. Also, I have commented out the evaluation for "Read" and "Print", but if you want you can uncomment them in exp_store.ml and they should work just fine, but for the sake of test clarity I left them out.
 
 As for uniformity over the syntax, I believe it is reasonaly uniform, as it accepts anything that my parser accepts. I have also extended my parser so that I can assign variable a pointer to another variable ( x=&y ), but it will not allow printing a pointer, as that would not make sense.
 
 On top of that, I have also implemented some error handling, so that error messages can be more precise:
+
 	- TypeError: it prints out what type the operator expected
 	- VariableDeclaration: it prints out what variable has not been declared or has already been declared
 	- NotImplementedError: it prints out that a functionality is not yet implemented
@@ -220,6 +229,10 @@ I have implemented the following technqiues in order to optimise our compiler:
 4. Loop unrolling
 	- for while loops as well as for loops (which have been added to my language over the past week)
 	- a maximum unrolling number is set globally, so currently I unroll a loop 5 times before I give up on it
+5. Sub-expression elimination
+	- if the program uses the same sub-expression more than once, a constant variable is used to store that expression so that we only evaluate it onec
+6. Memoisaiton
+	- if a function is called with the same arguments more than once, it will get the result directly from a table that holds all the function calls' results
 
 I have also added a very easy way of counting steps, but not with the help of a monad. If you run all the tests, you'll be able to see the number of steps and time required for both the optimised and non-optimised compilers.
 
@@ -232,36 +245,25 @@ Let statement have variables that are allocated just on the stack, whereas local
 
 As for the stack and used registers, I have put register 0 and 1 aside for reading and printing and have only allowed a stack of size 1000, so that values bigger than this value will be situated on the heap. I can relax this value if I notice it's not enough for functions that can be evaluated by the previously implemented evaluator.
 
-If you want to interpret and generate one file at a time, run this command:
-
-	sh run.sh <flag> <path>
-	where:
-		- flag: -i or -g
-		- path: the path to a file inside the test folder
-
-There are also some test cases inside folder "part5", with their generated code inside the "results" folder.
-
 ## x86 compiler
 For the x86 code generator I have implemented the following:
+
 - integers, booleans and a NULL value for pointers
 - immutable and mutable variables: let statements, assignments, dereferencing
 - pointers to mutable variables
+- pointers to functions
 - if statements
 - while and for loops
 - functions that can take any number of arguments
 - break and continue statements
+- lambdas
+- blocks, labelled breaks and labelled continues
 
 ## Tests
 There are fours folders now inside the "test" folder, which contain test cases for each part of the assignment.
 
 Those test cases can be run using the Makefile provided in the main folder.
 
-The first folder, "part1", contains 10 simple test cases, some of which can't be parsed due to some errors which are more or less easier to spot due to the error messages I have implemented. There are two more test cases, a bit more complicated.
-
-The second folder, "part2", contains another 10 simple test cases and a harder one, which can be evaluated and compared to the expected result inside the "results" folder.
-
-The third folder, "part3", contains 10 medium-difficulty test cases which can be evaluated and compared to the expected result inside the "results" folder.
-
-The third folder, "part 4", contains 12 edge test cases, used to see if the optimiser does its best at optimising the functions, without changing the result and affecting the evaluator.
+Each test folder contains tests that where used to check that each added functionality behaves as expected. Some of the old tests do not work in the compiler, as I haven't implemented floating points, strings and tuples.
 
 If you want to run your own tests, go back to the "Installation and Build" section to find out how to do this.
