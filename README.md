@@ -1,5 +1,5 @@
 ## Description
-I have chosen JavaScript-like programming language, with pointers, function pointers, lambdas, for loops and control structures. The syntax has been extended to include a few extra operators (modulus, less, greater), as well as floating points, strings and tuples, although these last three features are not available in the compiler.
+I have chosen a JavaScript-like programming language, with pointers, function pointers, lambdas, for loops and control structures. The syntax has been extended to include a few extra operators (modulus, less, greater), as well as floating points, strings and tuples, although these last three features are not available in the compiler.
 
 ## Installation and Build
 To extract the code from GIT:
